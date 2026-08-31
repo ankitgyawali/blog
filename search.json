@@ -1,0 +1,31 @@
+[
+  
+    {
+      "title"      : "Networld building - Building out enterprise grade network &amp; services on homelab",
+      "url"        : "/blog/2019/04/17/Networld-Building/",
+      "date"       : "2019-04-17 00:00:00 -0400",
+      "shortdate"  : "April 17, 2019"
+    } ,
+  
+    {
+      "title"      : "Trading BTC/USD with NodeJS &amp; Elasticsearch",
+      "url"        : "/blog/2018/06/10/Bitcoin-Trading-Bot/",
+      "date"       : "2018-06-10 00:00:00 -0400",
+      "shortdate"  : "June 10, 2018"
+    } ,
+  
+    {
+      "title"      : "Building a PC for first time: Minimizing Bottlenecks",
+      "url"        : "/blog/2017/11/29/Yet-another-Ryzen1700-GTX1080-Build/",
+      "date"       : "2017-11-29 00:00:00 -0500",
+      "shortdate"  : "November 29, 2017"
+    } ,
+  
+    {
+      "title"      : "Reddit-analytics: Daily NLP via API on posts from various subreddits to produce data visualization",
+      "url"        : "/blog/2017/11/28/Reddit-Analytics-Site/",
+      "date"       : "2017-11-28 00:00:00 -0500",
+      "shortdate"  : "November 28, 2017"
+    } 
+  
+]

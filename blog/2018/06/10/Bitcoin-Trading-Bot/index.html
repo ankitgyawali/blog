@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+<!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Trading BTC/USD with NodeJS &amp; Elasticsearch | Ankit Gyawali&#39;s Blog</title>
+<meta name="generator" content="Jekyll v3.5.2" />
+<meta property="og:title" content="Trading BTC/USD with NodeJS &amp; Elasticsearch" />
+<meta name="author" content="mail@ankitgyawali.com" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="Exploring Automation of Bitcoin Trading with distributed elasticsearch system." />
+<meta property="og:description" content="Exploring Automation of Bitcoin Trading with distributed elasticsearch system." />
+<link rel="canonical" href="http://0.0.0.0:4000/blog/2018/06/10/Bitcoin-Trading-Bot/" />
+<meta property="og:url" content="http://0.0.0.0:4000/blog/2018/06/10/Bitcoin-Trading-Bot/" />
+<meta property="og:site_name" content="Ankit Gyawali&#39;s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-06-10T00:00:00-04:00" />
+<script type="application/ld+json">
+{"description":"Exploring Automation of Bitcoin Trading with distributed elasticsearch system.","author":{"@type":"Person","name":"mail@ankitgyawali.com"},"@type":"BlogPosting","url":"http://0.0.0.0:4000/blog/2018/06/10/Bitcoin-Trading-Bot/","headline":"Trading BTC/USD with NodeJS &amp; Elasticsearch","dateModified":"2018-06-10T00:00:00-04:00","datePublished":"2018-06-10T00:00:00-04:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://0.0.0.0:4000/blog/2018/06/10/Bitcoin-Trading-Bot/"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+<meta name="keywords" content="nodejs,elasticsearch,cryptocurrency,trading,stocks,bitcoin,ethereum" />
+
+
+
+
+
+<link type="application/atom+xml" rel="alternate" href="http://0.0.0.0:4000/feed.xml" title="Ankit Gyawali's Blog" />
+    <link href='/assets/stylesheets/blog.css' rel="stylesheet" type="text/css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+<script>window.Modernizr || document.write('<script src="/assets/javascripts/modernizr-2.8.3.min.js"><\/script>')</script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+    window.jQuery || document.write('<script src="/assets/javascripts/jquery-3.2.1.min.js"><\/script>')
+</script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+<script>
+    window.Pace || document.write('<script src="/assets/javascripts/pace.min.js"><\/script>')
+</script>
+
+
+</head>
+
+<body>
+    <!--[if IE]>
+    <p class="site-notice">You are using an outdated browser. Please <a href="http://browsehappy.com/" target="_blank">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true" target="_blank">activate Google Chrome Frame</a> to improve your experience.</p>
+<![endif]-->
+<noscript>
+    <p class="site-notice">This site requires JavaScript. Here are the instructions <a href="http://www.enable-javascript.com/" target="_blank">how to enable JavaScript in your web browser</a>.</p>
+</noscript>
+
+    <div class="nav-wrapper overlay-wrapper">
+    <div class="nav-form overlay-form">
+        <span class="overlay-header menu">Menu</span>
+        <a class="btn-close">Close</a>
+        <div class="results">
+            <ul>
+                <li><a href="/blog/categories/">Categories</a></li>
+                <li><a href="/blog/tags/">Tags</a></li>
+                <li><a href="/">About</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="search-wrapper overlay-wrapper">
+    <div class="search-form overlay-form">
+        <input type="text" class="overlay-header search-field" placeholder="Search...">
+        <a class="btn-close">Close</a>
+        <ul class="results"></ul>
+    </div>
+</div>
+
+
+    <div id="page" class="hentry">
+        <header class="the-header">
+    <div class="unit-head">
+        <div class="unit-inner unit-head-inner">
+            <nav class="nav-global">
+                <ul>
+                    <li class="logo nav-link">
+                        <button class="btn-menu" title="Menu"></button>
+                        <a href="/blog/">Ankit Gyawali's Blog</a>
+                        <!--[if !IE]> -->
+                        <button class="btn-search" title="Search"></button>
+                        <!-- <![endif]-->
+                    </li>
+                    <li class="nav-link"><a title="Categories" href="/blog/categories/">Categories</a></li>
+                    <li class="nav-link"><a title="Tags" href="/blog/tags/">Tags</a></li>
+                    <!--[if !IE]> -->
+                    <li class="nav-link"><a title="Search" class="btn-search" href="#">Search</a></li>
+                    <!-- <![endif]-->
+                </ul>
+            </nav>
+        </div>
+    </div>
+</header>
+
+
+        <div class="body animated fadeInDown" role="main">
+            <div class="unit-body">
+                <div class="unit-inner unit-body-inner">
+                    <div class="entry-content">
+                        <article class="unit-article layout-post">
+    <div class="unit-inner unit-article-inner">
+        <div itemscope itemtype="http://schema.org/Article" class="content">
+            <header>
+                <div class="unit-head">
+                    <div class="unit-inner unit-head-inner">
+                        <h1 class="entry-title" itemprop="name">Trading BTC/USD with NodeJS & Elasticsearch</h1>
+                    </div>
+                </div>
+            </header>
+            <div class="bd article-content">
+                <div class="entry-content">
+                    <div class="meta">
+                        <p class="date-publish">
+                            Published:
+                            <time itemprop="datePublished" class="date-pub updated"
+                                title="2018-06-10T00:00:00-04:00" datetime="2018-06-10T00:00:00-04:00">June 10, 2018 </time>
+                            by
+                            <a class="author" href="/" rel="author" title="Show Author">
+                                <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+                                    <span itemprop="name">mail@ankitgyawali.com</span>
+                                </span>
+                            </a>
+                            
+                                <a class="license-icon" rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank" title="Show License">
+                                    <img alt="Creative Commons Licence" style="border-width:0" src="/assets/images/theme/cc-by-sa.png"  height="16" width="80"/>
+                                </a>
+                            
+                            
+                        </p>
+                        <ul class="list-category list-linear">
+                            <li class="list-head">Categories: </li>
+                             
+     
+        <li>
+            <a href="/blog/categories/#cryptocurrency" title="cryptocurrency">
+            cryptocurrency <span>1</span></a>
+        </li>
+    
+
+
+
+                        </ul>
+                        <ul class="list-tag list-linear">
+                            <li class="list-head">Tags: </li>
+                             
+    
+        
+        <li>
+            <a href="/blog/tags/#bitcoin" title="bitcoin">bitcoin <span>1</span></a>
+        </li>
+    
+        
+        <li>
+            <a href="/blog/tags/#cryptocurrency" title="cryptocurrency">cryptocurrency <span>1</span></a>
+        </li>
+    
+        
+        <li>
+            <a href="/blog/tags/#elasticsearch" title="elasticsearch">elasticsearch <span>1</span></a>
+        </li>
+    
+        
+        <li>
+            <a href="/blog/tags/#ethereum" title="ethereum">ethereum <span>1</span></a>
+        </li>
+    
+        
+        <li>
+            <a href="/blog/tags/#nodejs" title="nodejs">nodejs <span>2</span></a>
+        </li>
+    
+        
+        <li>
+            <a href="/blog/tags/#stocks" title="stocks">stocks <span>1</span></a>
+        </li>
+    
+        
+        <li>
+            <a href="/blog/tags/#trading" title="trading">trading <span>1</span></a>
+        </li>
+    
+
+
+
+
+                        </ul>
+                    </div>
+                    <div itemprop="articleBody">
+                        <p><em>This will be a 2 section blog where I will share my findings &amp; strategies while implementing a crypto currency trading bot written in NodeJS.</em> <br />
+<em>Section 1 will focus more on setting up and use case aspect while Section 2 will describe the code/analysis portion.</em> <br />
+<a href="https://github.com/ankitgyawali/bitcoin-trading-bot" target="_blank"><em>Link to project code on github</em></a><br />
+<a href="#screenshots"><em>Kibana dashboard Screenshots</em></a> <em>(Imgur <a href="https://imgur.com/a/J4nm7Sh" target="_blank">mirror)</a></em><br />
+<em>Direct Link to <a href="http://kibana.ankitgyawali.com" target="_blank">Kibana Dashboards</a></em> (Username: <code class="highlighter-rouge">guest</code>, Password: <code class="highlighter-rouge">012GUE789st!</code>)<br />
+<em>(At the time of writing this blog all the dashboards should be publicly viewable - however since I am using a trial license of x-pack for authentication it will fail at some point unless I reset it. Thus the screenshots.)</em></p>
+
+<h2 id="heading-background">Background</h2>
+<p><em>Feel free to <a href="#introduction">skip</a> the anecdote to jump right away into introduction</em></p>
+
+<p>I got introduced to cryptocurrencies via Ethereum almost a year ago now. I vividly remembering running into this <a href="https://www.ethereum.org" target="_blank">homepage</a> before being side tracked into the rabbit hole of the crypto world. Crypto related sites and ads were starting to pop everywhere because of ethereum ICOs then. As someone who was just a little bit familiar with bitcoin and its motivation for decentralization from its 2013 bubble, the concept of smart contracts was quite intriguing.</p>
+
+<p>After trading sporadically (with some quite painful lessons) for almost 6 months, I decided to look into writing a dedicated trading bot. The initial prototype had foundations using MySQL database via AWS RDS with python as back end code for analysis. I never ended up finishing the initial setup however and decided to use a completely different set of technologies (elasticsearch + nodejs) with a more event driven approach which I will be discussing on this article. Basic understanding of node js, elasticsearch and stock trading is recommended but not necessarily required for initial setup.</p>
+
+<h2 id="heading-introduction">Introduction:<a name="introduction"></a></h2>
+
+<p>We will go through the bot setup by chunking out portions of the entire bot setup into various parts.</p>
+
+<p>By the end of this article, I would like to have had shared my findings with the readers in following sub parts:</p>
+
+<p>Section 1: Setup</p>
+
+<ul>
+  <li>1A. <a href="#technologies_used">Technologies Used for Implementing the Trading bot</a></li>
+  <li>1B. <a href="#setting_up">Architechture setup of Trading Bot</a>
+    <ul>
+      <li><a href="#dev_setup">Dev/Localhost Installation</a></li>
+    </ul>
+  </li>
+  <li>1C. <a href="#visualizing_with_kibana">Visualizing Bitcoin Prices via Kibana to use for our trading</a></li>
+</ul>
+
+<p>In Section 2 we will use the DSL queries from part 1C programmatically to take positions and generate signals.</p>
+
+<p>Section 2: Technicals</p>
+<ul>
+  <li>2A. <a href="#code_implementation">Brief Overview of Code Implementation</a></li>
+  <li>2B. <a href="#configuration">Configuring and using this bot for taking positions with appropriate analysis</a></li>
+  <li>2C. <a href="#performance">Brief Overview of our bot's current/default performance</a></li>
+  <li>2D. <a href="#conclusion">Expansion ideas and some caveats of the Project</a></li>
+</ul>
+
+<h2 id="heading-section-1">Section 1</h2>
+
+<h3 id="heading-1a-technologies-used-for-implementing-the-trading-bot">1A. Technologies Used for Implementing the Trading Bot<a name="technologies_used"></a></h3>
+
+<p>The end to end bot will use 4 main technologies.</p>
+<ul>
+  <li>NodeJS (Back-end ETL, Data Analysis &amp; Position Taking) - We use node js to ingest bitfinex ticker data and pull out higher order data from elasticsearch to create positions using two separate crons.</li>
+  <li>Elasticsearch (Data Persistance &amp; Data Aggregation) - The project uses elasticsearch to store bitcoin price, volume and trade data. This is as opposed to MySQL or nosql json dumps like mongodb because elasticsearch is great for aggregate data processing - especially if you are trying to expose out hidden behaviours of data based on timeframes.</li>
+  <li>Kibana (Visualization &amp; DSL Modeling) - Use of Kibana allowes us to get real time insights into bitcoin prices via graphs and other visuals. We will be able to use Kibana as a personal real time charting view where we will create visuals to model and control our DSL calls to elasticsearch. There are <a href="#visualizing_with_kibana">4 main kibana dashboards</a> that is most frequently used for this project.<br /></li>
+  <li>Amazon EC2 Instances (Infrastructure) - We will use amazon's ec2 server to deploy our elasticsearch cluster. Elasticsearch can be installed locally for development purposes but it's convenient to have a dedicated server running online 24/7.</li>
+</ul>
+
+<h3 id="heading-1b-setting-up-of-trading-bot">1B. Setting up of Trading Bot<a name="setting_up"></a></h3>
+
+<p>Architecturally, trading bot simply relies on two node crons (managed by pm2 - represented by two rectangles to the left) and an elasticsearch setup which can optionally be hooked up with kibana for visualization.</p>
+
+<p><img src="/assets/img/trading.png" alt="Image" /></p>
+
+<h4 id="heading-dev-setup">Dev Setup<a name="dev_setup"></a></h4>
+
+<ul>
+  <li>The node version required for this project is at least v8.9.4+ LTS. (nvm- short for node version manager is great if you need to run multiple node versions)</li>
+  <li>Project repo can be cloned from <a href="https://github.com/ankitgyawali/blog-excerpts/tree/master/project/bitcoin-trading-bot/" target="_blank">here</a> and dependencies installed with <code class="highlighter-rouge">npm install</code>
+    <ul>
+      <li>You will need <code class="highlighter-rouge">pm2</code> for managing bot processes (<code class="highlighter-rouge">npm install -g pm2</code>)</li>
+      <li>One of the node dependencies <code class="highlighter-rouge">tulind</code> indicator needs to compile C binaries - if <code class="highlighter-rouge">npm install</code> fails for that module you can build directly with <code class="highlighter-rouge">npm install tulind --build-from-source</code>. This will require you to ensure you have <code class="highlighter-rouge">g++</code> installed on your system.</li>
+    </ul>
+  </li>
+  <li>Ensure you have elasticsearch and kibana running on your localhost. Alternatively you can install it on an aws ec2 (recommended for serious users). Official elastic installation guide can be found  <a href="https://www.elastic.co/guide/en/elasticsearch/reference/current/_installation.html" target="_blank">here</a>.</li>
+  <li>Configure elasticsearch port on <code class="highlighter-rouge">config.json</code>. Default elasticsearch port is already configured on the project repo. Run the following commands to run ingest cron and position taking crons respectively. We will discuss what each does in next section.
+    <ul>
+      <li><code class="highlighter-rouge">npm run ingest</code></li>
+      <li><code class="highlighter-rouge">npm run takeposition</code></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="heading-1c-visualizing-price-indicators-via-kibana-to-use-for-our-trading">1C. Visualizing Price Indicators via Kibana to use for our trading<a name="visualizing_with_kibana"></a></h3>
+
+<p>Dashboard Login: Username: <code class="highlighter-rouge">guest</code>, Password: <code class="highlighter-rouge">012GUE789st!</code></p>
+
+<p>A variety of indicator visualizations are grouped by dashboards in kibana. The four most frequented dashboards are linked and described below:</p>
+<ul>
+  <li><a href="http://kibana.ankitgyawali.com/goto/b1dab01b251ed9d24852ec0c4c717331" target="_blank">Basic Dashboard</a> - The default home dashboard that can be used for very basic inspection. It provides a brief overview of current Bitcoin prices and volume activity.</li>
+  <li><a href="http://kibana.ankitgyawali.com/goto/58fbc6d32857ffc3240b48f4b0a31f9b" target="_blank">Trade Analysis Dashboard</a> - A more trade detail oriented dashboard to expose out various metrics within bitcoin's price movements. At the moment, we expose metrics like volume discrepencies, velocity of price increase and publicly available trade frequencies on various timeframes. A simple refactor of our ingest pipeline could allow us to expose more advanced metrics such as RSI divergences as a part of pre processing pipeline. Once we decided on a trading metric to use with our bot, this is where it first gets visualized.</li>
+  <li><a href="http://kibana.ankitgyawali.com/goto/22d0d3a0f62cefcda5a80c923e940d26" target="_blank">DSL Model Dashboard</a> - Inspection of visualization to take positions is usually a manual work, requires inituition and takes a lot of practice. Normally, as a day trader when I manually log in to a charting solution to see possibilities of a trade, I follow the following steps:
+    <ul>
+      <li>Log into preferred charting solution(s) and adjust to appropriate timeframe(s).</li>
+      <li>Inspect selected indicators such as RSI/Volume Profiles/Resistances, Support, Previously Drawn trend lines, any hidden divergences and patterns etc on various timeframes.</li>
+      <li>If I find any indicator that catches my eyes, I quickly backtrack to see if more indicators confirm that and also if simillar patterns have played out in the past.</li>
+      <li>I then Open/Close a position with appropriate size depending based on how confident I am about that indicator and overall price movements with an exit strategy (of course executing exit strategy is quite hard if we account for factors like greed, fear and lack of experience - which is precisely a non factor for automated trading).</li>
+    </ul>
+
+    <p>Our DSL model dashboard allows us to loosely automate exactly these steps by creating DSL Models that grabs similar data programatically on various timeframes. While our bot might not have inituitions like us, our bot will have very good memory since it can back test data.</p>
+
+    <p>This dashboard is simply a transformation of visuals from <code class="highlighter-rouge">Trade Analysis Dashboard</code> to create queries for taking positions.</p>
+  </li>
+  <li><a href="http://kibana.ankitgyawali.com/goto/81038aeb2d17f2064b398d4f2ff99a71" target="_blank">Position Analysis Dashboard</a> - Because we have so many parmeters and hyperparameters involved when making a trade decision, we track each and every of our position and store it back to elasticsearch for back testing purposes. This dashboard allows us to filter out our positions (based on trade size, confidence &amp; accuracy of our indicators) and determine the quality of bot in addition to providing feedback to our so we can implement a self learning model for our bot.</li>
+</ul>
+
+<p><em>We will look into actually using the trading bot and fine tuning our bot's parameters/hyperparameters by briefly going through the bot code in Section II of the article.</em></p>
+
+<h2 id="heading-section-2">Section 2</h2>
+
+<h3 id="heading-2a-brief-overview-of-code-implementation">2A. Brief Overview of Code Implementation<a name="code_implementation"></a></h3>
+
+<p>The entire project is controlled by two main crons.</p>
+
+<ul>
+  <li><code class="highlighter-rouge">bitfinex.js</code> - An ingest cron to transform publicly available data on bitfinex's websocket before inserting it into elasticsearch. We ingest bitfinex to ingest data but use gdax's order book to trade against. (This is because our default prameters have been set to look into smaller timeframe for sake of momentum trading and gdax usually tends to follow bitfinex's movements when bitcoin's price is ranging - an important thing to consider, while we may be able to accumulate fiat when prices are ranging, more importantly we want to pre-emptively recognize and exit or trade volatility to positively offset out total pnl.)</li>
+</ul>
+
+<p>Not a lot is going on this cron since we are just ingesting data. We do some normalization &amp; pre-processing that will help us get aggregated metadata later. We configure the default to push data to elasticsearch on every ticker update (as opposed to set timeframe which is more lenient on resources - although one would imagine bitfinex also does have some rate limits on it's websocket data!).</p>
+
+<p>We do insert this data into two separate indices prefixed <code class="highlighter-rouge">btc-bfx-ticker*</code> (price specific data) &amp; <code class="highlighter-rouge">btc-bfx-trade*</code> (trade specific data)</p>
+
+<p>Elasticsearch document sample for <a href="https://github.com/ankitgyawali/bitcoin-trading-bot/blob/master/sample/ticker-document-sample.json">ticker data</a> and  <a href="https://github.com/ankitgyawali/bitcoin-trading-bot/blob/master/sample/trade-document-sample.json">trade data</a>.</p>
+
+<ul>
+  <li><code class="highlighter-rouge">position.js</code>: Position taking cron is where the actual evaluation happens! A high level pesudocode looks as follows:
+    <blockquote>
+      <ul>
+        <li>Make calls to elasticsearch according to <a href="https://github.com/ankitgyawali/bitcoin-trading-bot/blob/master/data/dsl/parameters.json#L9-L81">configured</a> timeframes. These timeframes can be coded to be influenced by where in wyckoff phase we guess the market is. (We don't bother making timeframes programmatic as they are just logical buckets for us to get data by. Adjusting timeframes to adjust out results have implications of us adjusting our questions to fit our answers instead of the other way around.)</li>
+        <li>Once we have all the data we need (which are essentially tables from "DSL Model Dashboard") we transform them using our decorator to create a final evaluation object. Link to <a href="https://github.com/ankitgyawali/bitcoin-trading-bot/blob/master/positions.js#L100-L110">code</a>.</li>
+        <li>Once we have a "final evaluation" object we close our older trades.
+          <ul>
+            <li>The older trades here implies positions we have opened on our previous runs.</li>
+            <li>We create a new trade document once we have closed older documents and we meet confidence criterias.</li>
+          </ul>
+        </li>
+        <li>Finally, we can either choose to actually send an email alert on top of taking a position (this could be any series of action instead of just executing market buys and market sells on gdax) if we cross confidence threshold when calculating our position. By default we configure our bot to remain "bearish" to preserve unsual loss of USD. This is explained in more detail in the next section about <a href="https://github.com/ankitgyawali/bitcoin-trading-bot/blob/master/positions.js#L100-L110">configuration</a>.</li>
+      </ul>
+    </blockquote>
+  </li>
+</ul>
+
+<p>A reference to what our "final evaluation object" looks like:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="w">    </span><span class="p">{</span><span class="w">
+        </span><span class="nt">"bot_signal"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">  </span><span class="err">//</span><span class="w"> </span><span class="err">Information</span><span class="w"> </span><span class="err">about</span><span class="w"> </span><span class="err">frequency</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">bot</span><span class="w"> </span><span class="err">buys</span><span class="w"> </span><span class="err">in</span><span class="w"> </span><span class="err">order</span><span class="w"> </span><span class="err">trade</span><span class="w"> </span><span class="err">book</span><span class="w"> 
+            </span><span class="nt">"buy_strength"</span><span class="p">:</span><span class="w">  </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">Bot</span><span class="w"> </span><span class="err">buy</span><span class="w"> </span><span class="err">frequency</span><span class="w">
+            </span><span class="nt">"sell_strength"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">Bot</span><span class="w"> </span><span class="err">sell</span><span class="w"> </span><span class="err">frequency</span><span class="w">
+            </span><span class="nt">"local_timeframe_buy_wins"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">  </span><span class="err">//</span><span class="w">  </span><span class="err">Positive</span><span class="w"> </span><span class="err">tends</span><span class="w"> </span><span class="err">towards</span><span class="w"> </span><span class="err">more</span><span class="w"> </span><span class="err">buys</span><span class="p">,</span><span class="w"> </span><span class="err">local</span><span class="w"> </span><span class="err">wins</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">frequency</span><span class="w"> </span><span class="err">on</span><span class="w"> </span><span class="err">each</span><span class="w"> </span><span class="err">time</span><span class="w"> </span><span class="err">influence</span><span class="w">
+        </span><span class="err">}</span><span class="p">,</span><span class="w">
+        </span><span class="nt">"sentiment_momentum"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">Information</span><span class="w"> </span><span class="err">about</span><span class="w"> </span><span class="err">consecutive</span><span class="w"> </span><span class="err">rise</span><span class="w"> </span><span class="err">in</span><span class="w"> </span><span class="err">bitcoin</span><span class="w"> </span><span class="err">prices,</span><span class="w"> </span><span class="err">we</span><span class="w"> </span><span class="err">want</span><span class="w"> </span><span class="err">to</span><span class="w"> </span><span class="err">trade</span><span class="w"> </span><span class="err">this</span><span class="w"> </span><span class="err">data</span><span class="w"> </span><span class="err">on</span><span class="w"> </span><span class="err">smaller</span><span class="w"> </span><span class="err">timeframes</span><span class="w"> </span><span class="err">if</span><span class="w"> </span><span class="err">our</span><span class="w"> </span><span class="err">parameters</span><span class="w"> </span><span class="err">have</span><span class="w"> </span><span class="err">been</span><span class="w"> </span><span class="err">configured</span><span class="w"> </span><span class="err">towards</span><span class="w"> </span><span class="err">momentum</span><span class="w"> </span><span class="err">trading</span><span class="w">
+            </span><span class="nt">"buy_strength"</span><span class="p">:</span><span class="w">  </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">Volume</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">buy</span><span class="w">
+            </span><span class="nt">"sell_strength"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">Volume</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">sell</span><span class="w">
+            </span><span class="nt">"buy_strength_momentum"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">Trailing</span><span class="w"> </span><span class="err">difference</span><span class="w"> </span><span class="err">on</span><span class="w"> </span><span class="err">wins</span><span class="w"> </span><span class="err">for</span><span class="w"> </span><span class="err">calculation</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">variance</span><span class="w"> </span><span class="err">in</span><span class="w"> </span><span class="err">buys</span><span class="w"> </span><span class="err">&amp;</span><span class="w"> </span><span class="err">wins</span><span class="w"> </span><span class="err">to</span><span class="w"> </span><span class="err">denote</span><span class="w"> </span><span class="err">effectiveness</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">buy_strength</span><span class="w"> </span><span class="err">wins</span><span class="w">
+            </span><span class="nt">"sell_strength_momentum"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">  </span><span class="err">//</span><span class="w"> </span><span class="err">Trailing</span><span class="w"> </span><span class="err">difference</span><span class="w"> </span><span class="err">on</span><span class="w"> </span><span class="err">wins</span><span class="w"> </span><span class="err">for</span><span class="w"> </span><span class="err">calculation</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">variance</span><span class="w"> </span><span class="err">in</span><span class="w"> </span><span class="err">buys</span><span class="w"> </span><span class="err">&amp;</span><span class="w"> </span><span class="err">wins</span><span class="w"> </span><span class="err">to</span><span class="w"> </span><span class="err">denote</span><span class="w"> </span><span class="err">effectiveness</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">sell_strength</span><span class="w"> </span><span class="err">wins</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nt">"price_volume_analysis"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">Basic</span><span class="w"> </span><span class="err">price</span><span class="w"> </span><span class="err">volume</span><span class="w"> </span><span class="err">analysis</span><span class="w"> </span><span class="err">results</span><span class="w">
+            </span><span class="nt">"isLocalVolBuyWin"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">Volume</span><span class="w"> </span><span class="err">traded</span><span class="w"> </span><span class="err">wins</span><span class="w"> </span><span class="err">for</span><span class="w"> </span><span class="err">buy</span><span class="w"> </span><span class="err">in</span><span class="w"> </span><span class="err">local</span><span class="w"> </span><span class="err">time</span><span class="w"> </span><span class="err">frames</span><span class="w">
+            </span><span class="nt">"isLocalFrequencyBuyWin"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">Frequency</span><span class="w"> </span><span class="err">traded</span><span class="w"> </span><span class="err">wins</span><span class="w"> </span><span class="err">in</span><span class="w"> </span><span class="err">local</span><span class="w"> </span><span class="err">time</span><span class="w"> </span><span class="err">frames</span><span class="w"> </span><span class="err">based</span><span class="w"> </span><span class="err">on</span><span class="w"> </span><span class="err">ticker</span><span class="w"> </span><span class="err">data</span><span class="w">
+            </span><span class="nt">"volume_difference"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">Total</span><span class="w"> </span><span class="err">raw</span><span class="w"> </span><span class="err">volume</span><span class="w"> </span><span class="err">difference</span><span class="w"> </span><span class="err">to</span><span class="w"> </span><span class="err">indicate</span><span class="w"> </span><span class="err">overall</span><span class="w"> </span><span class="err">buys</span><span class="w"> </span><span class="err">vs</span><span class="w"> </span><span class="err">sells</span><span class="w"> </span><span class="err">multiplied</span><span class="w"> </span><span class="err">by</span><span class="w"> </span><span class="err">price</span><span class="w"> </span><span class="err">points</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nt">"indicators"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">Standard</span><span class="w"> </span><span class="err">indicators</span><span class="w"> </span><span class="err">calculated</span><span class="w"> </span><span class="err">using</span><span class="w"> </span><span class="err">tulind</span><span class="w"> </span><span class="err">indicators</span><span class="w">
+            </span><span class="nt">"adsoc_indicator"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">Accumulation/Distruction</span><span class="w"> </span><span class="err">Oscillation</span><span class="w"> </span><span class="err">Indicator</span><span class="w">
+            </span><span class="nt">"RSI"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">Standard</span><span class="w"> </span><span class="err">RSI</span><span class="w"> </span><span class="err">related</span><span class="w"> </span><span class="err">metrics</span><span class="w"> </span><span class="err">-</span><span class="w"> </span><span class="err">capabilities</span><span class="w"> </span><span class="err">for</span><span class="w"> </span><span class="err">lookup</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">hidden</span><span class="w"> </span><span class="err">divergences</span><span class="w"> </span><span class="err">in</span><span class="w"> </span><span class="err">prices</span><span class="w"> </span><span class="err">&amp;</span><span class="w"> </span><span class="err">rsi</span><span class="w"> </span><span class="err">haven't</span><span class="w"> </span><span class="err">been</span><span class="w"> </span><span class="err">implemented</span><span class="w"> 
+                </span><span class="nt">"average"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">Average</span><span class="w"> </span><span class="err">rsi</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">a</span><span class="w"> </span><span class="err">bucket</span><span class="w"> </span><span class="err">since</span><span class="w"> </span><span class="err">we</span><span class="w"> </span><span class="err">are</span><span class="w"> </span><span class="err">not</span><span class="w"> </span><span class="err">calculating</span><span class="w"> </span><span class="err">rsi</span><span class="w"> </span><span class="err">during</span><span class="w"> </span><span class="err">ingestion</span><span class="w">
+                </span><span class="nt">"isStrongOverBoughtSignal"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">Configured</span><span class="w"> </span><span class="err">rsi</span><span class="w"> </span><span class="err">threshold</span><span class="w"> </span><span class="err">since</span><span class="w"> </span><span class="err">over</span><span class="w"> </span><span class="err">bought</span><span class="w"> </span><span class="err">and</span><span class="w"> </span><span class="err">over</span><span class="w"> </span><span class="err">sold</span><span class="w"> </span><span class="err">conditions</span><span class="w"> </span><span class="err">on</span><span class="w"> </span><span class="err">medium</span><span class="w"> </span><span class="err">timeframes</span><span class="w"> </span><span class="err">for</span><span class="w"> </span><span class="err">rsi</span><span class="w"> </span><span class="err">are</span><span class="w"> </span><span class="err">usually</span><span class="w"> </span><span class="err">reliable</span><span class="w"> </span><span class="err">signals</span><span class="w">
+                </span><span class="nt">"isStrongOverSoldSignal"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nt">"final_call"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">Final</span><span class="w"> </span><span class="err">call</span><span class="w"> </span><span class="err">enum,</span><span class="w"> </span><span class="nt">"bearish"</span><span class="w"> </span><span class="err">||</span><span class="w"> </span><span class="nt">"bullish"</span><span class="err">,</span><span class="w"> </span><span class="err">ultimately</span><span class="w"> </span><span class="err">you</span><span class="w"> </span><span class="err">can</span><span class="w"> </span><span class="err">only</span><span class="w"> </span><span class="err">either</span><span class="w"> </span><span class="err">take</span><span class="w"> </span><span class="err">a</span><span class="w"> </span><span class="err">position</span><span class="w"> </span><span class="err">or</span><span class="w"> </span><span class="err">not</span><span class="w"> </span><span class="err">take</span><span class="w"> </span><span class="err">one.</span><span class="w">
+        </span><span class="nt">"confidence"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">+80</span><span class="w"> </span><span class="err">or</span><span class="w"> </span><span class="err">-80</span><span class="w"> </span><span class="err">are</span><span class="w"> </span><span class="err">usually</span><span class="w"> </span><span class="err">labelled</span><span class="w"> </span><span class="err">good</span><span class="w"> </span><span class="err">confidence</span><span class="w"> </span><span class="err">with</span><span class="w"> </span><span class="err">default</span><span class="w"> </span><span class="err">tunings</span><span class="w"> </span><span class="err">-</span><span class="w"> </span><span class="err">good</span><span class="w"> </span><span class="err">enough</span><span class="w"> </span><span class="err">to</span><span class="w"> </span><span class="err">send</span><span class="w"> </span><span class="err">email</span><span class="w"> </span><span class="err">if</span><span class="w"> </span><span class="err">you</span><span class="w"> </span><span class="err">dont</span><span class="w"> </span><span class="err">want</span><span class="w"> </span><span class="err">automated</span><span class="w"> </span><span class="err">bot</span><span class="w"> </span><span class="err">signals</span><span class="w">
+        </span><span class="nt">"position_sizes"</span><span class="p">:</span><span class="w"> </span><span class="err">undefined</span><span class="p">,</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">Configured</span><span class="w"> </span><span class="err">position</span><span class="w"> </span><span class="err">sizes</span><span class="w">
+        </span><span class="nt">"trades"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">Trade</span><span class="w"> </span><span class="err">objects</span><span class="w">
+        </span><span class="nt">"opened_at"</span><span class="p">:</span><span class="w"> </span><span class="err">undefined</span><span class="p">,</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">Trade</span><span class="w"> </span><span class="err">Opened</span><span class="w"> </span><span class="err">at</span><span class="w"> </span><span class="err">date</span><span class="w"> </span><span class="err">object</span><span class="w">
+        </span><span class="nt">"closed_at"</span><span class="p">:</span><span class="w"> </span><span class="err">undefined</span><span class="p">,</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">Trade</span><span class="w"> </span><span class="err">closed</span><span class="w"> </span><span class="err">at</span><span class="w"> </span><span class="err">date</span><span class="w"> </span><span class="err">object</span><span class="w">
+        </span><span class="nt">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">Extra</span><span class="w"> </span><span class="err">data</span><span class="p">,</span><span class="w"> </span><span class="err">holds</span><span class="w"> </span><span class="err">traded</span><span class="w"> </span><span class="err">timeframes</span><span class="w"> </span><span class="err">and</span><span class="w"> </span><span class="err">hyperparameters</span><span class="w"> </span><span class="err">for</span><span class="w"> </span><span class="err">back</span><span class="w"> </span><span class="err">test</span><span class="w"> </span><span class="err">analysis</span><span class="w">
+        </span><span class="err">};</span><span class="w">
+    </span><span class="err">};</span><span class="w">
+</span></code></pre>
+</div>
+
+<p><a href="https://github.com/ankitgyawali/bitcoin-trading-bot/blob/master/sample/position-document-sample.json">Link</a> to a well formed final evaluation document.</p>
+
+<p>Example of a trade object:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="w"> </span><span class="p">{</span><span class="w"> 
+    </span><span class="nt">"trade_size"</span><span class="p">:</span><span class="w"> </span><span class="err">trade_size</span><span class="p">,</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">Size</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">trade</span><span class="w"> </span><span class="err">data,</span><span class="w"> </span><span class="err">usually</span><span class="w"> </span><span class="err">there</span><span class="w"> </span><span class="err">are</span><span class="w"> </span><span class="err">multiple</span><span class="w"> </span><span class="err">sizes</span><span class="w"> </span><span class="err">especially</span><span class="w"> </span><span class="err">for</span><span class="w"> </span><span class="err">gathering</span><span class="w"> </span><span class="err">back</span><span class="w"> </span><span class="err">testing</span><span class="w"> </span><span class="err">data</span><span class="w"> </span><span class="err">purposes</span><span class="w">
+    </span><span class="nt">"trade_time"</span><span class="p">:</span><span class="w"> </span><span class="err">new</span><span class="w"> </span><span class="err">Date()</span><span class="p">,</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">Time</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">trade</span><span class="w"> </span><span class="err">object</span><span class="w"> </span><span class="err">creation</span><span class="w">
+    </span><span class="nt">"average_entry_price"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">Average</span><span class="w"> </span><span class="err">entry</span><span class="w"> </span><span class="err">price</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">trade</span><span class="w"> </span><span class="err">against</span><span class="w"> </span><span class="err">gdax</span><span class="w"> </span><span class="err">order</span><span class="w"> </span><span class="err">book</span><span class="w">
+    </span><span class="nt">"entry_price"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">Total</span><span class="w"> </span><span class="err">entry</span><span class="w"> </span><span class="err">price</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">trade</span><span class="w">
+    </span><span class="nt">"average_exit_price"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">Average</span><span class="w"> </span><span class="err">Exit</span><span class="w"> </span><span class="err">price</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">trade</span><span class="w"> </span><span class="err">against</span><span class="w"> </span><span class="err">gdax</span><span class="w"> </span><span class="err">order</span><span class="w"> </span><span class="err">book</span><span class="w">
+    </span><span class="nt">"exit_price"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">Total</span><span class="w"> </span><span class="err">exit</span><span class="w"> </span><span class="err">price</span><span class="w"> </span><span class="err">of</span><span class="w"> </span><span class="err">trade</span><span class="w">
+    </span><span class="nt">"realized_pnl"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">Percentage</span><span class="w"> </span><span class="err">profit</span><span class="w"> </span><span class="err">or</span><span class="w"> </span><span class="err">loss</span><span class="w"> </span><span class="err">between</span><span class="w"> </span><span class="err">trade</span><span class="w"> </span><span class="err">open</span><span class="w"> </span><span class="err">and</span><span class="w"> </span><span class="err">trade</span><span class="w"> </span><span class="err">close</span><span class="w"> </span><span class="err">duration</span><span class="w">
+    </span><span class="nt">"realized_pnl_raw"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">Total</span><span class="w"> </span><span class="err">raw</span><span class="w"> </span><span class="err">dollaroos</span><span class="w"> </span><span class="err">earned/lost</span><span class="w">
+    </span><span class="nt">"fees_percent"</span><span class="p">:</span><span class="w"> </span><span class="err">fees_percent</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">Fees</span><span class="w"> </span><span class="err">needed</span><span class="w"> </span><span class="err">to</span><span class="w"> </span><span class="err">offset</span><span class="w"> </span><span class="err">raw</span><span class="w"> </span><span class="err">pnl</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="err">}</span><span class="w">
+</span></code></pre>
+</div>
+
+<p>Code level documentation is also provided on <code class="highlighter-rouge">positions.js</code> of the project.</p>
+
+<h3 id="heading-2b-configuring-and-using-this-bot-for-taking-positions-with-appropriate-analysis">2B. Configuring and using this bot for taking positions with appropriate analysis<a name="configuration"></a></h3>
+
+<p>Configuration of our bot mainly happens during <a href="https://github.com/ankitgyawali/bitcoin-trading-bot/blob/master/positions.js#L37-L61">initialization</a>.</p>
+
+<p><code class="highlighter-rouge">parameters.json</code> also contains a property called <a href="https://github.com/ankitgyawali/bitcoin-trading-bot/blob/master/data/dsl/parameters.json#L82-L96">"hyperparmeters"</a> which is responsible for configuring the bot behaviour for most part.</p>
+
+<p>Another parameter that plays a role in bot's evaluation lies in the <a href="https://github.com/ankitgyawali/bitcoin-trading-bot/blob/master/data/trade_object_model.js#L76-L86">"assign_confidences"</a> model.</p>
+
+<p>While the functions exported from <code class="highlighter-rouge">data/decorator</code> model are mostly responsible for simple data transformation, we do have an <a href="https://github.com/ankitgyawali/bitcoin-trading-bot/blob/master/data/decorator/index.js#L23-L120">final processor</a> function which is responsible for creating the evaluation object mentioned above using configured confidences.</p>
+
+<h4 id="heading-confidences">Confidences</h4>
+
+<p>Our confidence can range from <code class="highlighter-rouge">-100</code> (bearish) to <code class="highlighter-rouge">+100</code> (bullish). Our bot most certainly won't be 100% confident, but we configure it to take actions based on thresholds which are configured <a href="https://github.com/ankitgyawali/bitcoin-trading-bot/blob/master/data/dsl/parameters.json#L101">here</a>(email alerts) and <a href="https://github.com/ankitgyawali/bitcoin-trading-bot/blob/master/data/dsl/parameters.json#L85">here</a>(trade execution demo).</p>
+
+<p><em>Notice the assignment of confidences and values in our final processor are hard coded at this point. These parmeters should ideally be stored on a separate fourth index (eg: btc-bfx-indicators) and configured programmatically to pull and assign dynamic confidences on the fly based on backtesting of bot's own performance and historic price data.</em></p>
+
+<h3 id="heading-2c-brief-overview-of-our-bots-currentdefault-performance">2C. Brief Overview of our bot's current/default performance<a name="performance"></a></h3>
+
+<p>At the time of writing this post, the default configured confidences assignment &amp; thresholds shows almost ~3% profit on the past 24 hour time frame with 0.1 BTC volume per trade (in the demo mode, the bot will always "trade" no matter what), with positions executed every 30 mins. Important to note that 06/07/2018 was a relatively non volatile day. The default configs more often than not will result in negative pnl. We do use moderately agressive <a href="https://github.com/ankitgyawali/bitcoin-trading-bot/blob/master/data/dsl/parameters.json#L108">fees margin</a> on our default setup to encourage the cloners to investigate more before actually using the setup to make trades so the actual realized pnl will always be more than what is visualized.</p>
+
+<p>As mentioned earlier, a recommended way to further improve performance of the default configuration would be to overide current decorators and confidence allocators along with timeframe configurations based on backtesting data to best improve the performance. A well learning model should seek to improve data provided by our "Bot performance" dashboard by tuning the suggested fourth "btc-bfx-indicators*" elastic index.</p>
+
+<p>Price volume analysis espcially has a lot of <a href="https://github.com/ankitgyawali/bitcoin-trading-bot/blob/master/data/decorator/price_volume_analysis.js#L125">room for extension</a> of indicators like stoic oscillator &amp; dynamic support/resistance lines.</p>
+
+<h3 id="heading-2d-expansion-ideas-and-some-caveats-of-the-project">2D. Expansion ideas and some caveats of the Project<a name="conclusion"></a></h3>
+
+<ul>
+  <li>Because we are indexing data on elasticsearch, the project can be a lot more event oriented with appropriate <a href="https://www.elastic.co/guide/en/watcher/current/index.html">watcher</a> configuration.</li>
+  <li>We are lacking dynamic indicator configuration currently. Implementation of this could simply be an extension of decorator and few extra calls during initial asynchronous calls to elasticsearch on <code class="highlighter-rouge">positions.js</code> when chain fetching data from configured timeframes.</li>
+  <li>We haven't implemented a standardized draft for our ingest pipeline. A standardized draft for our prices &amp; trade data index would allow us to ingest data from multiple trading platform like bitmex, gdax etc. An ideal setup would allow us to combine movements from various markets. Example: If there's any FUD news say from Korean markets we could influence the ingest pipeline with OkEx market and have it trade on platforms we consider to be slowest in following the price movements there. This could also potentially be more useful in proactive loss prevention by watching various markets.</li>
+</ul>
+
+<h2 id="heading-appendix-screenshots">Appendix: Screenshots<a name="screenshots"></a></h2>
+
+<h5 id="heading-main-dashboard">Main Dashboard:</h5>
+
+<p><img src="/assets/img/01-basic-dashboard.png" alt="Image" /></p>
+
+<h5 id="heading-trade-analysis">Trade Analysis:</h5>
+
+<p><img src="/assets/img/02-trade-analysis.png" alt="Image" /></p>
+
+<h5 id="heading-dsl-models">DSL Models:</h5>
+
+<p><img src="/assets/img/03-dsl-model.png" alt="Image" /></p>
+
+<h5 id="heading-bot-performance">Bot Performance:</h5>
+
+<p><img src="/assets/img/04-bot-performance.png" alt="Image" /></p>
+
+<h2 id="heading-conclusion">Conclusion</h2>
+
+<p>We were able to create an end to end automated trading bot with relatively less effort thanks to elasticsearch &amp; nodejs! Feel free to leave comments below or open any code related <a href="https://github.com/ankitgyawali/bitcoin-trading-bot/issues">issues</a>.</p>
+
+                    </div>
+                </div>
+            </div>
+            <footer class="unit-foot">
+                <div class="unit-inner unit-foot-inner">
+                    <div class="post-buttons">
+                        <a class="internal gotop" href="#page" title="Back to Top">Back to Top</a>
+                        
+                            <div class="addthis_toolbox addthis_default_style addthis_32x32_style">
+    <small class="label">Share Post:</small>
+    <a class="btn-share-post addthis_button_email"></a>
+    <a class="btn-share-post addthis_button_facebook"></a>
+    <a class="btn-share-post addthis_button_google_plusone_share"></a>
+    <a class="btn-share-post addthis_button_reddit"></a>
+    <a class="btn-share-post addthis_button_twitter"></a>
+</div>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5cb6920401f6b643"></script>
+                        
+                    </div>
+                    <nav class="pagination">
+                        
+                            <a class="internal" rel="prev" href="/blog/2017/11/29/Yet-another-Ryzen1700-GTX1080-Build/" title=" 'Building a PC for first time: Minimizing Bottlenecks'"> ← Building a PC for first time: Minimizing Bottlenecks</a>
+                        
+                        
+                            <a class="internal" rel="next" href="/blog/2019/04/17/Networld-Building/" title="Next Post 'Networld building - Building out enterprise grade network & services on homelab'">Networld building - Building out enterprise grade network & services on homelab → </a>
+                        
+                    </nav>
+                </div>
+            </footer>
+            <div class="misc-content">
+                
+                    <script>
+    $(document).ready(function () {
+        var disqusPublicKey = "WhWnWmb6x9EszkGU2FMrLjtcEtfy6FW7dh76bLYRcY7lShddKCdAvwCyN5D30one";
+        var disqusShortname = "blog-ankitgyawali-com";
+        var threadUrl = 'link:' + $('.comments .show-hidden').attr('data-disqus-url');
+
+        $.ajax({
+            type: 'GET',
+            url: '//disqus.com/api/3.0/threads/set.jsonp',
+            data: {
+                api_key: disqusPublicKey,
+                forum: disqusShortname,
+                thread: threadUrl
+            },
+            cache: false,
+            dataType: 'jsonp',
+            success: function (result) {
+                if (result.response.length === 1) {
+                    btnText = 'Show Comments (' + result.response[0].posts + ')';
+                    $('.comments .show-hidden').html(btnText);
+                }
+            }
+        });
+
+        $('.comments .show-hidden').on('click', function () {
+            $.ajaxSetup({cache: true});
+            $.getScript('//' + disqusShortname + '.disqus.com/embed.js');
+            $.ajaxSetup({cache: false});
+            $(this).remove();
+        });
+
+        if (/\#comments/.test(location.hash)) {
+            $('.comments .show-hidden').trigger('click');
+        }
+    });
+</script>
+
+                    <div class="comments">
+                        <button class="center-block show-hidden" title="Show Comments" data-disqus-url="http://0.0.0.0:4000/blog/2018/06/10/Bitcoin-Trading-Bot/">Show Comments</button>
+                        <div id="disqus_thread"></div>
+                    </div>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="the-footer">
+    <div class="unit-foot">
+        <div class="unit-inner unit-foot-inner">
+            <div class="misc vcard">
+                <div class="about">
+                    <h4><a href="/">About</a></h4>
+                    
+                        <p>Ankit Gyawali's Blog.</p>
+                    
+                    <p><small>Powered by <a href="https://jekyllrb.com/" target="_blank">Jekyll</a> using <a href="https://github.com/yizeng/jekyll-theme-simple-texture" target="_blank">Simple Texture</a> theme.</small></p>
+                </div>
+                <div class="social-links">
+                    
+                        <a class="ico-gmail" href="mailto:mail@ankitgyawai.com" rel="me" target="_blank" title="email"></a>
+                    
+                    <a class="ico-rss" href="/feed.xml" rel="me" target="_blank" title="feed"></a>
+                    
+                        
+                            <a class="ico-facebook" href="https://facebook.com/ankitgyawali" rel="me" target="_blank" title="facebook"></a>
+                        
+                    
+                        
+                            <a class="ico-github" href="https://github.com/ankitgyawali" rel="me" target="_blank" title="github"></a>
+                        
+                    
+                        
+                    
+                        
+                            <a class="ico-linkedin" href="https://linkedin.com/in/ankitgyawali" rel="me" target="_blank" title="linkedin"></a>
+                        
+                    
+                        
+                    
+                        
+                            <a class="ico-twitter" href="https://twitter.com/agyaw792" rel="me" target="_blank" title="twitter"></a>
+                        
+                    
+                        
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <a href="#" class="internal back-to-top">Back to Top</a>
+</footer>
+
+    </div>
+
+    <script>
+$(document).ready(function () {
+    var offset = 50,
+        duration = 500,
+        width = 960;
+    $(window).scroll(function () {
+        if ($(window).width() > width) {
+            if ($(this).scrollTop() > offset) {
+                $('footer').css('top', '20px');
+                $('footer .back-to-top').fadeIn(duration);
+            } else {
+                $('footer').css('top', 'auto');
+                $('footer .back-to-top').fadeOut(duration);
+            }
+        }
+    });
+    $(window).resize(function () {
+        if ($(window).width() < width) {
+            $('footer').css('top', 'auto');
+            $('footer .back-to-top').fadeOut(duration);
+        }
+        if ($(window).width() >= width && $(this).scrollTop() > offset) {
+            $('footer').css('top', '20px');
+            $('footer .back-to-top').fadeIn(duration);
+        }
+    });
+
+    $('footer .back-to-top, .gotop').on('click', function (event) {
+        event.preventDefault();
+        $('html, body').animate({
+            scrollTop: 0
+        }, duration);
+        return false;
+    });
+
+    $('.show-hidden').on('click', function () {
+        $(this).parent().next().toggleClass("hidden");
+        $(this).toggleClass("hidden");
+    });
+});
+</script>
+
+<!-- Google Analytics Event tracking -->
+
+
+<!-- Show menu overlay + Jekyll Simple Search option -->
+<script src="/assets/javascripts/jekyll-search.jquery.js"></script>
+<script>
+$(document).ready(function () {
+    $('.search-field').simpleJekyllSearch({
+      jsonFile: '/search.json',
+      template: '<li><a href="{url}">{title} <span class="entry-date"><time datetime="{date}">{shortdate}</time></span></a></li>',
+      searchResults: '.search-wrapper .results',
+      searchResultsTitle: '<h4>Search results</h4>',
+      noResults: '<p>Oh no!<br/><small>Nothing found</small></p>'
+    });
+});
+
+(function ($, window, undefined) {
+    var closeOverlay = function () {
+        $('.nav-wrapper, .search-wrapper').removeAttr('style');
+        $(".nav-form, .search-form").removeClass('active');
+        $("body").removeClass('nav-overlay search-overlay');
+    };
+
+    $('.nav-global .btn-search').on('click', function () {
+        $('.search-wrapper').css({display: "block"});
+        $(".search-form").addClass('active');
+        $(".search-form").find('input').focus();
+        $("body").addClass('search-overlay');
+    });
+
+    $('.nav-global .btn-menu').on('click', function () {
+        $('.nav-wrapper').css({display: "block"});
+        $(".nav-form").addClass('active');
+        $(".nav-form .search-field").prop('disabled', true);
+        $("body").addClass('nav-overlay');
+    });
+
+    $('.nav-wrapper .btn-close, .search-wrapper .btn-close').on('click', function () {
+        closeOverlay();
+    });
+
+    $(document).on('keyup', function (e) {
+        if (e.keyCode === 27) {
+            closeOverlay();
+        }
+    });
+})(jQuery, window);
+</script>
+
+<script src='//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.js'></script>
+<script src='//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-buttons.min.js'></script>
+<script src="/assets/javascripts/unveil/jquery.unveil.min.js"></script>
+
+<script>
+    window.jQuery.fancybox || document.write('<script src="/assets/javascripts/fancybox/jquery.fancybox.pack.js?v=2.1.4"><\/script>')
+    window.jQuery.fancybox.helpers.buttons || document.write('<script src="/assets/javascripts/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"><\/script>')
+</script>
+
+<script>
+    $("head").append('<link rel="stylesheet" href="/assets/javascripts/fancybox/jquery.fancybox.css?v=2.1.4" type="text/css" />');
+    $("head").append('<link rel="stylesheet" href="/assets/javascripts/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5" type="text/css" />');
+    $(".post-image").fancybox({
+        prevEffect: 'none',
+        nextEffect: 'none',
+        closeBtn: true,
+        helpers: {
+            title: {
+                type: 'float'
+            }
+        }
+    });
+    $(document).ready(function () {
+        $(".post-image > img").unveil(450);
+    });
+</script>
+
+</body>
+
+</html>

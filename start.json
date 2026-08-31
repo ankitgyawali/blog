@@ -1,0 +1,6 @@
+{
+  "script"    : "jekyll-start.sh",
+  "name"      : "ankitblog",
+  "interpreter" : "bash",
+ "autorestart" : false
+}

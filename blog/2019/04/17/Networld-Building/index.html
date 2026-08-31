@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+<!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Networld building - Building out enterprise grade network &amp; services on homelab | Ankit Gyawali&#39;s Blog</title>
+<meta name="generator" content="Jekyll v3.5.2" />
+<meta property="og:title" content="Networld building - Building out enterprise grade network &amp; services on homelab" />
+<meta name="author" content="mail@ankitgyawali.com" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="Building out enterprise home network from scratch." />
+<meta property="og:description" content="Building out enterprise home network from scratch." />
+<link rel="canonical" href="http://0.0.0.0:4000/blog/2019/04/17/Networld-Building/" />
+<meta property="og:url" content="http://0.0.0.0:4000/blog/2019/04/17/Networld-Building/" />
+<meta property="og:site_name" content="Ankit Gyawali&#39;s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-04-17T00:00:00-04:00" />
+<script type="application/ld+json">
+{"description":"Building out enterprise home network from scratch.","author":{"@type":"Person","name":"mail@ankitgyawali.com"},"@type":"BlogPosting","url":"http://0.0.0.0:4000/blog/2019/04/17/Networld-Building/","headline":"Networld building - Building out enterprise grade network &amp; services on homelab","dateModified":"2019-04-17T00:00:00-04:00","datePublished":"2019-04-17T00:00:00-04:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://0.0.0.0:4000/blog/2019/04/17/Networld-Building/"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+<meta name="keywords" content="devops,hardware,networking,homelab,virtualization,hyperconvergence,automation" />
+
+
+
+
+
+<link type="application/atom+xml" rel="alternate" href="http://0.0.0.0:4000/feed.xml" title="Ankit Gyawali's Blog" />
+    <link href='/assets/stylesheets/blog.css' rel="stylesheet" type="text/css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+<script>window.Modernizr || document.write('<script src="/assets/javascripts/modernizr-2.8.3.min.js"><\/script>')</script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+    window.jQuery || document.write('<script src="/assets/javascripts/jquery-3.2.1.min.js"><\/script>')
+</script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+<script>
+    window.Pace || document.write('<script src="/assets/javascripts/pace.min.js"><\/script>')
+</script>
+
+
+</head>
+
+<body>
+    <!--[if IE]>
+    <p class="site-notice">You are using an outdated browser. Please <a href="http://browsehappy.com/" target="_blank">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true" target="_blank">activate Google Chrome Frame</a> to improve your experience.</p>
+<![endif]-->
+<noscript>
+    <p class="site-notice">This site requires JavaScript. Here are the instructions <a href="http://www.enable-javascript.com/" target="_blank">how to enable JavaScript in your web browser</a>.</p>
+</noscript>
+
+    <div class="nav-wrapper overlay-wrapper">
+    <div class="nav-form overlay-form">
+        <span class="overlay-header menu">Menu</span>
+        <a class="btn-close">Close</a>
+        <div class="results">
+            <ul>
+                <li><a href="/blog/categories/">Categories</a></li>
+                <li><a href="/blog/tags/">Tags</a></li>
+                <li><a href="/">About</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="search-wrapper overlay-wrapper">
+    <div class="search-form overlay-form">
+        <input type="text" class="overlay-header search-field" placeholder="Search...">
+        <a class="btn-close">Close</a>
+        <ul class="results"></ul>
+    </div>
+</div>
+
+
+    <div id="page" class="hentry">
+        <header class="the-header">
+    <div class="unit-head">
+        <div class="unit-inner unit-head-inner">
+            <nav class="nav-global">
+                <ul>
+                    <li class="logo nav-link">
+                        <button class="btn-menu" title="Menu"></button>
+                        <a href="/blog/">Ankit Gyawali's Blog</a>
+                        <!--[if !IE]> -->
+                        <button class="btn-search" title="Search"></button>
+                        <!-- <![endif]-->
+                    </li>
+                    <li class="nav-link"><a title="Categories" href="/blog/categories/">Categories</a></li>
+                    <li class="nav-link"><a title="Tags" href="/blog/tags/">Tags</a></li>
+                    <!--[if !IE]> -->
+                    <li class="nav-link"><a title="Search" class="btn-search" href="#">Search</a></li>
+                    <!-- <![endif]-->
+                </ul>
+            </nav>
+        </div>
+    </div>
+</header>
+
+
+        <div class="body animated fadeInDown" role="main">
+            <div class="unit-body">
+                <div class="unit-inner unit-body-inner">
+                    <div class="entry-content">
+                        <article class="unit-article layout-post">
+    <div class="unit-inner unit-article-inner">
+        <div itemscope itemtype="http://schema.org/Article" class="content">
+            <header>
+                <div class="unit-head">
+                    <div class="unit-inner unit-head-inner">
+                        <h1 class="entry-title" itemprop="name">Networld building - Building out enterprise grade network & services on homelab</h1>
+                    </div>
+                </div>
+            </header>
+            <div class="bd article-content">
+                <div class="entry-content">
+                    <div class="meta">
+                        <p class="date-publish">
+                            Published:
+                            <time itemprop="datePublished" class="date-pub updated"
+                                title="2019-04-17T00:00:00-04:00" datetime="2019-04-17T00:00:00-04:00">April 17, 2019 </time>
+                            by
+                            <a class="author" href="/" rel="author" title="Show Author">
+                                <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+                                    <span itemprop="name">mail@ankitgyawali.com</span>
+                                </span>
+                            </a>
+                            
+                                <a class="license-icon" rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank" title="Show License">
+                                    <img alt="Creative Commons Licence" style="border-width:0" src="/assets/images/theme/cc-by-sa.png"  height="16" width="80"/>
+                                </a>
+                            
+                            
+                        </p>
+                        <ul class="list-category list-linear">
+                            <li class="list-head">Categories: </li>
+                             
+     
+        <li>
+            <a href="/blog/categories/#devops" title="devops">
+            devops <span>1</span></a>
+        </li>
+    
+
+
+
+                        </ul>
+                        <ul class="list-tag list-linear">
+                            <li class="list-head">Tags: </li>
+                             
+    
+        
+        <li>
+            <a href="/blog/tags/#automation" title="automation">automation <span>1</span></a>
+        </li>
+    
+        
+        <li>
+            <a href="/blog/tags/#devops" title="devops">devops <span>1</span></a>
+        </li>
+    
+        
+        <li>
+            <a href="/blog/tags/#hardware" title="hardware">hardware <span>1</span></a>
+        </li>
+    
+        
+        <li>
+            <a href="/blog/tags/#homelab" title="homelab">homelab <span>1</span></a>
+        </li>
+    
+        
+        <li>
+            <a href="/blog/tags/#hyperconvergence" title="hyperconvergence">hyperconvergence <span>1</span></a>
+        </li>
+    
+        
+        <li>
+            <a href="/blog/tags/#networking" title="networking">networking <span>1</span></a>
+        </li>
+    
+        
+        <li>
+            <a href="/blog/tags/#virtualization" title="virtualization">virtualization <span>1</span></a>
+        </li>
+    
+
+
+
+
+                        </ul>
+                    </div>
+                    <div itemprop="articleBody">
+                        <p><em>Note: The following project started out as a result of my goal to learn the system administration &amp; networking portion of IT in an enterprise context. Setting up an internal home network allowed my to gain a lot of insights on setting things up decisively as I got to build completely everything from the ground up with my own judgement.</em></p>
+
+<p>This post will outline a series of steps that can be used to setup an enterprise grade home network using basic consumer/prosumer hardware devices and open source softwares. The aim is to hopefully help enthusiasts with similar mindset jump start their own homelab project. A basic working knowledge of the various layers of the <a href="https://www.networkworld.com/article/3239677/the-osi-model-explained-how-to-understand-and-remember-the-7-layer-network-model.html" target="_blank">Network OSI</a> model is expected from the readers.</p>
+
+<p>My home network was setup in the following three execution portion in various parts of stack:</p>
+
+<p><a href="#network_setup">Section A: Network Setup</a></p>
+
+<p><a href="#infra_and_service">Section B: Infrastructure &amp; Services Setup</a></p>
+
+<p><a href="#security">Section C: Security Setup</a></p>
+
+<h1 id="heading-section-a-network-setup-">Section A: Network Setup <a name="network_setup"></a></h1>
+
+<p><img src="/assets/img/networld-building/nw.png" alt="Image" /></p>
+
+<h2 id="heading-devices">Devices:</h2>
+
+<p>My network setup process started with purchase and configuration of following networking items:</p>
+
+<p>1x <a href="https://www.amazon.com/Ubiquiti-EdgeRouter-Advanced-Gigabit-Ethernet/dp/B00YFJT29C/ref=sr_1_2?keywords=edgerouter+x&amp;qid=1555296941&amp;s=gateway&amp;sr=8-2" target="_blank"> EdgeRouter X</a>- The functionality this little device provides for just little over 50 bucks is ridiculously awesome. Other options I considered were USG from Ubiquiti and virtualized pfSense. Interestingly, unlike regular consumer routers this router does not come with a dedicated wireless antenna. While regular market routers can act as all router + switch + wifi device, they are a lot less configurable than Edgerouter and the functionalities provided by EdgeOS.</p>
+
+<p>1x <a href="https://www.amazon.com/gp/product/B015PR20GY/ref=ppx_yo_dt_b_asin_title_o07_s00?ie=UTF8&amp;psc=1" target="_blank">UAP AC US</a> - This currently acts as my Wireless AP device, also made by Ubiquiti like Edgerouter. Besides being managed separately from the main routing device, and providing advanced networking functionalities these devices can potentially be chained with other AP ACs.</p>
+
+<p>5x <a href="https://www.amazon.com/gp/product/B01INRUFGK/ref=ppx_yo_dt_b_asin_title_o04_s00?ie=UTF8&amp;psc=1" target="_blank">RJ 45 ethernet Cables</a> - A pack of AmazonBasics ethernet cables to utilize the POE port on edgerouter for AP AC and my regular devices. My primary workstation &amp; servers needed wired connections to fully avoid any bottlenecks on network I/O. With this setups my internal network throughput is be good enough to handle extra client devices.</p>
+
+<h2 id="heading-execution">Execution:</h2>
+
+<p>a.  Setup an internal switch via EdgeRouter ans assign it to a separate internal VLAN.</p>
+
+<p>b.  Setup 4 separate subnets within that VLAN (one dedicated for each physical eth-n port). Create a DHCP Server for each subnet so each servers hands out IP on 4 different ip cidr block.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Subnet</th>
+      <th style="text-align: left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">10.0.10.0/24</td>
+      <td style="text-align: left">Connected to my Primary Workstation with full access to other subnets for management.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">10.0.20.0/24</td>
+      <td style="text-align: left">Dedicated Port to be connected to home lab powering devices. The devices on this subnet can potentially consequently be connected to a virtual router interface like pfSense as more "bare metals" are added.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">10.0.30.0/24</td>
+      <td style="text-align: left">Dedicated port for ingress from WAN connected raspberry pi webserver. The web server listens on 443 &amp; port 81 for egress traffics. Adblocking Pi.hole is setup on port 80.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">10.0.80.0/24</td>
+      <td style="text-align: left">Connected to Wireless AP to hand out IP to wireless devices.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>c. Setup dedicated AP SSIDs via Unifi Controller portal, one for IoT, one as guest network and final with access to internal home network.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">SSID</th>
+      <th style="text-align: left">Type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">forbidden-forest</td>
+      <td style="text-align: left">Private Network with no internet access.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">hogwarts</td>
+      <td style="text-align: left">Private Network with internet access.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">hogsmeade</td>
+      <td style="text-align: left">Guest network with access to internet but no access to internal network.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>d. Setup nginx on raspberry pi to act as primary ingress webserver that can selectively whitelist ip for stuff trying to access internal network port forwards via internet.</p>
+
+<p>e. Setup pihole on raspberry pi to act as primary dns server. The pi's /etc/host can additionally be modified to add aliases we do not want on the EdgeRouter but can be kept on pi.</p>
+
+<h1 id="heading-section-b-infrastructure--services-setup-">Section B: Infrastructure &amp; Services Setup <a name="infra_and_service"></a></h1>
+
+<p><img src="/assets/img/networld-building/infra.png" alt="Image" /></p>
+
+<h2 id="heading-devices-1">Devices:</h2>
+
+<ul>
+  <li>Main Baremetal Server - After great results from my <a href="https://blog.ankitgyawali.com/blog/2017/11/29/Yet-another-Ryzen1700-GTX1080-Build/" target="_blank">first attempt</a> at building a workstation, I decided to bulid my own baremetal server from scratch. The end result was quite satisfactory, as I managed to build a server with great specification, low noise and low power draw for almost one third of the price of similarly spec'd heavier, noiser, more power hungry Dell R720. The specializations are:
+    <ul>
+      <li>SuperMicro X8DTL-IF Dual LGA1366 Motherboard</li>
+      <li>2x Intel Xeon 5640 CPU - 12 total cores</li>
+      <li>8x 16GB RAM - 96GB Total RAM</li>
+      <li>1x 4 TB HDD &amp; 1x 3TB HDD - 7TB Total Storage</li>
+      <li>512 GB SSD - To speed up boot times of base baremetal proxmox OS &amp; home directory of VMs/LXCs.</li>
+    </ul>
+  </li>
+  <li>Raspberry Pi Web Server - This is a simple raspberry pi with a clear case and 32 GB sd card. It simply acts a nginx reverse proxy server &amp; a pi hole dns server. The reliance on SD cards as storage has been found to be questionable as the best according to other user's experience in the forums so the intention is to replace or complement it with an Intel NUC in the future.</li>
+</ul>
+
+<h2 id="heading-execution-1">Execution:</h2>
+
+<p>There are a whole slew of baremetal OS available with some commonly used options being EsXI, Proxmox, UnRaid or possibly even Rancher OS. I chose to go with Proxmox because of it's underlying linux OS. Not only did it support lightweight template LXC containers, it has solid support for VMs and Windows virtualization. The proxmox controller is completely managed via Web UI. The LXCs and VMs can also be managed and configured via command line tools of the base debian operating system. There are various lxc templates available, however my most frequently used one was CentOS (~60Mb) for its small image size. Unfortunately, I decided to refrain from further virtualization with docker because of LXC's already light weight nature. If a switch to kubernetes was to be made - it could be in the form of dedicated VMs on proxmox node &amp; similarly dedicated VMs on other nodes with different bare metal container.</p>
+
+<p>There are two primary VMs &amp; rest of LXCs setup on my first proxmox node. The service have been given affectionate Harry Potter codenames!</p>
+
+<p>The services are divided into following class of containers:</p>
+<ul>
+  <li>Gateway - VMs with GUIs and acting as "jumpboxes" to consume services from internal network via Guacamole across internet.</li>
+  <li>Networking - Containers managing internal networking.</li>
+  <li>Management - LXCs used to manage internal services. Various patching, deployment scripts have been implemented as part of these services.</li>
+  <li>Core - Core services containers furnished by other classes of containers.</li>
+  <li>Data - Data storage related services. Has capability to ingest data from cloud over ssl.</li>
+  <li>Monitoring - Monotring, Alerting &amp; Reporting related services.</li>
+  <li>Miscellaneous - Extra test related Containers.</li>
+</ul>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">Service Name</th>
+      <th style="text-align: left">Description</th>
+      <th style="text-align: left">Codename</th>
+      <th style="text-align: left">Class</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">Windows 10 Professional</td>
+      <td style="text-align: left">This is setup as one of the two primary RDP server that is proxyed via Apache Guacamole to consume my services across WAN.</td>
+      <td style="text-align: left">Dumbledore</td>
+      <td style="text-align: left">Gateway</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Ubuntu 18.04 LTS</td>
+      <td style="text-align: left">This is the second linux server with GUI desktop (GNOME with Mac Sierra skin). The VNC is proxyed via Apache Guacamole to consume services across WAN.</td>
+      <td style="text-align: left">Grindlewald</td>
+      <td style="text-align: left">Gateway</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Apache Guacamole</td>
+      <td style="text-align: left">This is the the primary service exposed to WAN and is secured by at transport layer via nginx auth, secured with application password and Duo Authentication for second factor. It acts as proxy to safely forward to all my services across SSH/RDP &amp; VNC protocols. This allows me to safely access my services with guaranteed encryption without having to expose primary bare metal controller, or VMs directly.</td>
+      <td style="text-align: left">Hogsmeade</td>
+      <td style="text-align: left">Gateway</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Nginx Sever</td>
+      <td style="text-align: left">This VM is responsible for encforcing SSL within internal network with self signed CA. A naming convention is enforced for consistency across VMs. <code class="highlighter-rouge">&lt;code-name&gt;.firebolt.home</code> (eg: hogsmeade.firebolt.home) maps to the Proxyed service via nginx with SSL and <code class="highlighter-rouge">&lt;code-name&gt;.home</code> (eg: hogsmeade.home) maps directly to the internal IP in 10.0.20.0/24 ip range.</td>
+      <td style="text-align: left">Floo</td>
+      <td style="text-align: left">Networking</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Unifi Controller</td>
+      <td style="text-align: left">Buckbeak hosts the main control portal to configure the UAP AC Wireless Access Point. Besides monitoring stats, it provides settings to configure various SSIDs.</td>
+      <td style="text-align: left">Buckbeak</td>
+      <td style="text-align: left">Networking</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Jenkins</td>
+      <td style="text-align: left">The jenkins server has various jobs configured such as mounting nfs on the media server, selectively starting &amp; stopping certain containers based on various desired "profiles", deploying out custom patches consistently across all VMs etc.</td>
+      <td style="text-align: left">Dobby</td>
+      <td style="text-align: left">Management</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">FreeIPA</td>
+      <td style="text-align: left">This is still an exploratory SSO server at the moment.</td>
+      <td style="text-align: left">Alohomora</td>
+      <td style="text-align: left">Management</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Mumble VoIP</td>
+      <td style="text-align: left">An audio server to allow communication using Mumble client.</td>
+      <td style="text-align: left">Howler</td>
+      <td style="text-align: left">Management</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Confluence</td>
+      <td style="text-align: left">Self hosted confluence page with lifetime license &amp; Draw IO plugin to draw and document anything based on spaces. Provides option to add 10 upto users with the basic license.</td>
+      <td style="text-align: left">Remembrall</td>
+      <td style="text-align: left">Management</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Plex Media Server</td>
+      <td style="text-align: left">Main TV series, Movie and Audio streaming server configured with Plex Pass.</td>
+      <td style="text-align: left">Pensieve</td>
+      <td style="text-align: left">Core</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Emby</td>
+      <td style="text-align: left">Backup media server.</td>
+      <td style="text-align: left">Patronous</td>
+      <td style="text-align: left">Core</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Calibre Ebook Server</td>
+      <td style="text-align: left">Calibre server with nfs mount containing 100k+ e-book dumps in primarily pdf &amp; epub format.</td>
+      <td style="text-align: left">Veil</td>
+      <td style="text-align: left">Core</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Subsonic Audio Server</td>
+      <td style="text-align: left">Backup audio &amp; audiobook server.</td>
+      <td style="text-align: left">Ginny</td>
+      <td style="text-align: left">Core</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Home Assistant Server</td>
+      <td style="text-align: left">Home assistant server to control IoT devices on internal network such as smart switch &amp; alexa skills.</td>
+      <td style="text-align: left">Gryffindor</td>
+      <td style="text-align: left">Core</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">NAS Sever</td>
+      <td style="text-align: left">Basic NFS server with webmin installed to be controlled via Web Browser.</td>
+      <td style="text-align: left">Ravenclaw</td>
+      <td style="text-align: left">Data</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">MySQL Server</td>
+      <td style="text-align: left">MySQL server with extendable LVM attached for database needs across various services (grafana, guacamole, confluence, calibre etc).</td>
+      <td style="text-align: left">Gringotts</td>
+      <td style="text-align: left">Data</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Elasticsearch</td>
+      <td style="text-align: left">Single node elasticsearch 7 server.</td>
+      <td style="text-align: left">Hermione</td>
+      <td style="text-align: left">Data</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Kibana</td>
+      <td style="text-align: left">Kibana server to complement elasticsearch server.</td>
+      <td style="text-align: left">Ron</td>
+      <td style="text-align: left">Monitoring</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Grafana</td>
+      <td style="text-align: left">Grafana server to be hooked with elasticsearch &amp; mysql server to levarage alerting engine. Possible eventual integration with Prometheus server.</td>
+      <td style="text-align: left">Quibbler</td>
+      <td style="text-align: left">Monitoring</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Open Web Analytics</td>
+      <td style="text-align: left">Test analytics server to replicate cloud analytics data.</td>
+      <td style="text-align: left">Prophet</td>
+      <td style="text-align: left">Monitoring</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Hardened Box</td>
+      <td style="text-align: left">Test Tool box with security tools.</td>
+      <td style="text-align: left">Azkaban</td>
+      <td style="text-align: left">Miscellaneous</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Test VM</td>
+      <td style="text-align: left">Small CentOS box to test stuff.</td>
+      <td style="text-align: left">Malfoy</td>
+      <td style="text-align: left">Miscellaneous</td>
+    </tr>
+  </tbody>
+</table>
+
+<h1 id="heading-section-c-security-setup-">Section C: Security Setup <a name="security"></a></h1>
+
+<p>The security aspect of my network was the most lengthy part of the execution. This was an unexpected outcome when compared with my initial time allocation as the project progressed. The problem around security required a lot more organization that I had initially realized.</p>
+
+<p>Internal networking is completely managed by Edgerouter at this point (no virtualization with pfSense yet).</p>
+
+<p>Each subnet are isolated via UNMS control panel that interacts with EdgeOS on EdgeRouter.</p>
+
+<p>Connection between devices are resolved via internal DNS provided by EdgeRouter. EdgeRouter subsequently forwards uncached DNS requests to Pi Hole so ads can get selectively blocked out across the entire network.</p>
+
+<p>Only two services have been exposed to the internet from homenetwork. Both encrypted via nginx &amp; at application layer. And a final second factor with Duo Security.</p>
+
+<ul>
+  <li>First service is a custom node page that executes static ipmi command to turn the main firebolt server on &amp; off remotely.</li>
+  <li>Second service exposes the Apache Guacamole client end point reverse proxyed via nginx with Let's encrypt SSL. The Guacamole client subsequently encrypts the communication protocols and provides access to main RDP/SSH services in the internal network that has the ability to access non-hardened stuff in the internal network.</li>
+</ul>
+
+<p>Certain VMs have extra firewalld and second factor authentication added.</p>
+
+<h1 id="heading-conclusion">Conclusion:<a name="conclusion"></a></h1>
+
+<p>The project has been a great experience trying to mimic an enterprise grade network setup using open source options.</p>
+
+<p>Following are the project extension ideas:</p>
+
+<ul>
+  <li>Extend my homelab setup with a secondary Intel NUC as additional node. Use EsXi instead of Proxmox on the second node.</li>
+  <li>Add an extra layer of network virtualization using PfSense and Linux Bridge. This will give me an option to switch easily from EdgeRouter to other device if I choose to do so in the future.</li>
+  <li>Completely refactor the services setup to use Rancher 2/Kubernetes to make my platform bare metal controller agnostic. This would mean a switch from LXC templates to Docker Images. The provisioning would look vastly different with approach of pre building docker images and storing them instead of applying bash scripts on base LXC templates.</li>
+</ul>
+
+<h1 id="heading-screenshots">Screenshots<a name="screenshots"></a></h1>
+
+<h3 id="heading-base-server">Base Server:</h3>
+
+<p><img src="/assets/img/networld-building/screenshots/baremetal.png" alt="Base Server" /></p>
+
+<h3 id="heading-proxmox-home">Proxmox Home:</h3>
+
+<p><img src="/assets/img/networld-building/screenshots/proxmox.png" alt="Proxmox Home" /></p>
+
+<h3 id="heading-apache-guacamole">Apache Guacamole:</h3>
+
+<p><img src="/assets/img/networld-building/screenshots/guacamole.png" alt="Apache Guacamole" /></p>
+
+<h3 id="heading-edgerouter">Edgerouter:</h3>
+
+<p><img src="/assets/img/networld-building/screenshots/edgerouterx.png" alt="Edgerouter" /></p>
+
+                    </div>
+                </div>
+            </div>
+            <footer class="unit-foot">
+                <div class="unit-inner unit-foot-inner">
+                    <div class="post-buttons">
+                        <a class="internal gotop" href="#page" title="Back to Top">Back to Top</a>
+                        
+                            <div class="addthis_toolbox addthis_default_style addthis_32x32_style">
+    <small class="label">Share Post:</small>
+    <a class="btn-share-post addthis_button_email"></a>
+    <a class="btn-share-post addthis_button_facebook"></a>
+    <a class="btn-share-post addthis_button_google_plusone_share"></a>
+    <a class="btn-share-post addthis_button_reddit"></a>
+    <a class="btn-share-post addthis_button_twitter"></a>
+</div>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5cb6920401f6b643"></script>
+                        
+                    </div>
+                    <nav class="pagination">
+                        
+                            <a class="internal" rel="prev" href="/blog/2018/06/10/Bitcoin-Trading-Bot/" title=" 'Trading BTC/USD with NodeJS & Elasticsearch'"> ← Trading BTC/USD with NodeJS & Elasticsearch</a>
+                        
+                        
+                    </nav>
+                </div>
+            </footer>
+            <div class="misc-content">
+                
+                    <script>
+    $(document).ready(function () {
+        var disqusPublicKey = "WhWnWmb6x9EszkGU2FMrLjtcEtfy6FW7dh76bLYRcY7lShddKCdAvwCyN5D30one";
+        var disqusShortname = "blog-ankitgyawali-com";
+        var threadUrl = 'link:' + $('.comments .show-hidden').attr('data-disqus-url');
+
+        $.ajax({
+            type: 'GET',
+            url: '//disqus.com/api/3.0/threads/set.jsonp',
+            data: {
+                api_key: disqusPublicKey,
+                forum: disqusShortname,
+                thread: threadUrl
+            },
+            cache: false,
+            dataType: 'jsonp',
+            success: function (result) {
+                if (result.response.length === 1) {
+                    btnText = 'Show Comments (' + result.response[0].posts + ')';
+                    $('.comments .show-hidden').html(btnText);
+                }
+            }
+        });
+
+        $('.comments .show-hidden').on('click', function () {
+            $.ajaxSetup({cache: true});
+            $.getScript('//' + disqusShortname + '.disqus.com/embed.js');
+            $.ajaxSetup({cache: false});
+            $(this).remove();
+        });
+
+        if (/\#comments/.test(location.hash)) {
+            $('.comments .show-hidden').trigger('click');
+        }
+    });
+</script>
+
+                    <div class="comments">
+                        <button class="center-block show-hidden" title="Show Comments" data-disqus-url="http://0.0.0.0:4000/blog/2019/04/17/Networld-Building/">Show Comments</button>
+                        <div id="disqus_thread"></div>
+                    </div>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="the-footer">
+    <div class="unit-foot">
+        <div class="unit-inner unit-foot-inner">
+            <div class="misc vcard">
+                <div class="about">
+                    <h4><a href="/">About</a></h4>
+                    
+                        <p>Ankit Gyawali's Blog.</p>
+                    
+                    <p><small>Powered by <a href="https://jekyllrb.com/" target="_blank">Jekyll</a> using <a href="https://github.com/yizeng/jekyll-theme-simple-texture" target="_blank">Simple Texture</a> theme.</small></p>
+                </div>
+                <div class="social-links">
+                    
+                        <a class="ico-gmail" href="mailto:mail@ankitgyawai.com" rel="me" target="_blank" title="email"></a>
+                    
+                    <a class="ico-rss" href="/feed.xml" rel="me" target="_blank" title="feed"></a>
+                    
+                        
+                            <a class="ico-facebook" href="https://facebook.com/ankitgyawali" rel="me" target="_blank" title="facebook"></a>
+                        
+                    
+                        
+                            <a class="ico-github" href="https://github.com/ankitgyawali" rel="me" target="_blank" title="github"></a>
+                        
+                    
+                        
+                    
+                        
+                            <a class="ico-linkedin" href="https://linkedin.com/in/ankitgyawali" rel="me" target="_blank" title="linkedin"></a>
+                        
+                    
+                        
+                    
+                        
+                            <a class="ico-twitter" href="https://twitter.com/agyaw792" rel="me" target="_blank" title="twitter"></a>
+                        
+                    
+                        
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <a href="#" class="internal back-to-top">Back to Top</a>
+</footer>
+
+    </div>
+
+    <script>
+$(document).ready(function () {
+    var offset = 50,
+        duration = 500,
+        width = 960;
+    $(window).scroll(function () {
+        if ($(window).width() > width) {
+            if ($(this).scrollTop() > offset) {
+                $('footer').css('top', '20px');
+                $('footer .back-to-top').fadeIn(duration);
+            } else {
+                $('footer').css('top', 'auto');
+                $('footer .back-to-top').fadeOut(duration);
+            }
+        }
+    });
+    $(window).resize(function () {
+        if ($(window).width() < width) {
+            $('footer').css('top', 'auto');
+            $('footer .back-to-top').fadeOut(duration);
+        }
+        if ($(window).width() >= width && $(this).scrollTop() > offset) {
+            $('footer').css('top', '20px');
+            $('footer .back-to-top').fadeIn(duration);
+        }
+    });
+
+    $('footer .back-to-top, .gotop').on('click', function (event) {
+        event.preventDefault();
+        $('html, body').animate({
+            scrollTop: 0
+        }, duration);
+        return false;
+    });
+
+    $('.show-hidden').on('click', function () {
+        $(this).parent().next().toggleClass("hidden");
+        $(this).toggleClass("hidden");
+    });
+});
+</script>
+
+<!-- Google Analytics Event tracking -->
+
+
+<!-- Show menu overlay + Jekyll Simple Search option -->
+<script src="/assets/javascripts/jekyll-search.jquery.js"></script>
+<script>
+$(document).ready(function () {
+    $('.search-field').simpleJekyllSearch({
+      jsonFile: '/search.json',
+      template: '<li><a href="{url}">{title} <span class="entry-date"><time datetime="{date}">{shortdate}</time></span></a></li>',
+      searchResults: '.search-wrapper .results',
+      searchResultsTitle: '<h4>Search results</h4>',
+      noResults: '<p>Oh no!<br/><small>Nothing found</small></p>'
+    });
+});
+
+(function ($, window, undefined) {
+    var closeOverlay = function () {
+        $('.nav-wrapper, .search-wrapper').removeAttr('style');
+        $(".nav-form, .search-form").removeClass('active');
+        $("body").removeClass('nav-overlay search-overlay');
+    };
+
+    $('.nav-global .btn-search').on('click', function () {
+        $('.search-wrapper').css({display: "block"});
+        $(".search-form").addClass('active');
+        $(".search-form").find('input').focus();
+        $("body").addClass('search-overlay');
+    });
+
+    $('.nav-global .btn-menu').on('click', function () {
+        $('.nav-wrapper').css({display: "block"});
+        $(".nav-form").addClass('active');
+        $(".nav-form .search-field").prop('disabled', true);
+        $("body").addClass('nav-overlay');
+    });
+
+    $('.nav-wrapper .btn-close, .search-wrapper .btn-close').on('click', function () {
+        closeOverlay();
+    });
+
+    $(document).on('keyup', function (e) {
+        if (e.keyCode === 27) {
+            closeOverlay();
+        }
+    });
+})(jQuery, window);
+</script>
+
+<script src='//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.js'></script>
+<script src='//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-buttons.min.js'></script>
+<script src="/assets/javascripts/unveil/jquery.unveil.min.js"></script>
+
+<script>
+    window.jQuery.fancybox || document.write('<script src="/assets/javascripts/fancybox/jquery.fancybox.pack.js?v=2.1.4"><\/script>')
+    window.jQuery.fancybox.helpers.buttons || document.write('<script src="/assets/javascripts/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"><\/script>')
+</script>
+
+<script>
+    $("head").append('<link rel="stylesheet" href="/assets/javascripts/fancybox/jquery.fancybox.css?v=2.1.4" type="text/css" />');
+    $("head").append('<link rel="stylesheet" href="/assets/javascripts/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5" type="text/css" />');
+    $(".post-image").fancybox({
+        prevEffect: 'none',
+        nextEffect: 'none',
+        closeBtn: true,
+        helpers: {
+            title: {
+                type: 'float'
+            }
+        }
+    });
+    $(document).ready(function () {
+        $(".post-image > img").unveil(450);
+    });
+</script>
+
+</body>
+
+</html>

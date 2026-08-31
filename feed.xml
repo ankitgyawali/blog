@@ -1,0 +1,853 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.5.2">Jekyll</generator><link href="http://0.0.0.0:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://0.0.0.0:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2023-04-06T15:15:16-04:00</updated><id>http://0.0.0.0:4000/</id><title type="html">Ankit Gyawali's Blog</title><subtitle>Ankit Gyawali's Blog</subtitle><author><name>{&quot;name&quot;=&gt;nil, &quot;job_title&quot;=&gt;&quot;Developer&quot;, &quot;location&quot;=&gt;&quot;Columbus, OH&quot;, &quot;email&quot;=&gt;&quot;mail@ankitgyawai.com&quot;, &quot;social_links&quot;=&gt;[{&quot;name&quot;=&gt;&quot;facebook&quot;, &quot;url&quot;=&gt;&quot;https://facebook.com/ankitgyawali&quot;}, {&quot;name&quot;=&gt;&quot;github&quot;, &quot;url&quot;=&gt;&quot;https://github.com/ankitgyawali&quot;}, {&quot;name&quot;=&gt;&quot;instagram&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;linkedin&quot;, &quot;url&quot;=&gt;&quot;https://linkedin.com/in/ankitgyawali&quot;}, {&quot;name&quot;=&gt;&quot;stackoverflow&quot;, &quot;url&quot;=&gt;nil}, {&quot;name&quot;=&gt;&quot;twitter&quot;, &quot;url&quot;=&gt;&quot;https://twitter.com/agyaw792&quot;}, {&quot;name&quot;=&gt;&quot;vk&quot;, &quot;url&quot;=&gt;nil}]}</name><email>mail@ankitgyawai.com</email></author><entry><title type="html">Networld building - Building out enterprise grade network &amp;amp; services on homelab</title><link href="http://0.0.0.0:4000/blog/2019/04/17/Networld-Building/" rel="alternate" type="text/html" title="Networld building - Building out enterprise grade network &amp; services on homelab" /><published>2019-04-17T00:00:00-04:00</published><updated>2019-04-17T00:00:00-04:00</updated><id>http://0.0.0.0:4000/blog/2019/04/17/Networld-Building</id><content type="html" xml:base="http://0.0.0.0:4000/blog/2019/04/17/Networld-Building/">&lt;p&gt;&lt;em&gt;Note: The following project started out as a result of my goal to learn the system administration &amp;amp; networking portion of IT in an enterprise context. Setting up an internal home network allowed my to gain a lot of insights on setting things up decisively as I got to build completely everything from the ground up with my own judgement.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;This post will outline a series of steps that can be used to setup an enterprise grade home network using basic consumer/prosumer hardware devices and open source softwares. The aim is to hopefully help enthusiasts with similar mindset jump start their own homelab project. A basic working knowledge of the various layers of the &lt;a href=&quot;https://www.networkworld.com/article/3239677/the-osi-model-explained-how-to-understand-and-remember-the-7-layer-network-model.html&quot; target=&quot;_blank&quot;&gt;Network OSI&lt;/a&gt; model is expected from the readers.&lt;/p&gt;
+
+&lt;p&gt;My home network was setup in the following three execution portion in various parts of stack:&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;#network_setup&quot;&gt;Section A: Network Setup&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;#infra_and_service&quot;&gt;Section B: Infrastructure &amp;amp; Services Setup&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;#security&quot;&gt;Section C: Security Setup&lt;/a&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;heading-section-a-network-setup-&quot;&gt;Section A: Network Setup &lt;a name=&quot;network_setup&quot;&gt;&lt;/a&gt;&lt;/h1&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/img/networld-building/nw.png&quot; alt=&quot;Image&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;heading-devices&quot;&gt;Devices:&lt;/h2&gt;
+
+&lt;p&gt;My network setup process started with purchase and configuration of following networking items:&lt;/p&gt;
+
+&lt;p&gt;1x &lt;a href=&quot;https://www.amazon.com/Ubiquiti-EdgeRouter-Advanced-Gigabit-Ethernet/dp/B00YFJT29C/ref=sr_1_2?keywords=edgerouter+x&amp;amp;qid=1555296941&amp;amp;s=gateway&amp;amp;sr=8-2&quot; target=&quot;_blank&quot;&gt; EdgeRouter X&lt;/a&gt;- The functionality this little device provides for just little over 50 bucks is ridiculously awesome. Other options I considered were USG from Ubiquiti and virtualized pfSense. Interestingly, unlike regular consumer routers this router does not come with a dedicated wireless antenna. While regular market routers can act as all router + switch + wifi device, they are a lot less configurable than Edgerouter and the functionalities provided by EdgeOS.&lt;/p&gt;
+
+&lt;p&gt;1x &lt;a href=&quot;https://www.amazon.com/gp/product/B015PR20GY/ref=ppx_yo_dt_b_asin_title_o07_s00?ie=UTF8&amp;amp;psc=1&quot; target=&quot;_blank&quot;&gt;UAP AC US&lt;/a&gt; - This currently acts as my Wireless AP device, also made by Ubiquiti like Edgerouter. Besides being managed separately from the main routing device, and providing advanced networking functionalities these devices can potentially be chained with other AP ACs.&lt;/p&gt;
+
+&lt;p&gt;5x &lt;a href=&quot;https://www.amazon.com/gp/product/B01INRUFGK/ref=ppx_yo_dt_b_asin_title_o04_s00?ie=UTF8&amp;amp;psc=1&quot; target=&quot;_blank&quot;&gt;RJ 45 ethernet Cables&lt;/a&gt; - A pack of AmazonBasics ethernet cables to utilize the POE port on edgerouter for AP AC and my regular devices. My primary workstation &amp;amp; servers needed wired connections to fully avoid any bottlenecks on network I/O. With this setups my internal network throughput is be good enough to handle extra client devices.&lt;/p&gt;
+
+&lt;h2 id=&quot;heading-execution&quot;&gt;Execution:&lt;/h2&gt;
+
+&lt;p&gt;a.  Setup an internal switch via EdgeRouter ans assign it to a separate internal VLAN.&lt;/p&gt;
+
+&lt;p&gt;b.  Setup 4 separate subnets within that VLAN (one dedicated for each physical eth-n port). Create a DHCP Server for each subnet so each servers hands out IP on 4 different ip cidr block.&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;Subnet&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;Description&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;10.0.10.0/24&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Connected to my Primary Workstation with full access to other subnets for management.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;10.0.20.0/24&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Dedicated Port to be connected to home lab powering devices. The devices on this subnet can potentially consequently be connected to a virtual router interface like pfSense as more &quot;bare metals&quot; are added.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;10.0.30.0/24&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Dedicated port for ingress from WAN connected raspberry pi webserver. The web server listens on 443 &amp;amp; port 81 for egress traffics. Adblocking Pi.hole is setup on port 80.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;10.0.80.0/24&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Connected to Wireless AP to hand out IP to wireless devices.&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;c. Setup dedicated AP SSIDs via Unifi Controller portal, one for IoT, one as guest network and final with access to internal home network.&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;SSID&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;Type&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;forbidden-forest&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Private Network with no internet access.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;hogwarts&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Private Network with internet access.&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;hogsmeade&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Guest network with access to internet but no access to internal network.&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;d. Setup nginx on raspberry pi to act as primary ingress webserver that can selectively whitelist ip for stuff trying to access internal network port forwards via internet.&lt;/p&gt;
+
+&lt;p&gt;e. Setup pihole on raspberry pi to act as primary dns server. The pi's /etc/host can additionally be modified to add aliases we do not want on the EdgeRouter but can be kept on pi.&lt;/p&gt;
+
+&lt;h1 id=&quot;heading-section-b-infrastructure--services-setup-&quot;&gt;Section B: Infrastructure &amp;amp; Services Setup &lt;a name=&quot;infra_and_service&quot;&gt;&lt;/a&gt;&lt;/h1&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/img/networld-building/infra.png&quot; alt=&quot;Image&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;heading-devices-1&quot;&gt;Devices:&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Main Baremetal Server - After great results from my &lt;a href=&quot;https://blog.ankitgyawali.com/blog/2017/11/29/Yet-another-Ryzen1700-GTX1080-Build/&quot; target=&quot;_blank&quot;&gt;first attempt&lt;/a&gt; at building a workstation, I decided to bulid my own baremetal server from scratch. The end result was quite satisfactory, as I managed to build a server with great specification, low noise and low power draw for almost one third of the price of similarly spec'd heavier, noiser, more power hungry Dell R720. The specializations are:
+    &lt;ul&gt;
+      &lt;li&gt;SuperMicro X8DTL-IF Dual LGA1366 Motherboard&lt;/li&gt;
+      &lt;li&gt;2x Intel Xeon 5640 CPU - 12 total cores&lt;/li&gt;
+      &lt;li&gt;8x 16GB RAM - 96GB Total RAM&lt;/li&gt;
+      &lt;li&gt;1x 4 TB HDD &amp;amp; 1x 3TB HDD - 7TB Total Storage&lt;/li&gt;
+      &lt;li&gt;512 GB SSD - To speed up boot times of base baremetal proxmox OS &amp;amp; home directory of VMs/LXCs.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Raspberry Pi Web Server - This is a simple raspberry pi with a clear case and 32 GB sd card. It simply acts a nginx reverse proxy server &amp;amp; a pi hole dns server. The reliance on SD cards as storage has been found to be questionable as the best according to other user's experience in the forums so the intention is to replace or complement it with an Intel NUC in the future.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;heading-execution-1&quot;&gt;Execution:&lt;/h2&gt;
+
+&lt;p&gt;There are a whole slew of baremetal OS available with some commonly used options being EsXI, Proxmox, UnRaid or possibly even Rancher OS. I chose to go with Proxmox because of it's underlying linux OS. Not only did it support lightweight template LXC containers, it has solid support for VMs and Windows virtualization. The proxmox controller is completely managed via Web UI. The LXCs and VMs can also be managed and configured via command line tools of the base debian operating system. There are various lxc templates available, however my most frequently used one was CentOS (~60Mb) for its small image size. Unfortunately, I decided to refrain from further virtualization with docker because of LXC's already light weight nature. If a switch to kubernetes was to be made - it could be in the form of dedicated VMs on proxmox node &amp;amp; similarly dedicated VMs on other nodes with different bare metal container.&lt;/p&gt;
+
+&lt;p&gt;There are two primary VMs &amp;amp; rest of LXCs setup on my first proxmox node. The service have been given affectionate Harry Potter codenames!&lt;/p&gt;
+
+&lt;p&gt;The services are divided into following class of containers:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Gateway - VMs with GUIs and acting as &quot;jumpboxes&quot; to consume services from internal network via Guacamole across internet.&lt;/li&gt;
+  &lt;li&gt;Networking - Containers managing internal networking.&lt;/li&gt;
+  &lt;li&gt;Management - LXCs used to manage internal services. Various patching, deployment scripts have been implemented as part of these services.&lt;/li&gt;
+  &lt;li&gt;Core - Core services containers furnished by other classes of containers.&lt;/li&gt;
+  &lt;li&gt;Data - Data storage related services. Has capability to ingest data from cloud over ssl.&lt;/li&gt;
+  &lt;li&gt;Monitoring - Monotring, Alerting &amp;amp; Reporting related services.&lt;/li&gt;
+  &lt;li&gt;Miscellaneous - Extra test related Containers.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;Service Name&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;Description&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;Codename&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;Class&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Windows 10 Professional&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;This is setup as one of the two primary RDP server that is proxyed via Apache Guacamole to consume my services across WAN.&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Dumbledore&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Gateway&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Ubuntu 18.04 LTS&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;This is the second linux server with GUI desktop (GNOME with Mac Sierra skin). The VNC is proxyed via Apache Guacamole to consume services across WAN.&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Grindlewald&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Gateway&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Apache Guacamole&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;This is the the primary service exposed to WAN and is secured by at transport layer via nginx auth, secured with application password and Duo Authentication for second factor. It acts as proxy to safely forward to all my services across SSH/RDP &amp;amp; VNC protocols. This allows me to safely access my services with guaranteed encryption without having to expose primary bare metal controller, or VMs directly.&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Hogsmeade&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Gateway&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Nginx Sever&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;This VM is responsible for encforcing SSL within internal network with self signed CA. A naming convention is enforced for consistency across VMs. &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;code-name&amp;gt;.firebolt.home&lt;/code&gt; (eg: hogsmeade.firebolt.home) maps to the Proxyed service via nginx with SSL and &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;code-name&amp;gt;.home&lt;/code&gt; (eg: hogsmeade.home) maps directly to the internal IP in 10.0.20.0/24 ip range.&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Floo&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Networking&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Unifi Controller&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Buckbeak hosts the main control portal to configure the UAP AC Wireless Access Point. Besides monitoring stats, it provides settings to configure various SSIDs.&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Buckbeak&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Networking&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Jenkins&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;The jenkins server has various jobs configured such as mounting nfs on the media server, selectively starting &amp;amp; stopping certain containers based on various desired &quot;profiles&quot;, deploying out custom patches consistently across all VMs etc.&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Dobby&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Management&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;FreeIPA&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;This is still an exploratory SSO server at the moment.&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Alohomora&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Management&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Mumble VoIP&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;An audio server to allow communication using Mumble client.&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Howler&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Management&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Confluence&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Self hosted confluence page with lifetime license &amp;amp; Draw IO plugin to draw and document anything based on spaces. Provides option to add 10 upto users with the basic license.&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Remembrall&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Management&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Plex Media Server&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Main TV series, Movie and Audio streaming server configured with Plex Pass.&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Pensieve&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Core&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Emby&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Backup media server.&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Patronous&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Core&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Calibre Ebook Server&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Calibre server with nfs mount containing 100k+ e-book dumps in primarily pdf &amp;amp; epub format.&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Veil&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Core&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Subsonic Audio Server&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Backup audio &amp;amp; audiobook server.&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Ginny&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Core&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Home Assistant Server&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Home assistant server to control IoT devices on internal network such as smart switch &amp;amp; alexa skills.&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Gryffindor&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Core&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;NAS Sever&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Basic NFS server with webmin installed to be controlled via Web Browser.&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Ravenclaw&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Data&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;MySQL Server&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;MySQL server with extendable LVM attached for database needs across various services (grafana, guacamole, confluence, calibre etc).&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Gringotts&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Data&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Elasticsearch&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Single node elasticsearch 7 server.&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Hermione&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Data&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Kibana&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Kibana server to complement elasticsearch server.&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Ron&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Monitoring&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Grafana&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Grafana server to be hooked with elasticsearch &amp;amp; mysql server to levarage alerting engine. Possible eventual integration with Prometheus server.&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Quibbler&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Monitoring&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Open Web Analytics&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Test analytics server to replicate cloud analytics data.&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Prophet&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Monitoring&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Hardened Box&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Test Tool box with security tools.&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Azkaban&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Miscellaneous&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Test VM&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Small CentOS box to test stuff.&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Malfoy&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Miscellaneous&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h1 id=&quot;heading-section-c-security-setup-&quot;&gt;Section C: Security Setup &lt;a name=&quot;security&quot;&gt;&lt;/a&gt;&lt;/h1&gt;
+
+&lt;p&gt;The security aspect of my network was the most lengthy part of the execution. This was an unexpected outcome when compared with my initial time allocation as the project progressed. The problem around security required a lot more organization that I had initially realized.&lt;/p&gt;
+
+&lt;p&gt;Internal networking is completely managed by Edgerouter at this point (no virtualization with pfSense yet).&lt;/p&gt;
+
+&lt;p&gt;Each subnet are isolated via UNMS control panel that interacts with EdgeOS on EdgeRouter.&lt;/p&gt;
+
+&lt;p&gt;Connection between devices are resolved via internal DNS provided by EdgeRouter. EdgeRouter subsequently forwards uncached DNS requests to Pi Hole so ads can get selectively blocked out across the entire network.&lt;/p&gt;
+
+&lt;p&gt;Only two services have been exposed to the internet from homenetwork. Both encrypted via nginx &amp;amp; at application layer. And a final second factor with Duo Security.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;First service is a custom node page that executes static ipmi command to turn the main firebolt server on &amp;amp; off remotely.&lt;/li&gt;
+  &lt;li&gt;Second service exposes the Apache Guacamole client end point reverse proxyed via nginx with Let's encrypt SSL. The Guacamole client subsequently encrypts the communication protocols and provides access to main RDP/SSH services in the internal network that has the ability to access non-hardened stuff in the internal network.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Certain VMs have extra firewalld and second factor authentication added.&lt;/p&gt;
+
+&lt;h1 id=&quot;heading-conclusion&quot;&gt;Conclusion:&lt;a name=&quot;conclusion&quot;&gt;&lt;/a&gt;&lt;/h1&gt;
+
+&lt;p&gt;The project has been a great experience trying to mimic an enterprise grade network setup using open source options.&lt;/p&gt;
+
+&lt;p&gt;Following are the project extension ideas:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Extend my homelab setup with a secondary Intel NUC as additional node. Use EsXi instead of Proxmox on the second node.&lt;/li&gt;
+  &lt;li&gt;Add an extra layer of network virtualization using PfSense and Linux Bridge. This will give me an option to switch easily from EdgeRouter to other device if I choose to do so in the future.&lt;/li&gt;
+  &lt;li&gt;Completely refactor the services setup to use Rancher 2/Kubernetes to make my platform bare metal controller agnostic. This would mean a switch from LXC templates to Docker Images. The provisioning would look vastly different with approach of pre building docker images and storing them instead of applying bash scripts on base LXC templates.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;heading-screenshots&quot;&gt;Screenshots&lt;a name=&quot;screenshots&quot;&gt;&lt;/a&gt;&lt;/h1&gt;
+
+&lt;h3 id=&quot;heading-base-server&quot;&gt;Base Server:&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/img/networld-building/screenshots/baremetal.png&quot; alt=&quot;Base Server&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;heading-proxmox-home&quot;&gt;Proxmox Home:&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/img/networld-building/screenshots/proxmox.png&quot; alt=&quot;Proxmox Home&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;heading-apache-guacamole&quot;&gt;Apache Guacamole:&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/img/networld-building/screenshots/guacamole.png&quot; alt=&quot;Apache Guacamole&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;heading-edgerouter&quot;&gt;Edgerouter:&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/img/networld-building/screenshots/edgerouterx.png&quot; alt=&quot;Edgerouter&quot; /&gt;&lt;/p&gt;</content><author><name>mail@ankitgyawali.com</name></author><category term="devops" /><category term="hardware" /><category term="networking" /><category term="homelab" /><category term="virtualization" /><category term="hyperconvergence" /><category term="automation" /><summary type="html">Note: The following project started out as a result of my goal to learn the system administration &amp;amp; networking portion of IT in an enterprise context. Setting up an internal home network allowed my to gain a lot of insights on setting things up decisively as I got to build completely everything from the ground up with my own judgement. This post will outline a series of steps that can be used to setup an enterprise grade home network using basic consumer/prosumer hardware devices and open source softwares. The aim is to hopefully help enthusiasts with similar mindset jump start their own homelab project. A basic working knowledge of the various layers of the Network OSI model is expected from the readers. My home network was setup in the following three execution portion in various parts of stack: Section A: Network Setup Section B: Infrastructure &amp;amp; Services Setup Section C: Security Setup Section A: Network Setup Devices: My network setup process started with purchase and configuration of following networking items: 1x EdgeRouter X- The functionality this little device provides for just little over 50 bucks is ridiculously awesome. Other options I considered were USG from Ubiquiti and virtualized pfSense. Interestingly, unlike regular consumer routers this router does not come with a dedicated wireless antenna. While regular market routers can act as all router + switch + wifi device, they are a lot less configurable than Edgerouter and the functionalities provided by EdgeOS. 1x UAP AC US - This currently acts as my Wireless AP device, also made by Ubiquiti like Edgerouter. Besides being managed separately from the main routing device, and providing advanced networking functionalities these devices can potentially be chained with other AP ACs. 5x RJ 45 ethernet Cables - A pack of AmazonBasics ethernet cables to utilize the POE port on edgerouter for AP AC and my regular devices. My primary workstation &amp;amp; servers needed wired connections to fully avoid any bottlenecks on network I/O. With this setups my internal network throughput is be good enough to handle extra client devices. Execution: a. Setup an internal switch via EdgeRouter ans assign it to a separate internal VLAN. b. Setup 4 separate subnets within that VLAN (one dedicated for each physical eth-n port). Create a DHCP Server for each subnet so each servers hands out IP on 4 different ip cidr block. Subnet Description 10.0.10.0/24 Connected to my Primary Workstation with full access to other subnets for management. 10.0.20.0/24 Dedicated Port to be connected to home lab powering devices. The devices on this subnet can potentially consequently be connected to a virtual router interface like pfSense as more &quot;bare metals&quot; are added. 10.0.30.0/24 Dedicated port for ingress from WAN connected raspberry pi webserver. The web server listens on 443 &amp;amp; port 81 for egress traffics. Adblocking Pi.hole is setup on port 80. 10.0.80.0/24 Connected to Wireless AP to hand out IP to wireless devices. c. Setup dedicated AP SSIDs via Unifi Controller portal, one for IoT, one as guest network and final with access to internal home network. SSID Type forbidden-forest Private Network with no internet access. hogwarts Private Network with internet access. hogsmeade Guest network with access to internet but no access to internal network. d. Setup nginx on raspberry pi to act as primary ingress webserver that can selectively whitelist ip for stuff trying to access internal network port forwards via internet. e. Setup pihole on raspberry pi to act as primary dns server. The pi's /etc/host can additionally be modified to add aliases we do not want on the EdgeRouter but can be kept on pi. Section B: Infrastructure &amp;amp; Services Setup Devices: Main Baremetal Server - After great results from my first attempt at building a workstation, I decided to bulid my own baremetal server from scratch. The end result was quite satisfactory, as I managed to build a server with great specification, low noise and low power draw for almost one third of the price of similarly spec'd heavier, noiser, more power hungry Dell R720. The specializations are: SuperMicro X8DTL-IF Dual LGA1366 Motherboard 2x Intel Xeon 5640 CPU - 12 total cores 8x 16GB RAM - 96GB Total RAM 1x 4 TB HDD &amp;amp; 1x 3TB HDD - 7TB Total Storage 512 GB SSD - To speed up boot times of base baremetal proxmox OS &amp;amp; home directory of VMs/LXCs. Raspberry Pi Web Server - This is a simple raspberry pi with a clear case and 32 GB sd card. It simply acts a nginx reverse proxy server &amp;amp; a pi hole dns server. The reliance on SD cards as storage has been found to be questionable as the best according to other user's experience in the forums so the intention is to replace or complement it with an Intel NUC in the future. Execution: There are a whole slew of baremetal OS available with some commonly used options being EsXI, Proxmox, UnRaid or possibly even Rancher OS. I chose to go with Proxmox because of it's underlying linux OS. Not only did it support lightweight template LXC containers, it has solid support for VMs and Windows virtualization. The proxmox controller is completely managed via Web UI. The LXCs and VMs can also be managed and configured via command line tools of the base debian operating system. There are various lxc templates available, however my most frequently used one was CentOS (~60Mb) for its small image size. Unfortunately, I decided to refrain from further virtualization with docker because of LXC's already light weight nature. If a switch to kubernetes was to be made - it could be in the form of dedicated VMs on proxmox node &amp;amp; similarly dedicated VMs on other nodes with different bare metal container. There are two primary VMs &amp;amp; rest of LXCs setup on my first proxmox node. The service have been given affectionate Harry Potter codenames! The services are divided into following class of containers: Gateway - VMs with GUIs and acting as &quot;jumpboxes&quot; to consume services from internal network via Guacamole across internet. Networking - Containers managing internal networking. Management - LXCs used to manage internal services. Various patching, deployment scripts have been implemented as part of these services. Core - Core services containers furnished by other classes of containers. Data - Data storage related services. Has capability to ingest data from cloud over ssl. Monitoring - Monotring, Alerting &amp;amp; Reporting related services. Miscellaneous - Extra test related Containers. Service Name Description Codename Class Windows 10 Professional This is setup as one of the two primary RDP server that is proxyed via Apache Guacamole to consume my services across WAN. Dumbledore Gateway Ubuntu 18.04 LTS This is the second linux server with GUI desktop (GNOME with Mac Sierra skin). The VNC is proxyed via Apache Guacamole to consume services across WAN. Grindlewald Gateway Apache Guacamole This is the the primary service exposed to WAN and is secured by at transport layer via nginx auth, secured with application password and Duo Authentication for second factor. It acts as proxy to safely forward to all my services across SSH/RDP &amp;amp; VNC protocols. This allows me to safely access my services with guaranteed encryption without having to expose primary bare metal controller, or VMs directly. Hogsmeade Gateway Nginx Sever This VM is responsible for encforcing SSL within internal network with self signed CA. A naming convention is enforced for consistency across VMs. &amp;lt;code-name&amp;gt;.firebolt.home (eg: hogsmeade.firebolt.home) maps to the Proxyed service via nginx with SSL and &amp;lt;code-name&amp;gt;.home (eg: hogsmeade.home) maps directly to the internal IP in 10.0.20.0/24 ip range. Floo Networking Unifi Controller Buckbeak hosts the main control portal to configure the UAP AC Wireless Access Point. Besides monitoring stats, it provides settings to configure various SSIDs. Buckbeak Networking Jenkins The jenkins server has various jobs configured such as mounting nfs on the media server, selectively starting &amp;amp; stopping certain containers based on various desired &quot;profiles&quot;, deploying out custom patches consistently across all VMs etc. Dobby Management FreeIPA This is still an exploratory SSO server at the moment. Alohomora Management Mumble VoIP An audio server to allow communication using Mumble client. Howler Management Confluence Self hosted confluence page with lifetime license &amp;amp; Draw IO plugin to draw and document anything based on spaces. Provides option to add 10 upto users with the basic license. Remembrall Management Plex Media Server Main TV series, Movie and Audio streaming server configured with Plex Pass. Pensieve Core Emby Backup media server. Patronous Core Calibre Ebook Server Calibre server with nfs mount containing 100k+ e-book dumps in primarily pdf &amp;amp; epub format. Veil Core Subsonic Audio Server Backup audio &amp;amp; audiobook server. Ginny Core Home Assistant Server Home assistant server to control IoT devices on internal network such as smart switch &amp;amp; alexa skills. Gryffindor Core NAS Sever Basic NFS server with webmin installed to be controlled via Web Browser. Ravenclaw Data MySQL Server MySQL server with extendable LVM attached for database needs across various services (grafana, guacamole, confluence, calibre etc). Gringotts Data Elasticsearch Single node elasticsearch 7 server. Hermione Data Kibana Kibana server to complement elasticsearch server. Ron Monitoring Grafana Grafana server to be hooked with elasticsearch &amp;amp; mysql server to levarage alerting engine. Possible eventual integration with Prometheus server. Quibbler Monitoring Open Web Analytics Test analytics server to replicate cloud analytics data. Prophet Monitoring Hardened Box Test Tool box with security tools. Azkaban Miscellaneous Test VM Small CentOS box to test stuff. Malfoy Miscellaneous Section C: Security Setup The security aspect of my network was the most lengthy part of the execution. This was an unexpected outcome when compared with my initial time allocation as the project progressed. The problem around security required a lot more organization that I had initially realized. Internal networking is completely managed by Edgerouter at this point (no virtualization with pfSense yet). Each subnet are isolated via UNMS control panel that interacts with EdgeOS on EdgeRouter. Connection between devices are resolved via internal DNS provided by EdgeRouter. EdgeRouter subsequently forwards uncached DNS requests to Pi Hole so ads can get selectively blocked out across the entire network. Only two services have been exposed to the internet from homenetwork. Both encrypted via nginx &amp;amp; at application layer. And a final second factor with Duo Security. First service is a custom node page that executes static ipmi command to turn the main firebolt server on &amp;amp; off remotely. Second service exposes the Apache Guacamole client end point reverse proxyed via nginx with Let's encrypt SSL. The Guacamole client subsequently encrypts the communication protocols and provides access to main RDP/SSH services in the internal network that has the ability to access non-hardened stuff in the internal network. Certain VMs have extra firewalld and second factor authentication added. Conclusion: The project has been a great experience trying to mimic an enterprise grade network setup using open source options. Following are the project extension ideas: Extend my homelab setup with a secondary Intel NUC as additional node. Use EsXi instead of Proxmox on the second node. Add an extra layer of network virtualization using PfSense and Linux Bridge. This will give me an option to switch easily from EdgeRouter to other device if I choose to do so in the future. Completely refactor the services setup to use Rancher 2/Kubernetes to make my platform bare metal controller agnostic. This would mean a switch from LXC templates to Docker Images. The provisioning would look vastly different with approach of pre building docker images and storing them instead of applying bash scripts on base LXC templates. Screenshots Base Server: Proxmox Home: Apache Guacamole: Edgerouter:</summary></entry><entry><title type="html">Trading BTC/USD with NodeJS &amp;amp; Elasticsearch</title><link href="http://0.0.0.0:4000/blog/2018/06/10/Bitcoin-Trading-Bot/" rel="alternate" type="text/html" title="Trading BTC/USD with NodeJS &amp; Elasticsearch" /><published>2018-06-10T00:00:00-04:00</published><updated>2018-06-10T00:00:00-04:00</updated><id>http://0.0.0.0:4000/blog/2018/06/10/Bitcoin-Trading-Bot</id><content type="html" xml:base="http://0.0.0.0:4000/blog/2018/06/10/Bitcoin-Trading-Bot/">&lt;p&gt;&lt;em&gt;This will be a 2 section blog where I will share my findings &amp;amp; strategies while implementing a crypto currency trading bot written in NodeJS.&lt;/em&gt; &lt;br /&gt;
+&lt;em&gt;Section 1 will focus more on setting up and use case aspect while Section 2 will describe the code/analysis portion.&lt;/em&gt; &lt;br /&gt;
+&lt;a href=&quot;https://github.com/ankitgyawali/bitcoin-trading-bot&quot; target=&quot;_blank&quot;&gt;&lt;em&gt;Link to project code on github&lt;/em&gt;&lt;/a&gt;&lt;br /&gt;
+&lt;a href=&quot;#screenshots&quot;&gt;&lt;em&gt;Kibana dashboard Screenshots&lt;/em&gt;&lt;/a&gt; &lt;em&gt;(Imgur &lt;a href=&quot;https://imgur.com/a/J4nm7Sh&quot; target=&quot;_blank&quot;&gt;mirror)&lt;/a&gt;&lt;/em&gt;&lt;br /&gt;
+&lt;em&gt;Direct Link to &lt;a href=&quot;http://kibana.ankitgyawali.com&quot; target=&quot;_blank&quot;&gt;Kibana Dashboards&lt;/a&gt;&lt;/em&gt; (Username: &lt;code class=&quot;highlighter-rouge&quot;&gt;guest&lt;/code&gt;, Password: &lt;code class=&quot;highlighter-rouge&quot;&gt;012GUE789st!&lt;/code&gt;)&lt;br /&gt;
+&lt;em&gt;(At the time of writing this blog all the dashboards should be publicly viewable - however since I am using a trial license of x-pack for authentication it will fail at some point unless I reset it. Thus the screenshots.)&lt;/em&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;heading-background&quot;&gt;Background&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;Feel free to &lt;a href=&quot;#introduction&quot;&gt;skip&lt;/a&gt; the anecdote to jump right away into introduction&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;I got introduced to cryptocurrencies via Ethereum almost a year ago now. I vividly remembering running into this &lt;a href=&quot;https://www.ethereum.org&quot; target=&quot;_blank&quot;&gt;homepage&lt;/a&gt; before being side tracked into the rabbit hole of the crypto world. Crypto related sites and ads were starting to pop everywhere because of ethereum ICOs then. As someone who was just a little bit familiar with bitcoin and its motivation for decentralization from its 2013 bubble, the concept of smart contracts was quite intriguing.&lt;/p&gt;
+
+&lt;p&gt;After trading sporadically (with some quite painful lessons) for almost 6 months, I decided to look into writing a dedicated trading bot. The initial prototype had foundations using MySQL database via AWS RDS with python as back end code for analysis. I never ended up finishing the initial setup however and decided to use a completely different set of technologies (elasticsearch + nodejs) with a more event driven approach which I will be discussing on this article. Basic understanding of node js, elasticsearch and stock trading is recommended but not necessarily required for initial setup.&lt;/p&gt;
+
+&lt;h2 id=&quot;heading-introduction&quot;&gt;Introduction:&lt;a name=&quot;introduction&quot;&gt;&lt;/a&gt;&lt;/h2&gt;
+
+&lt;p&gt;We will go through the bot setup by chunking out portions of the entire bot setup into various parts.&lt;/p&gt;
+
+&lt;p&gt;By the end of this article, I would like to have had shared my findings with the readers in following sub parts:&lt;/p&gt;
+
+&lt;p&gt;Section 1: Setup&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;1A. &lt;a href=&quot;#technologies_used&quot;&gt;Technologies Used for Implementing the Trading bot&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;1B. &lt;a href=&quot;#setting_up&quot;&gt;Architechture setup of Trading Bot&lt;/a&gt;
+    &lt;ul&gt;
+      &lt;li&gt;&lt;a href=&quot;#dev_setup&quot;&gt;Dev/Localhost Installation&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;1C. &lt;a href=&quot;#visualizing_with_kibana&quot;&gt;Visualizing Bitcoin Prices via Kibana to use for our trading&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;In Section 2 we will use the DSL queries from part 1C programmatically to take positions and generate signals.&lt;/p&gt;
+
+&lt;p&gt;Section 2: Technicals&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;2A. &lt;a href=&quot;#code_implementation&quot;&gt;Brief Overview of Code Implementation&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;2B. &lt;a href=&quot;#configuration&quot;&gt;Configuring and using this bot for taking positions with appropriate analysis&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;2C. &lt;a href=&quot;#performance&quot;&gt;Brief Overview of our bot's current/default performance&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;2D. &lt;a href=&quot;#conclusion&quot;&gt;Expansion ideas and some caveats of the Project&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;heading-section-1&quot;&gt;Section 1&lt;/h2&gt;
+
+&lt;h3 id=&quot;heading-1a-technologies-used-for-implementing-the-trading-bot&quot;&gt;1A. Technologies Used for Implementing the Trading Bot&lt;a name=&quot;technologies_used&quot;&gt;&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;The end to end bot will use 4 main technologies.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;NodeJS (Back-end ETL, Data Analysis &amp;amp; Position Taking) - We use node js to ingest bitfinex ticker data and pull out higher order data from elasticsearch to create positions using two separate crons.&lt;/li&gt;
+  &lt;li&gt;Elasticsearch (Data Persistance &amp;amp; Data Aggregation) - The project uses elasticsearch to store bitcoin price, volume and trade data. This is as opposed to MySQL or nosql json dumps like mongodb because elasticsearch is great for aggregate data processing - especially if you are trying to expose out hidden behaviours of data based on timeframes.&lt;/li&gt;
+  &lt;li&gt;Kibana (Visualization &amp;amp; DSL Modeling) - Use of Kibana allowes us to get real time insights into bitcoin prices via graphs and other visuals. We will be able to use Kibana as a personal real time charting view where we will create visuals to model and control our DSL calls to elasticsearch. There are &lt;a href=&quot;#visualizing_with_kibana&quot;&gt;4 main kibana dashboards&lt;/a&gt; that is most frequently used for this project.&lt;br /&gt;&lt;/li&gt;
+  &lt;li&gt;Amazon EC2 Instances (Infrastructure) - We will use amazon's ec2 server to deploy our elasticsearch cluster. Elasticsearch can be installed locally for development purposes but it's convenient to have a dedicated server running online 24/7.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;heading-1b-setting-up-of-trading-bot&quot;&gt;1B. Setting up of Trading Bot&lt;a name=&quot;setting_up&quot;&gt;&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;Architecturally, trading bot simply relies on two node crons (managed by pm2 - represented by two rectangles to the left) and an elasticsearch setup which can optionally be hooked up with kibana for visualization.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/img/trading.png&quot; alt=&quot;Image&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;heading-dev-setup&quot;&gt;Dev Setup&lt;a name=&quot;dev_setup&quot;&gt;&lt;/a&gt;&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;The node version required for this project is at least v8.9.4+ LTS. (nvm- short for node version manager is great if you need to run multiple node versions)&lt;/li&gt;
+  &lt;li&gt;Project repo can be cloned from &lt;a href=&quot;https://github.com/ankitgyawali/blog-excerpts/tree/master/project/bitcoin-trading-bot/&quot; target=&quot;_blank&quot;&gt;here&lt;/a&gt; and dependencies installed with &lt;code class=&quot;highlighter-rouge&quot;&gt;npm install&lt;/code&gt;
+    &lt;ul&gt;
+      &lt;li&gt;You will need &lt;code class=&quot;highlighter-rouge&quot;&gt;pm2&lt;/code&gt; for managing bot processes (&lt;code class=&quot;highlighter-rouge&quot;&gt;npm install -g pm2&lt;/code&gt;)&lt;/li&gt;
+      &lt;li&gt;One of the node dependencies &lt;code class=&quot;highlighter-rouge&quot;&gt;tulind&lt;/code&gt; indicator needs to compile C binaries - if &lt;code class=&quot;highlighter-rouge&quot;&gt;npm install&lt;/code&gt; fails for that module you can build directly with &lt;code class=&quot;highlighter-rouge&quot;&gt;npm install tulind --build-from-source&lt;/code&gt;. This will require you to ensure you have &lt;code class=&quot;highlighter-rouge&quot;&gt;g++&lt;/code&gt; installed on your system.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Ensure you have elasticsearch and kibana running on your localhost. Alternatively you can install it on an aws ec2 (recommended for serious users). Official elastic installation guide can be found  &lt;a href=&quot;https://www.elastic.co/guide/en/elasticsearch/reference/current/_installation.html&quot; target=&quot;_blank&quot;&gt;here&lt;/a&gt;.&lt;/li&gt;
+  &lt;li&gt;Configure elasticsearch port on &lt;code class=&quot;highlighter-rouge&quot;&gt;config.json&lt;/code&gt;. Default elasticsearch port is already configured on the project repo. Run the following commands to run ingest cron and position taking crons respectively. We will discuss what each does in next section.
+    &lt;ul&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;npm run ingest&lt;/code&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;npm run takeposition&lt;/code&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;heading-1c-visualizing-price-indicators-via-kibana-to-use-for-our-trading&quot;&gt;1C. Visualizing Price Indicators via Kibana to use for our trading&lt;a name=&quot;visualizing_with_kibana&quot;&gt;&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;Dashboard Login: Username: &lt;code class=&quot;highlighter-rouge&quot;&gt;guest&lt;/code&gt;, Password: &lt;code class=&quot;highlighter-rouge&quot;&gt;012GUE789st!&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;A variety of indicator visualizations are grouped by dashboards in kibana. The four most frequented dashboards are linked and described below:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;http://kibana.ankitgyawali.com/goto/b1dab01b251ed9d24852ec0c4c717331&quot; target=&quot;_blank&quot;&gt;Basic Dashboard&lt;/a&gt; - The default home dashboard that can be used for very basic inspection. It provides a brief overview of current Bitcoin prices and volume activity.&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://kibana.ankitgyawali.com/goto/58fbc6d32857ffc3240b48f4b0a31f9b&quot; target=&quot;_blank&quot;&gt;Trade Analysis Dashboard&lt;/a&gt; - A more trade detail oriented dashboard to expose out various metrics within bitcoin's price movements. At the moment, we expose metrics like volume discrepencies, velocity of price increase and publicly available trade frequencies on various timeframes. A simple refactor of our ingest pipeline could allow us to expose more advanced metrics such as RSI divergences as a part of pre processing pipeline. Once we decided on a trading metric to use with our bot, this is where it first gets visualized.&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://kibana.ankitgyawali.com/goto/22d0d3a0f62cefcda5a80c923e940d26&quot; target=&quot;_blank&quot;&gt;DSL Model Dashboard&lt;/a&gt; - Inspection of visualization to take positions is usually a manual work, requires inituition and takes a lot of practice. Normally, as a day trader when I manually log in to a charting solution to see possibilities of a trade, I follow the following steps:
+    &lt;ul&gt;
+      &lt;li&gt;Log into preferred charting solution(s) and adjust to appropriate timeframe(s).&lt;/li&gt;
+      &lt;li&gt;Inspect selected indicators such as RSI/Volume Profiles/Resistances, Support, Previously Drawn trend lines, any hidden divergences and patterns etc on various timeframes.&lt;/li&gt;
+      &lt;li&gt;If I find any indicator that catches my eyes, I quickly backtrack to see if more indicators confirm that and also if simillar patterns have played out in the past.&lt;/li&gt;
+      &lt;li&gt;I then Open/Close a position with appropriate size depending based on how confident I am about that indicator and overall price movements with an exit strategy (of course executing exit strategy is quite hard if we account for factors like greed, fear and lack of experience - which is precisely a non factor for automated trading).&lt;/li&gt;
+    &lt;/ul&gt;
+
+    &lt;p&gt;Our DSL model dashboard allows us to loosely automate exactly these steps by creating DSL Models that grabs similar data programatically on various timeframes. While our bot might not have inituitions like us, our bot will have very good memory since it can back test data.&lt;/p&gt;
+
+    &lt;p&gt;This dashboard is simply a transformation of visuals from &lt;code class=&quot;highlighter-rouge&quot;&gt;Trade Analysis Dashboard&lt;/code&gt; to create queries for taking positions.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://kibana.ankitgyawali.com/goto/81038aeb2d17f2064b398d4f2ff99a71&quot; target=&quot;_blank&quot;&gt;Position Analysis Dashboard&lt;/a&gt; - Because we have so many parmeters and hyperparameters involved when making a trade decision, we track each and every of our position and store it back to elasticsearch for back testing purposes. This dashboard allows us to filter out our positions (based on trade size, confidence &amp;amp; accuracy of our indicators) and determine the quality of bot in addition to providing feedback to our so we can implement a self learning model for our bot.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;em&gt;We will look into actually using the trading bot and fine tuning our bot's parameters/hyperparameters by briefly going through the bot code in Section II of the article.&lt;/em&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;heading-section-2&quot;&gt;Section 2&lt;/h2&gt;
+
+&lt;h3 id=&quot;heading-2a-brief-overview-of-code-implementation&quot;&gt;2A. Brief Overview of Code Implementation&lt;a name=&quot;code_implementation&quot;&gt;&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;The entire project is controlled by two main crons.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;bitfinex.js&lt;/code&gt; - An ingest cron to transform publicly available data on bitfinex's websocket before inserting it into elasticsearch. We ingest bitfinex to ingest data but use gdax's order book to trade against. (This is because our default prameters have been set to look into smaller timeframe for sake of momentum trading and gdax usually tends to follow bitfinex's movements when bitcoin's price is ranging - an important thing to consider, while we may be able to accumulate fiat when prices are ranging, more importantly we want to pre-emptively recognize and exit or trade volatility to positively offset out total pnl.)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Not a lot is going on this cron since we are just ingesting data. We do some normalization &amp;amp; pre-processing that will help us get aggregated metadata later. We configure the default to push data to elasticsearch on every ticker update (as opposed to set timeframe which is more lenient on resources - although one would imagine bitfinex also does have some rate limits on it's websocket data!).&lt;/p&gt;
+
+&lt;p&gt;We do insert this data into two separate indices prefixed &lt;code class=&quot;highlighter-rouge&quot;&gt;btc-bfx-ticker*&lt;/code&gt; (price specific data) &amp;amp; &lt;code class=&quot;highlighter-rouge&quot;&gt;btc-bfx-trade*&lt;/code&gt; (trade specific data)&lt;/p&gt;
+
+&lt;p&gt;Elasticsearch document sample for &lt;a href=&quot;https://github.com/ankitgyawali/bitcoin-trading-bot/blob/master/sample/ticker-document-sample.json&quot;&gt;ticker data&lt;/a&gt; and  &lt;a href=&quot;https://github.com/ankitgyawali/bitcoin-trading-bot/blob/master/sample/trade-document-sample.json&quot;&gt;trade data&lt;/a&gt;.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;position.js&lt;/code&gt;: Position taking cron is where the actual evaluation happens! A high level pesudocode looks as follows:
+    &lt;blockquote&gt;
+      &lt;ul&gt;
+        &lt;li&gt;Make calls to elasticsearch according to &lt;a href=&quot;https://github.com/ankitgyawali/bitcoin-trading-bot/blob/master/data/dsl/parameters.json#L9-L81&quot;&gt;configured&lt;/a&gt; timeframes. These timeframes can be coded to be influenced by where in wyckoff phase we guess the market is. (We don't bother making timeframes programmatic as they are just logical buckets for us to get data by. Adjusting timeframes to adjust out results have implications of us adjusting our questions to fit our answers instead of the other way around.)&lt;/li&gt;
+        &lt;li&gt;Once we have all the data we need (which are essentially tables from &quot;DSL Model Dashboard&quot;) we transform them using our decorator to create a final evaluation object. Link to &lt;a href=&quot;https://github.com/ankitgyawali/bitcoin-trading-bot/blob/master/positions.js#L100-L110&quot;&gt;code&lt;/a&gt;.&lt;/li&gt;
+        &lt;li&gt;Once we have a &quot;final evaluation&quot; object we close our older trades.
+          &lt;ul&gt;
+            &lt;li&gt;The older trades here implies positions we have opened on our previous runs.&lt;/li&gt;
+            &lt;li&gt;We create a new trade document once we have closed older documents and we meet confidence criterias.&lt;/li&gt;
+          &lt;/ul&gt;
+        &lt;/li&gt;
+        &lt;li&gt;Finally, we can either choose to actually send an email alert on top of taking a position (this could be any series of action instead of just executing market buys and market sells on gdax) if we cross confidence threshold when calculating our position. By default we configure our bot to remain &quot;bearish&quot; to preserve unsual loss of USD. This is explained in more detail in the next section about &lt;a href=&quot;https://github.com/ankitgyawali/bitcoin-trading-bot/blob/master/positions.js#L100-L110&quot;&gt;configuration&lt;/a&gt;.&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/blockquote&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;A reference to what our &quot;final evaluation object&quot; looks like:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;w&quot;&gt;    &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;bot_signal&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;Information&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;about&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;frequency&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;of&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;bot&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;buys&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;in&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;order&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;trade&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;book&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; 
+            &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;buy_strength&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;Bot&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;buy&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;frequency&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;sell_strength&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;Bot&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;sell&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;frequency&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;local_timeframe_buy_wins&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;Positive&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;tends&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;towards&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;more&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;buys&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;local&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;wins&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;of&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;frequency&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;each&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;time&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;influence&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;sentiment_momentum&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;Information&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;about&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;consecutive&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;rise&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;in&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;bitcoin&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;prices,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;we&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;want&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;to&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;trade&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;smaller&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;timeframes&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;our&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;parameters&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;have&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;been&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;configured&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;towards&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;momentum&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;trading&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;buy_strength&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;Volume&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;of&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;buy&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;sell_strength&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;Volume&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;of&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;sell&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;buy_strength_momentum&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;Trailing&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;difference&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;wins&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;calculation&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;of&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;variance&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;in&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;buys&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;wins&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;to&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;denote&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;effectiveness&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;of&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;buy_strength&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;wins&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;sell_strength_momentum&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;  &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;Trailing&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;difference&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;wins&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;calculation&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;of&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;variance&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;in&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;buys&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;wins&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;to&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;denote&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;effectiveness&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;of&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;sell_strength&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;wins&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;price_volume_analysis&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;Basic&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;price&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;volume&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;analysis&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;results&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;isLocalVolBuyWin&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;Volume&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;traded&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;wins&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;buy&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;in&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;local&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;time&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;frames&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;isLocalFrequencyBuyWin&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;Frequency&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;traded&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;wins&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;in&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;local&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;time&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;frames&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;based&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;ticker&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;volume_difference&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;Total&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;raw&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;volume&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;difference&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;to&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;indicate&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;overall&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;buys&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;vs&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;sells&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;multiplied&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;by&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;price&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;points&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;indicators&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;Standard&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;indicators&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;calculated&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;using&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;tulind&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;indicators&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;adsoc_indicator&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;Accumulation/Distruction&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;Oscillation&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;Indicator&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;RSI&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;Standard&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;RSI&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;related&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;metrics&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;capabilities&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;lookup&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;of&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;hidden&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;divergences&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;in&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;prices&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;rsi&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;haven't&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;been&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;implemented&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; 
+                &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;average&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;Average&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;rsi&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;of&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;bucket&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;since&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;we&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;are&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;not&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;calculating&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;rsi&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;during&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;ingestion&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+                &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;isStrongOverBoughtSignal&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;Configured&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;rsi&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;threshold&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;since&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;over&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;bought&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;and&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;over&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;sold&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;conditions&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;medium&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;timeframes&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;rsi&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;are&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;usually&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;reliable&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;signals&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+                &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;isStrongOverSoldSignal&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+            &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;final_call&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;Final&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;call&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;enum,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;bearish&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;||&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;bullish&quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;ultimately&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;you&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;can&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;only&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;either&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;take&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;position&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;or&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;not&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;take&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;one.&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;confidence&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;+80&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;or&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;-80&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;are&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;usually&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;labelled&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;good&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;confidence&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;with&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;tunings&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;good&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;enough&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;to&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;send&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;email&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;you&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;dont&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;want&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;automated&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;bot&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;signals&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;position_sizes&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;undefined&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;Configured&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;position&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;sizes&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;trades&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[],&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;Trade&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;objects&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;opened_at&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;undefined&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;Trade&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;Opened&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;at&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;date&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;object&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;closed_at&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;undefined&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;Trade&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;closed&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;at&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;date&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;object&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;metadata&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;Extra&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;holds&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;traded&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;timeframes&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;and&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;hyperparameters&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;back&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;analysis&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;};&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;};&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/ankitgyawali/bitcoin-trading-bot/blob/master/sample/position-document-sample.json&quot;&gt;Link&lt;/a&gt; to a well formed final evaluation document.&lt;/p&gt;
+
+&lt;p&gt;Example of a trade object:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; 
+    &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;trade_size&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;trade_size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;Size&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;of&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;trade&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;data,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;usually&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;there&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;are&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;multiple&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;sizes&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;especially&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;gathering&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;back&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;testing&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;purposes&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;trade_time&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;new&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;Date()&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;Time&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;of&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;trade&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;object&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;creation&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;average_entry_price&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;Average&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;entry&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;price&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;of&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;trade&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;against&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;gdax&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;order&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;book&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;entry_price&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;Total&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;entry&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;price&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;of&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;trade&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;average_exit_price&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;Average&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;Exit&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;price&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;of&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;trade&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;against&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;gdax&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;order&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;book&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;exit_price&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;Total&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;exit&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;price&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;of&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;trade&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;realized_pnl&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;Percentage&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;profit&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;or&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;loss&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;between&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;trade&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;open&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;and&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;trade&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;duration&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;realized_pnl_raw&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;Total&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;raw&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;dollaroos&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;earned/lost&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;fees_percent&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;fees_percent&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;Fees&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;needed&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;to&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;offset&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;raw&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;pnl&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Code level documentation is also provided on &lt;code class=&quot;highlighter-rouge&quot;&gt;positions.js&lt;/code&gt; of the project.&lt;/p&gt;
+
+&lt;h3 id=&quot;heading-2b-configuring-and-using-this-bot-for-taking-positions-with-appropriate-analysis&quot;&gt;2B. Configuring and using this bot for taking positions with appropriate analysis&lt;a name=&quot;configuration&quot;&gt;&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;Configuration of our bot mainly happens during &lt;a href=&quot;https://github.com/ankitgyawali/bitcoin-trading-bot/blob/master/positions.js#L37-L61&quot;&gt;initialization&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;parameters.json&lt;/code&gt; also contains a property called &lt;a href=&quot;https://github.com/ankitgyawali/bitcoin-trading-bot/blob/master/data/dsl/parameters.json#L82-L96&quot;&gt;&quot;hyperparmeters&quot;&lt;/a&gt; which is responsible for configuring the bot behaviour for most part.&lt;/p&gt;
+
+&lt;p&gt;Another parameter that plays a role in bot's evaluation lies in the &lt;a href=&quot;https://github.com/ankitgyawali/bitcoin-trading-bot/blob/master/data/trade_object_model.js#L76-L86&quot;&gt;&quot;assign_confidences&quot;&lt;/a&gt; model.&lt;/p&gt;
+
+&lt;p&gt;While the functions exported from &lt;code class=&quot;highlighter-rouge&quot;&gt;data/decorator&lt;/code&gt; model are mostly responsible for simple data transformation, we do have an &lt;a href=&quot;https://github.com/ankitgyawali/bitcoin-trading-bot/blob/master/data/decorator/index.js#L23-L120&quot;&gt;final processor&lt;/a&gt; function which is responsible for creating the evaluation object mentioned above using configured confidences.&lt;/p&gt;
+
+&lt;h4 id=&quot;heading-confidences&quot;&gt;Confidences&lt;/h4&gt;
+
+&lt;p&gt;Our confidence can range from &lt;code class=&quot;highlighter-rouge&quot;&gt;-100&lt;/code&gt; (bearish) to &lt;code class=&quot;highlighter-rouge&quot;&gt;+100&lt;/code&gt; (bullish). Our bot most certainly won't be 100% confident, but we configure it to take actions based on thresholds which are configured &lt;a href=&quot;https://github.com/ankitgyawali/bitcoin-trading-bot/blob/master/data/dsl/parameters.json#L101&quot;&gt;here&lt;/a&gt;(email alerts) and &lt;a href=&quot;https://github.com/ankitgyawali/bitcoin-trading-bot/blob/master/data/dsl/parameters.json#L85&quot;&gt;here&lt;/a&gt;(trade execution demo).&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Notice the assignment of confidences and values in our final processor are hard coded at this point. These parmeters should ideally be stored on a separate fourth index (eg: btc-bfx-indicators) and configured programmatically to pull and assign dynamic confidences on the fly based on backtesting of bot's own performance and historic price data.&lt;/em&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;heading-2c-brief-overview-of-our-bots-currentdefault-performance&quot;&gt;2C. Brief Overview of our bot's current/default performance&lt;a name=&quot;performance&quot;&gt;&lt;/a&gt;&lt;/h3&gt;
+
+&lt;p&gt;At the time of writing this post, the default configured confidences assignment &amp;amp; thresholds shows almost ~3% profit on the past 24 hour time frame with 0.1 BTC volume per trade (in the demo mode, the bot will always &quot;trade&quot; no matter what), with positions executed every 30 mins. Important to note that 06/07/2018 was a relatively non volatile day. The default configs more often than not will result in negative pnl. We do use moderately agressive &lt;a href=&quot;https://github.com/ankitgyawali/bitcoin-trading-bot/blob/master/data/dsl/parameters.json#L108&quot;&gt;fees margin&lt;/a&gt; on our default setup to encourage the cloners to investigate more before actually using the setup to make trades so the actual realized pnl will always be more than what is visualized.&lt;/p&gt;
+
+&lt;p&gt;As mentioned earlier, a recommended way to further improve performance of the default configuration would be to overide current decorators and confidence allocators along with timeframe configurations based on backtesting data to best improve the performance. A well learning model should seek to improve data provided by our &quot;Bot performance&quot; dashboard by tuning the suggested fourth &quot;btc-bfx-indicators*&quot; elastic index.&lt;/p&gt;
+
+&lt;p&gt;Price volume analysis espcially has a lot of &lt;a href=&quot;https://github.com/ankitgyawali/bitcoin-trading-bot/blob/master/data/decorator/price_volume_analysis.js#L125&quot;&gt;room for extension&lt;/a&gt; of indicators like stoic oscillator &amp;amp; dynamic support/resistance lines.&lt;/p&gt;
+
+&lt;h3 id=&quot;heading-2d-expansion-ideas-and-some-caveats-of-the-project&quot;&gt;2D. Expansion ideas and some caveats of the Project&lt;a name=&quot;conclusion&quot;&gt;&lt;/a&gt;&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Because we are indexing data on elasticsearch, the project can be a lot more event oriented with appropriate &lt;a href=&quot;https://www.elastic.co/guide/en/watcher/current/index.html&quot;&gt;watcher&lt;/a&gt; configuration.&lt;/li&gt;
+  &lt;li&gt;We are lacking dynamic indicator configuration currently. Implementation of this could simply be an extension of decorator and few extra calls during initial asynchronous calls to elasticsearch on &lt;code class=&quot;highlighter-rouge&quot;&gt;positions.js&lt;/code&gt; when chain fetching data from configured timeframes.&lt;/li&gt;
+  &lt;li&gt;We haven't implemented a standardized draft for our ingest pipeline. A standardized draft for our prices &amp;amp; trade data index would allow us to ingest data from multiple trading platform like bitmex, gdax etc. An ideal setup would allow us to combine movements from various markets. Example: If there's any FUD news say from Korean markets we could influence the ingest pipeline with OkEx market and have it trade on platforms we consider to be slowest in following the price movements there. This could also potentially be more useful in proactive loss prevention by watching various markets.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;heading-appendix-screenshots&quot;&gt;Appendix: Screenshots&lt;a name=&quot;screenshots&quot;&gt;&lt;/a&gt;&lt;/h2&gt;
+
+&lt;h5 id=&quot;heading-main-dashboard&quot;&gt;Main Dashboard:&lt;/h5&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/img/01-basic-dashboard.png&quot; alt=&quot;Image&quot; /&gt;&lt;/p&gt;
+
+&lt;h5 id=&quot;heading-trade-analysis&quot;&gt;Trade Analysis:&lt;/h5&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/img/02-trade-analysis.png&quot; alt=&quot;Image&quot; /&gt;&lt;/p&gt;
+
+&lt;h5 id=&quot;heading-dsl-models&quot;&gt;DSL Models:&lt;/h5&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/img/03-dsl-model.png&quot; alt=&quot;Image&quot; /&gt;&lt;/p&gt;
+
+&lt;h5 id=&quot;heading-bot-performance&quot;&gt;Bot Performance:&lt;/h5&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/img/04-bot-performance.png&quot; alt=&quot;Image&quot; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;heading-conclusion&quot;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;We were able to create an end to end automated trading bot with relatively less effort thanks to elasticsearch &amp;amp; nodejs! Feel free to leave comments below or open any code related &lt;a href=&quot;https://github.com/ankitgyawali/bitcoin-trading-bot/issues&quot;&gt;issues&lt;/a&gt;.&lt;/p&gt;</content><author><name>mail@ankitgyawali.com</name></author><category term="nodejs" /><category term="elasticsearch" /><category term="cryptocurrency" /><category term="trading" /><category term="stocks" /><category term="bitcoin" /><category term="ethereum" /><summary type="html">This will be a 2 section blog where I will share my findings &amp;amp; strategies while implementing a crypto currency trading bot written in NodeJS. Section 1 will focus more on setting up and use case aspect while Section 2 will describe the code/analysis portion. Link to project code on github Kibana dashboard Screenshots (Imgur mirror) Direct Link to Kibana Dashboards (Username: guest, Password: 012GUE789st!) (At the time of writing this blog all the dashboards should be publicly viewable - however since I am using a trial license of x-pack for authentication it will fail at some point unless I reset it. Thus the screenshots.)</summary></entry><entry><title type="html">Building a PC for first time: Minimizing Bottlenecks</title><link href="http://0.0.0.0:4000/blog/2017/11/29/Yet-another-Ryzen1700-GTX1080-Build/" rel="alternate" type="text/html" title="Building a PC for first time: Minimizing Bottlenecks" /><published>2017-11-29T00:00:00-05:00</published><updated>2017-11-29T00:00:00-05:00</updated><id>http://0.0.0.0:4000/blog/2017/11/29/Yet-another-Ryzen1700-GTX1080-Build</id><content type="html" xml:base="http://0.0.0.0:4000/blog/2017/11/29/Yet-another-Ryzen1700-GTX1080-Build/">&lt;h2 id=&quot;heading-build-category&quot;&gt;Build Category:&lt;/h2&gt;
+&lt;p&gt;When I first decided to build my own PC here were my initial requirements:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Must have good concurrent big data processing capability - as such it must have decent # of physical cores, especially important for processors like logstash which utilize physical cores. example: analyzing data from different sources per callbacks fired from various sockets based on time of the day resulting in non linear data dump.&lt;/li&gt;
+  &lt;li&gt;Must have good machine learning capability - as such it must have decent GPU horsepower.&lt;/li&gt;
+  &lt;li&gt;Must have good response times - Parts must have less bottlenecks, processor should be at least latest gen either from Intel or Ryzen&lt;/li&gt;
+  &lt;li&gt;Must be long lasting, something I can build and run for a while without having to maintain and upgrade parts - as such it must have good cooling/airflow with decent part specs&lt;/li&gt;
+  &lt;li&gt;Don't care about games - as such I had option to better invest the money potentially spent for a 144hz monitor towards better processor or RAM with better clock speed.&lt;/li&gt;
+  &lt;li&gt;Must provide reasonable value per $ spent&lt;/li&gt;
+  &lt;li&gt;Something I realized I wanted after I started to build: System must be overclockable&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;heading-technical-specifications&quot;&gt;Technical Specifications:&lt;/h2&gt;
+&lt;p&gt;The parts I decided to go with:&lt;/p&gt;
+&lt;table class=&quot;pcpp-part-list&quot;&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Type&lt;/th&gt;
+      &lt;th&gt;Item&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td class=&quot;pcpp-part-list-type&quot;&gt;CPU&lt;/td&gt;
+      &lt;td class=&quot;pcpp-part-list-item&quot;&gt;&lt;a href=&quot;https://pcpartpicker.com/product/3kPzK8/amd-ryzen-7-1700-30ghz-8-core-processor-yd1700bbaebox&quot;&gt;AMD - Ryzen 7 1700 3.0GHz 8-Core Processor&lt;/a&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&quot;pcpp-part-list-type&quot;&gt;CPU Cooler&lt;/td&gt;
+      &lt;td class=&quot;pcpp-part-list-item&quot;&gt;&lt;a href=&quot;https://pcpartpicker.com/product/xCL7YJ/noctua-cpu-cooler-nhd15s&quot;&gt;Noctua - NH-D15S 82.5 CFM CPU Cooler&lt;/a&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&quot;pcpp-part-list-type&quot;&gt;Motherboard&lt;/td&gt;
+      &lt;td class=&quot;pcpp-part-list-item&quot;&gt;&lt;a href=&quot;https://pcpartpicker.com/product/LgmxFT/asrock-x370-killer-sliac-atx-am4-motherboard-x370-killer-sliac&quot;&gt;ASRock - X370 KILLER SLI/ac ATX AM4 Motherboard&lt;/a&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&quot;pcpp-part-list-type&quot;&gt;Memory&lt;/td&gt;
+      &lt;td class=&quot;pcpp-part-list-item&quot;&gt;&lt;a href=&quot;https://pcpartpicker.com/product/McH48d/gskill-trident-z-16gb-2-x-8gb-ddr3-3200-memory-f4-3200c14d-16gtzkw&quot;&gt;G.Skill - Trident Z 16GB (2 x 8GB) DDR4-3200 Memory&lt;/a&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&quot;pcpp-part-list-type&quot;&gt;Storage&lt;/td&gt;
+      &lt;td class=&quot;pcpp-part-list-item&quot;&gt;&lt;a href=&quot;https://pcpartpicker.com/product/bh38TW/crucial-mx300-11tb-25-solid-state-drive-ct1050mx300ssd1&quot;&gt;Crucial - MX300 1.1TB 2.5&quot; Solid State Drive&lt;/a&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&quot;pcpp-part-list-type&quot;&gt;Case&lt;/td&gt;
+      &lt;td class=&quot;pcpp-part-list-item&quot;&gt;&lt;a href=&quot;https://pcpartpicker.com/product/Y6Crxr/fractal-design-meshify-c-atx-mid-tower-case-fd-ca-mesh-c-bko-tg&quot;&gt;Fractal Design - Meshify C ATX Mid Tower Case&lt;/a&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&quot;pcpp-part-list-type&quot;&gt;Power Supply&lt;/td&gt;
+      &lt;td class=&quot;pcpp-part-list-item&quot;&gt;&lt;a href=&quot;https://pcpartpicker.com/product/WrNypg/seasonic-focus-plus-gold-650w-80-gold-certified-fully-modular-atx-power-supply-ssr-650fx&quot;&gt;SeaSonic - FOCUS Plus Gold 650W 80+ Gold Certified Fully-Modular ATX Power Supply&lt;/a&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&quot;pcpp-part-list-type&quot;&gt;Case Fan&lt;/td&gt;
+      &lt;td class=&quot;pcpp-part-list-item&quot;&gt;&lt;a href=&quot;https://pcpartpicker.com/product/YLtCmG/corsair-case-fan-co9050017rled&quot;&gt;Corsair - Air Series AF140 Red 66.4 CFM  140mm Fan&lt;/a&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&quot;pcpp-part-list-type&quot;&gt;Case Fan&lt;/td&gt;
+      &lt;td class=&quot;pcpp-part-list-item&quot;&gt;&lt;a href=&quot;https://pcpartpicker.com/product/44yFf7/corsair-case-fan-co9050017pled&quot;&gt;Corsair - Air Series AF140 Purple 66.4 CFM  140mm Fan&lt;/a&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&quot;pcpp-part-list-type&quot;&gt;Other&lt;/td&gt;
+      &lt;td class=&quot;pcpp-part-list-item&quot;&gt;&lt;a href=&quot;https://pcpartpicker.com/product/bkDzK8/asus-geforce-gtx-1080-8gb-rog-strix-graphics-card-strix-gtx1080-a8g-gaming&quot;&gt;ASUS GeForce GTX 1080 8GB ROG STRIX Graphics Card (STRIX-GTX1080-A8G-GAMING)&lt;/a&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&quot;pcpp-part-list-type&quot;&gt;Other&lt;/td&gt;
+      &lt;td class=&quot;pcpp-part-list-item&quot;&gt;&lt;a href=&quot;https://pcpartpicker.com/product/xcmxFT/asus-vz239h-frameless-23-5ms-gtg-ips-widescreen-lcdled-monitors&quot;&gt;ASUS VZ239H Frameless 23” 5ms (GTG) IPS Widescreen LCD/LED Monitors,&lt;/a&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&quot;pcpp-part-list-type&quot;&gt;Other&lt;/td&gt;
+      &lt;td class=&quot;pcpp-part-list-item&quot;&gt;&lt;a href=&quot;https://pcpartpicker.com/product/6vx9TW/wd-easystore-8tb-external-usb-30-hard-drive-black&quot;&gt;WD - easystore® 8TB External USB 3.0 Hard Drive - Black&lt;/a&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td class=&quot;pcpp-part-list-type&quot;&gt;Other&lt;/td&gt;
+      &lt;td class=&quot;pcpp-part-list-item&quot;&gt;&lt;a href=&quot;https://pcpartpicker.com/product/j8VBD3/devastator-ii-led-gaming-keyboard-and-mouse-combo-bundle-with-red-led-edition-by-cooler-master&quot;&gt;Devastator II  LED Gaming Keyboard and Mouse Combo Bundle with Red LED Edition by Cooler Master&lt;/a&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://pcpartpicker.com/list/7kWxXH&quot; target=&quot;_blank&quot;&gt;Final PCPartPicker part list&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;heading-justification-for-choosing-these-parts--other-possible-build-paths&quot;&gt;Justification for choosing these parts &amp;amp; other possible build paths:&lt;/h2&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;&lt;strong&gt;Case&lt;/strong&gt; - As the thing that will hold all of the CPU parts, this was the first thing I researched and ordered when I started building. I initially wanted to get Full Tower Case but after comparing the size with Mid Tower Case- for a personal home build Mid Tower has more than enough space for all the components and Mid Tower gives you a more granular airflow control with your fans compared to full tower.
+I chose Fractal's Meshify C mainly because:
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;- Front has mesh panel, important for systems built with intention of overclocking which requires good airflow.
+- Well reviewed, Easy to build as a first time builder (Scandinavian design)
+- Has tempered glass which I valued as I was already getting a RGB supported motherboard &amp;amp; GPU.
+&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+    &lt;p&gt;Other cases I strongly considered:&lt;/p&gt;
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;- Phanteks Enthoo Pro M: Good airflow. Very similar to mesify C, contains 1x ssd bracket on back while meshify has 2x
+- Phantek P400s: Similar features as above minus good airflow part but with the option of beautiful snow white color which would go beautifully with rgb led schemes.
+- Corsair 540 Case: Unique case (might not be suitable for first time builders) with awesome airflow. My choice if I ever build again.
+&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;CPU&lt;/strong&gt; -  I went with Ryzen 1700 and it's fair to say that I am the most happy with this choice on the build besides my 1TB SSD purchase.&lt;br /&gt;
+Why?
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;- My 1700 is overclocked to 3.7Ghz from default 3.0Ghz by providing mere 0.2v more power from 1.18V to 1.2V. This is 0.1ghz more than what default 1800x provides. 
+- While the CPU binning process might mean you might somewhat be reliant on sillicon lottery, you still get best CPU value &amp;amp; future proof your machine with an 8 core processor.
+(For gaming, look into how directx API will now slowly start utilizing multi cores instead being reliant on per-core performance) 
+As far as longevity of an overclocked processor goes, my 1700 CPU temps are always ~35c because of my Noctua NH-D15 cooler.
+- Easily goes head to head with Ryzen 1700x, 1800x &amp;amp; Intel's 7700, 8700 processors.
+&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+    &lt;p&gt;Other processors I strongly considered:&lt;/p&gt;
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;- Intel 8700k/Intel 7700k: Only putting these in as since they are Ryzen's strong Intel counterpart.
+Never really under my consideration after realizing I would get 2 extra cores &amp;amp; wayy more out of 1700 especially for my use case of big data processing. 
+Important to note: Coffee Lake easily has far superior per core performance compared to stock 1700 besides the 8700k also being overclockable.
+- Ryzen 1800x: These were just higher binned 1700s in my mind. It's worth looking into how CPU binning works if you are building a pc.
+This provides more insights into how sometimes non premiums can actually end up providing more value if you are willing to take the risk. 
+&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Cooler&lt;/strong&gt; - The NH-D15 was reviewed to be the best air cooler in the market. Looking back, I should have chosen the NH-D15s instead of NH-D15 because my CPU's temperatures are so low that I didn't end up needing the extra fan provided by regular NH-D15. Main reason for choosing NH-D15:
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;- One of the best air cooler on market, provides on par cooling performance with liquid cooling.
+- Goes head to head with it's competitors in terms of Db noise produced vs cooling performance.
+- Easy installation compared to coolers like Be Quiet &amp;amp; comes with AM4 compatible goodies needed on a X370 motherboard.
+&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+    &lt;p&gt;Similar Options:&lt;/p&gt;
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Thermalright True Spirit 140: Don't want to spend as much as NH-D15 while getting almost the same performance? Get this.
+be quiet! DARK ROCK 3 SilentWings: If you value silence from air cooler while still overclocking your processor. 
+Liquid cooling: Lots of cool options I would like to look into if i ever build again. Didn't look into too much as a first time builder.
+&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+    &lt;p&gt;Comprehensive comparison of air coolers: &lt;a href=&quot;https://docs.google.com/spreadsheets/d/1xszfg-GNkOKoKZBIpo42cWLtPWg2hmbCcRD0wiCwTiA/edit#gid=0&quot;&gt;Google Doc by FrostyTech&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Motherboard&lt;/strong&gt; - AsRock's X370 Killer SLI/ac, primarily because in addition to having good reviews I liked that it had integrated wifi &amp;amp; audio card, letting me spend the savings towards better clocked RAM. Some other reasons:
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;- Tested to run 3k+ Mhz RAM which is important for Ryzen processor.
+- Overclock friendly BIOS. Minor inconvenience: Load line calibration settings was missing with default BIOS. So I had to spend ~30min flashing the latest BIOS image.
+Well worth considering the improvement in overclocking that provided.
+- Great value per $ spent.
+- 2 M.2 slots, 6 sata ports, 5 fan input pins, and as a bonus contains RGB LEDs on the board!
+&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+    &lt;p&gt;Other Options:&lt;/p&gt;
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;- Asus Prime X370 Pro: Similar to X370, minus the wifi card plus better audio card, 8 sata ports. Also comes with various interesting ASUS-only features worth looking into.
+- GIGABYTE GA-AX370-Gaming: Similar to Asus Prime X370 plus even better audio card.
+- ASUS ROG STRIX X370-F: Premium X370 mobo if you are going all out with the spending, comes with stuff like Aura Sync, lots of output ports, compatiblity with 3d accessories etc.
+&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;RAM&lt;/strong&gt; - I went with G.Skill - Trident Z DDR4-3200 (2 x 8GB), primarily because it was tested to be a Samsung B-Die RAM. After finding RAM had major chance of bottlenecking in Ryzen systems I had to switch my original RAM choice. To check if the RAM is B-Die refer to this &lt;a href=&quot;https://www.reddit.com/r/Amd/comments/62vp2g/clearing_up_any_samsung_bdie_confusion_eg_on/&quot;&gt;reddit thread&lt;/a&gt; - general rule of thumb 32k+ Mhz RAMs will perform well on Ryzen systems. My reason for choosing this were pretty straightforward:
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;- Higher clock speed, lower CAS latency.
+- Is a B Die RAM.
+- Name branch, good value- can be supplemented with 2x8gb more if needed in the future.
+&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+    &lt;p&gt;RAM has multitude of options but I only considered RAMs with at least 3k Mhz clock speed. It's worth referencing the reddit thread shared above when looking for RAM options while building a Ryzen system.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;GPU&lt;/strong&gt; - Settling down on this part needed comparison with the then newly released GPU from AMD - Vega 64. I decided to go with ASUS ROG GeForce GTX 1080 STRIX. Definitely doesn't conform with the spirit of getting best value (but does provide almost cutting edge performance). Some reasons for choosing this GPU over Vega 64:
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;- The 1080 had aftermarket cooler versions available while vega was plagued with heat &amp;amp; sound problems as only reference versions are available.
+- Specifically ASUS strix version because, it has three fans (I intend on using my GPU a lot for processing) so I didn't want any heating issues.
+- Strix actually fit my case unlike MSI GeForce GTX 1080 DirectX 12 GTX 1080 DUKE which seemed really heavy &amp;amp; wide. 
+Since I already had an ugly Noctua NHD15 on my motherboard I wanted to avoid any possible sagging issues with heavy GPU.
+&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+    &lt;p&gt;Similar Options:&lt;/p&gt;
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;- Vega 64: A strong contender. With appropriate drivers release it very might well go head to head with 1080ti eventually. 
+It definitely has beef in the hardware even though it might be lacking in real world benchmarks currently.
+Vega 64 actually has more TFLOPS making it even more appropriate for machine learning, with its only issue being heat &amp;amp; sound until aftermarket cooler versions are available.
+- GTX 1080 ti: Better GTX 1080 if you would like even more horse power on your GPU. 
+&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Storage&lt;/strong&gt; - SSD are such an improvement on day to day performance over HDDs! As a first time SSD user I would definitely not switch back to traditional HDDs (in fact, I was motivated to supplement the HDD on my acer 33BM laptop with a M.2 NVME SSD as boot device with noticable difference- boot times slashed by ~80%!, after building my pc). While most favor 128/256GB SDD + 1TB HDD combo, I decided to go with Crucial's 1TB SSD + 8TB External HD. Reasonings for storage choices:
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;- Having 1TB SSD would mean I wouldn't have to worry about managing/switching files between HDD &amp;amp; SSD.
+- I decided to go with 8TB external HD instead because, I want to have a good chunk of storage readily available to me for archiving big data.
+It's highly likely ill be building a NAS after couple of years so having a 8tb storage handy would be a good start. 
+- The external 8TB HDD would serve as a good offsite backup for my SSD contents.
+- Once I invest on good SSD I can possibly reuse it on future upgrades if I want to. 
+I can always slap on an additional internal HDD for extra storage in the future without much hassle since my boot system is already set up on SSD.
+&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+    &lt;p&gt;Looking back I would probably spend a little more on even premium SSD like Samsungs 256GB EVO M.2 as my booting device hooked directly to my motherboard and 1TB SSD connected to SATA as regular storage. This might not see too much of a performance boost but would be in the spirit of minimizing bottlenecks. Similar Options:&lt;/p&gt;
+    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;- M.2 SSDs w/o NVMe - These can be hooked directly to motherboard, pretty similar in performance with regular SSD.
+- M.2 SSDs w NVMe - Definitely an improvement over SATA based SSDs especially for data transfer. 
+Using this as boot device would mean your boot times would now rely on how fast your motherboard boots into this device slot, which is pretty cool.
+- 7200 RPM HDDs - Traditional HDDs worth using to supplement your build if you decide to go with small capacity SSD.
+&lt;/code&gt;&lt;/pre&gt;
+    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Others&lt;/strong&gt; - Some other parts I bought during this build were, 2x 140mm intake fans(more effecient vs 3x 120mm), a 24&quot; 60Mhz monitor(which will be my secondary monitor if I ever decide to upgrade to a 144hz monitor), an executive chair and LED &quot;mem-chanical&quot; keyboard/mouse to stick with RGB theme.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;heading-conclusion&quot;&gt;Conclusion:&lt;/h2&gt;
+&lt;p&gt;As it stands, currently this build's bottleneck is the monitor i.e my PC boots faster into login screen than my monitor can turn on which is quite nice! ~1 week into it no complaints so far: awesome speed, minimal noise from CPU, low temps and nice to look at.&lt;/p&gt;
+
+&lt;p&gt;It is running a whole ethereum node, Ubuntu Base, couple of other linux VM's, various programming background services like MySQL server, Elasticsearch, Nginx etc without any hiccups!&lt;/p&gt;
+
+&lt;p&gt;Looking back, here are some lessons learned for any possible readers intending to start building soon:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Flesh out the things you would like from your build before you start. There are some cases where Intel build is suitable.&lt;/li&gt;
+  &lt;li&gt;PCPartPicker.com is handy for keeping track of your build progress, you can use one of the build from /r/pcmasterrace &lt;a href=&quot;https://www.reddit.com/r/pcmasterrace/wiki/builds&quot;&gt;wiki&lt;/a&gt; as your baseline and modify the parts according to your needs as you go.&lt;/li&gt;
+  &lt;li&gt;Pay close attention to parts compatibility on your build. Research every parts before you purchase. Your build doesn't necessarily have to be tied to specific SKU/items but items in that category from name brands.&lt;/li&gt;
+  &lt;li&gt;/r/buildapc is a great resource for build questions &amp;amp; reviews.&lt;/li&gt;
+  &lt;li&gt;By timing the build around Cyber Monday/Black friday/Any holiday deals, after mail in rebates it's possible to build a pc around 60-70% (or even less) of regular price which gives the builder choice of using better parts &amp;amp; time to research as the build progresses.&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>mail@ankitgyawali.com</name></author><category term="ryzen" /><category term="gtx 1080" /><category term="pcbuild" /><summary type="html">Build Category: When I first decided to build my own PC here were my initial requirements: Must have good concurrent big data processing capability - as such it must have decent # of physical cores, especially important for processors like logstash which utilize physical cores. example: analyzing data from different sources per callbacks fired from various sockets based on time of the day resulting in non linear data dump. Must have good machine learning capability - as such it must have decent GPU horsepower. Must have good response times - Parts must have less bottlenecks, processor should be at least latest gen either from Intel or Ryzen Must be long lasting, something I can build and run for a while without having to maintain and upgrade parts - as such it must have good cooling/airflow with decent part specs Don't care about games - as such I had option to better invest the money potentially spent for a 144hz monitor towards better processor or RAM with better clock speed. Must provide reasonable value per $ spent Something I realized I wanted after I started to build: System must be overclockable</summary></entry><entry><title type="html">Reddit-analytics: Daily NLP via API on posts from various subreddits to produce data visualization</title><link href="http://0.0.0.0:4000/blog/2017/11/28/Reddit-Analytics-Site/" rel="alternate" type="text/html" title="Reddit-analytics: Daily NLP via API on posts from various subreddits to produce data visualization" /><published>2017-11-28T00:00:00-05:00</published><updated>2017-11-28T00:00:00-05:00</updated><id>http://0.0.0.0:4000/blog/2017/11/28/Reddit-Analytics-Site</id><content type="html" xml:base="http://0.0.0.0:4000/blog/2017/11/28/Reddit-Analytics-Site/">&lt;p&gt;This post will contain recordings of some reflections after deployment of my most recent project, &lt;a href=&quot;https://github.com/ankitgyawali/reddit-analytics&quot;&gt;reddit-analytics&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;heading-idea&quot;&gt;Idea&lt;/h2&gt;
+
+&lt;p&gt;I have been meaning to get my hands dirty with a machine learning related project for a while now. And I was putting it off, telling myself I will actually start a project once I get a new laptop with dedicated GPU until I found a reason not to. (I could always ssh into amazon ec2s dedicated for ml but then, not developing on localhost=puke)&lt;/p&gt;
+
+&lt;p&gt;Enter Rosette API, a NLP as a service provider.&lt;/p&gt;
+
+&lt;p&gt;I found out about it on /r/python while I was browsing for python based ML libraries. I was looking forward to starting a new personal project at the time and this seemed like the perfect gateway into machine learning since I would get to learn and use the power of NLP without having to deploy classifier (although implementing and fine tuning the classifier would be more valuable from knowledge gain perspective). My rough estimation showed that the free tier provided by Rosette API, 10k free calls every month was enough for the project. I would eventually then switch from Rosette API by running a native NLP classifier on one of my reliable ec2 instances.&lt;/p&gt;
+
+&lt;p&gt;Thus &lt;code class=&quot;highlighter-rouge&quot;&gt;reddit-analytics&lt;/code&gt; came to fruition.&lt;/p&gt;
+
+&lt;h2 id=&quot;heading-implementation&quot;&gt;Implementation&lt;/h2&gt;
+
+&lt;p&gt;The implementation portion turned out to be simple, my rough time estimate: I probably spent around 150 hours on the project. Not bad considering in between those hours probably around mid project was a gap of ~1.5 months. I couldn't complete &lt;code class=&quot;highlighter-rouge&quot;&gt;reddit-analytics&lt;/code&gt; on one sprint of coding session over weeks because I had to switch my contracting job in between. This break slowed my velocity &amp;amp; my intentions towards the project. Oops!&lt;/p&gt;
+
+&lt;p&gt;When I first started out, I had just finished &lt;code class=&quot;highlighter-rouge&quot;&gt;reddit-timestamp-bot&lt;/code&gt; project, and in my mind I was looking to explore other cool stuff that could be done with reddit's API. As soon as I started looking into Rosette API and consequently NLPs, I realized I wanted to do time based analysis on reddit's post.&lt;/p&gt;
+
+&lt;p&gt;A quick google fu returned search results that had similar projects ideas but they were not time based analysis, not exactly what I was looking for. I finally double checked /r/dataisbeautiful &amp;amp; /r/internetisbeautiful just to be sure I wasn't re-inventing something. My project idea simple: &lt;code class=&quot;highlighter-rouge&quot;&gt;reddit-analytics&lt;/code&gt; would serve as a tool for various moderators of subreddit, to perform easy analytics on their subreddit data by letting them query against time based metadata about their subreddit posts.&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Eventually, I would realize time based analysis can be done much easily with ELK stack by elastic.co. Kibana does an awesome job of visualizing your data while providing decent granularity on the visuals. But the Tradeoff of using kibana versus implementing your own visuals being something along the lines of: If your data is a distant star, and analytics is your telescope, would you like to buy a set of most commonly used lens to look into your data, or would you like to create your own lens from scratch so you control every bit of that telescope's processing?&lt;/em&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;heading-further-implementation-details&quot;&gt;Further Implementation Details:&lt;/h3&gt;
+
+&lt;h4 id=&quot;heading-i-wrote-up-a-scraper-using-python-why-python-instead-of-node-js&quot;&gt;I wrote up a scraper using python. Why python instead of node js?&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;It was a batch type scraping that didnt need node's asynchonisity goodness&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;praw&lt;/code&gt; seemed better to interact with reddit api compared to some npm module I found&lt;/li&gt;
+  &lt;li&gt;python has native sqlite binding, so it can easily initialize the metadata table and store the metadata in chunks throughout the day without dependencies. (I indexed the timestamp field, since our only lookups are going to be based off of timestamps.)&lt;/li&gt;
+  &lt;li&gt;Reproducibility - If some data scientist who is not a web dev by profession wants to use just the scraper, they most likely will have an easier time setting it up via python.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;heading-i-wrote-the-api-using-node-js-why-node-js-instead-of-python&quot;&gt;I wrote the API using node js. Why node js instead of python?&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;Node js is much more suited for writing API's with easy middleware integration and async tasks to query the database.&lt;/li&gt;
+  &lt;li&gt;I implemented a simple caching layer on top of Node JS APIs so the database query would get cached every hour.&lt;/li&gt;
+  &lt;li&gt;Eventually it would be easy to scale the API's with login system or combine it with other microservice.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;heading-i-wrote-the-front-end-using-angularjs-why&quot;&gt;I wrote the Front End using Angular.js. Why?&lt;/h4&gt;
+&lt;ul&gt;
+  &lt;li&gt;While I could have stuck with vannilla javascript and d3.js, I wasn't looking forward to setting everything up myself manually. This project was intended for me to learn about NLP not front end technologies!&lt;/li&gt;
+  &lt;li&gt;Angualr js has awesome d3 &amp;amp; nvd3 bindings.&lt;/li&gt;
+  &lt;li&gt;The application would be a SPA.&lt;/li&gt;
+  &lt;li&gt;Some details about front end:
+    &lt;ul&gt;
+      &lt;li&gt;I spent the most time writing the factories and controller for data visualization. The angular app itself has logic to cache the cached data from API into localstorage and  check if the data is stale to optimize our data flow further.&lt;/li&gt;
+      &lt;li&gt;The angular app is divided into various factories which does chunks of jobs: dataprocessorfactory (normalize api data), charftactory(convert normalized data to chart compatible object), datadecoratorfactory(provide green/red or other colors based on sentiments) and controllers that actually uses those factory to load the data into graph.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;heading-setting-up-the-application&quot;&gt;Setting up the application:&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;The python scraper runs as a cron job every 8 hours (yay &lt;code class=&quot;highlighter-rouge&quot;&gt;crontab -e&lt;/code&gt;), dumping metadata into a sqlite database.&lt;/li&gt;
+  &lt;li&gt;The API runs with &lt;code class=&quot;highlighter-rouge&quot;&gt;pm2&lt;/code&gt; an awesome node process manager.&lt;/li&gt;
+  &lt;li&gt;The files are hosted on an amazon &lt;code class=&quot;highlighter-rouge&quot;&gt;ec2&lt;/code&gt; instance behind an &lt;code class=&quot;highlighter-rouge&quot;&gt;elb&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;heading-findings-about-reddit-comments&quot;&gt;Findings about reddit comments:&lt;/h3&gt;
+
+&lt;p&gt;Any interesting results from the weekly analysis? Yes.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Comments on &lt;code class=&quot;highlighter-rouge&quot;&gt;/r/politics&lt;/code&gt; &amp;amp; &lt;code class=&quot;highlighter-rouge&quot;&gt;/r/worldnews&lt;/code&gt; were categorized with high number of &lt;strong&gt;neutral&lt;/strong&gt; comments. On the other side &lt;code class=&quot;highlighter-rouge&quot;&gt;/r/videos&lt;/code&gt; usually encouraged &lt;strong&gt;positive&lt;/strong&gt; comments while, comments on &lt;code class=&quot;highlighter-rouge&quot;&gt;/r/askreddit&lt;/code&gt; were mostly either &lt;strong&gt;negative&lt;/strong&gt; or &lt;strong&gt;positive&lt;/strong&gt;. Quick follow up on askreddit posts for negative visuals showed, the askreddit questions were somewhat morbid questions(!) with similar answers or had a lot of good natured self depreating humour in comments that were categorized as negative.&lt;/li&gt;
+  &lt;li&gt;Around, thanksgiving time, the number of &quot;green&quot; comments in &lt;code class=&quot;highlighter-rouge&quot;&gt;/r/all&lt;/code&gt; was higher than other week's timesets. It will be interesting to see if the trends for various subreddits that appeared on the timeset of thanksgiving week appear again on timeset of christmas week!&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;heading-reflections&quot;&gt;Reflections&lt;/h2&gt;
+
+&lt;p&gt;Looking back this was a valuable project because it made me realize couple of important things that might be worh sharing:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;Machinelearning is fun &amp;amp; powerful! I knew that, we all know that. But harnessing classifiers as API based service so its easily available to all the hobbyists would be even more useful. This was a very small subset of use case, and we were able to create such a powerful tool with only ~150 hours spent! I think one of the main things that's stopping people from doing ML related projects is computing hosepower required for good classifier (aside from the willingness to spend time learning &amp;amp; fine tuning ML techniques). 
+&lt;em&gt;If those are abstracted out as a simple API service and documentation so every John Doe can come up with and implement project ideas we would have a bigger pool of ml related projects.&lt;/em&gt;&lt;/p&gt;
+
+    &lt;p&gt;Obviously API based classifiers wouldn't provide the enthusiasts fine grained level of control that running your own classifier would but it would get them drawing projects nonetheless.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Exercising with complex json schema structure is a good practice to identify possible ways you can visualize your data. Consequently, it is important to design &amp;amp; determine the nestedness and overall strcuture for your data so it can eventually be used in a verstaile way by referencing it directly instead of having to clone it under a different structure. Usually, analytics involve decent amount of data and optimizing is important if the plan is to do the data processing on fron-end browser instead of server.&lt;/li&gt;
+  &lt;li&gt;Importance of modular programming, because sometimes life happens and you might have to take a break during your project!&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;heading-links&quot;&gt;Links&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/ankitgyawali/reddit-analytics&quot;&gt;Github&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://reddit-analytics.us&quot;&gt;Actual Site&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name>mail@ankitgyawali.com</name></author><category term="reddit" /><category term="data" /><category term="angularjs" /><category term="nodejs" /><summary type="html">This post will contain recordings of some reflections after deployment of my most recent project, reddit-analytics.</summary></entry></feed>

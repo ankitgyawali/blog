@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+<!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Building a PC for first time: Minimizing Bottlenecks | Ankit Gyawali&#39;s Blog</title>
+<meta name="generator" content="Jekyll v3.5.2" />
+<meta property="og:title" content="Building a PC for first time: Minimizing Bottlenecks" />
+<meta name="author" content="mail@ankitgyawali.com" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="Things I experienced while building a dedicated workstation for data analytics for first time." />
+<meta property="og:description" content="Things I experienced while building a dedicated workstation for data analytics for first time." />
+<link rel="canonical" href="http://0.0.0.0:4000/blog/2017/11/29/Yet-another-Ryzen1700-GTX1080-Build/" />
+<meta property="og:url" content="http://0.0.0.0:4000/blog/2017/11/29/Yet-another-Ryzen1700-GTX1080-Build/" />
+<meta property="og:site_name" content="Ankit Gyawali&#39;s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-11-29T00:00:00-05:00" />
+<script type="application/ld+json">
+{"description":"Things I experienced while building a dedicated workstation for data analytics for first time.","author":{"@type":"Person","name":"mail@ankitgyawali.com"},"@type":"BlogPosting","url":"http://0.0.0.0:4000/blog/2017/11/29/Yet-another-Ryzen1700-GTX1080-Build/","headline":"Building a PC for first time: Minimizing Bottlenecks","dateModified":"2017-11-29T00:00:00-05:00","datePublished":"2017-11-29T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://0.0.0.0:4000/blog/2017/11/29/Yet-another-Ryzen1700-GTX1080-Build/"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+<meta name="keywords" content="ryzen,gtx 1080,pcbuild" />
+
+
+
+
+
+<link type="application/atom+xml" rel="alternate" href="http://0.0.0.0:4000/feed.xml" title="Ankit Gyawali's Blog" />
+    <link href='/assets/stylesheets/blog.css' rel="stylesheet" type="text/css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+<script>window.Modernizr || document.write('<script src="/assets/javascripts/modernizr-2.8.3.min.js"><\/script>')</script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+    window.jQuery || document.write('<script src="/assets/javascripts/jquery-3.2.1.min.js"><\/script>')
+</script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+<script>
+    window.Pace || document.write('<script src="/assets/javascripts/pace.min.js"><\/script>')
+</script>
+
+
+</head>
+
+<body>
+    <!--[if IE]>
+    <p class="site-notice">You are using an outdated browser. Please <a href="http://browsehappy.com/" target="_blank">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true" target="_blank">activate Google Chrome Frame</a> to improve your experience.</p>
+<![endif]-->
+<noscript>
+    <p class="site-notice">This site requires JavaScript. Here are the instructions <a href="http://www.enable-javascript.com/" target="_blank">how to enable JavaScript in your web browser</a>.</p>
+</noscript>
+
+    <div class="nav-wrapper overlay-wrapper">
+    <div class="nav-form overlay-form">
+        <span class="overlay-header menu">Menu</span>
+        <a class="btn-close">Close</a>
+        <div class="results">
+            <ul>
+                <li><a href="/blog/categories/">Categories</a></li>
+                <li><a href="/blog/tags/">Tags</a></li>
+                <li><a href="/">About</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="search-wrapper overlay-wrapper">
+    <div class="search-form overlay-form">
+        <input type="text" class="overlay-header search-field" placeholder="Search...">
+        <a class="btn-close">Close</a>
+        <ul class="results"></ul>
+    </div>
+</div>
+
+
+    <div id="page" class="hentry">
+        <header class="the-header">
+    <div class="unit-head">
+        <div class="unit-inner unit-head-inner">
+            <nav class="nav-global">
+                <ul>
+                    <li class="logo nav-link">
+                        <button class="btn-menu" title="Menu"></button>
+                        <a href="/blog/">Ankit Gyawali's Blog</a>
+                        <!--[if !IE]> -->
+                        <button class="btn-search" title="Search"></button>
+                        <!-- <![endif]-->
+                    </li>
+                    <li class="nav-link"><a title="Categories" href="/blog/categories/">Categories</a></li>
+                    <li class="nav-link"><a title="Tags" href="/blog/tags/">Tags</a></li>
+                    <!--[if !IE]> -->
+                    <li class="nav-link"><a title="Search" class="btn-search" href="#">Search</a></li>
+                    <!-- <![endif]-->
+                </ul>
+            </nav>
+        </div>
+    </div>
+</header>
+
+
+        <div class="body animated fadeInDown" role="main">
+            <div class="unit-body">
+                <div class="unit-inner unit-body-inner">
+                    <div class="entry-content">
+                        <article class="unit-article layout-post">
+    <div class="unit-inner unit-article-inner">
+        <div itemscope itemtype="http://schema.org/Article" class="content">
+            <header>
+                <div class="unit-head">
+                    <div class="unit-inner unit-head-inner">
+                        <h1 class="entry-title" itemprop="name">Building a PC for first time: Minimizing Bottlenecks</h1>
+                    </div>
+                </div>
+            </header>
+            <div class="bd article-content">
+                <div class="entry-content">
+                    <div class="meta">
+                        <p class="date-publish">
+                            Published:
+                            <time itemprop="datePublished" class="date-pub updated"
+                                title="2017-11-29T00:00:00-05:00" datetime="2017-11-29T00:00:00-05:00">November 29, 2017 </time>
+                            by
+                            <a class="author" href="/" rel="author" title="Show Author">
+                                <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+                                    <span itemprop="name">mail@ankitgyawali.com</span>
+                                </span>
+                            </a>
+                            
+                                <a class="license-icon" rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank" title="Show License">
+                                    <img alt="Creative Commons Licence" style="border-width:0" src="/assets/images/theme/cc-by-sa.png"  height="16" width="80"/>
+                                </a>
+                            
+                            
+                        </p>
+                        <ul class="list-category list-linear">
+                            <li class="list-head">Categories: </li>
+                             
+     
+        <li>
+            <a href="/blog/categories/#hardware" title="hardware">
+            hardware <span>1</span></a>
+        </li>
+    
+
+
+
+                        </ul>
+                        <ul class="list-tag list-linear">
+                            <li class="list-head">Tags: </li>
+                             
+    
+        
+        <li>
+            <a href="/blog/tags/#gtx-1080" title="gtx 1080">gtx 1080 <span>1</span></a>
+        </li>
+    
+        
+        <li>
+            <a href="/blog/tags/#pcbuild" title="pcbuild">pcbuild <span>1</span></a>
+        </li>
+    
+        
+        <li>
+            <a href="/blog/tags/#ryzen" title="ryzen">ryzen <span>1</span></a>
+        </li>
+    
+
+
+
+
+                        </ul>
+                    </div>
+                    <div itemprop="articleBody">
+                        <h2 id="heading-build-category">Build Category:</h2>
+<p>When I first decided to build my own PC here were my initial requirements:</p>
+<ul>
+  <li>Must have good concurrent big data processing capability - as such it must have decent # of physical cores, especially important for processors like logstash which utilize physical cores. example: analyzing data from different sources per callbacks fired from various sockets based on time of the day resulting in non linear data dump.</li>
+  <li>Must have good machine learning capability - as such it must have decent GPU horsepower.</li>
+  <li>Must have good response times - Parts must have less bottlenecks, processor should be at least latest gen either from Intel or Ryzen</li>
+  <li>Must be long lasting, something I can build and run for a while without having to maintain and upgrade parts - as such it must have good cooling/airflow with decent part specs</li>
+  <li>Don't care about games - as such I had option to better invest the money potentially spent for a 144hz monitor towards better processor or RAM with better clock speed.</li>
+  <li>Must provide reasonable value per $ spent</li>
+  <li>Something I realized I wanted after I started to build: System must be overclockable</li>
+</ul>
+
+<h2 id="heading-technical-specifications">Technical Specifications:</h2>
+<p>The parts I decided to go with:</p>
+<table class="pcpp-part-list">
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Item</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="pcpp-part-list-type">CPU</td>
+      <td class="pcpp-part-list-item"><a href="https://pcpartpicker.com/product/3kPzK8/amd-ryzen-7-1700-30ghz-8-core-processor-yd1700bbaebox">AMD - Ryzen 7 1700 3.0GHz 8-Core Processor</a></td>
+    </tr>
+    <tr>
+      <td class="pcpp-part-list-type">CPU Cooler</td>
+      <td class="pcpp-part-list-item"><a href="https://pcpartpicker.com/product/xCL7YJ/noctua-cpu-cooler-nhd15s">Noctua - NH-D15S 82.5 CFM CPU Cooler</a></td>
+    </tr>
+    <tr>
+      <td class="pcpp-part-list-type">Motherboard</td>
+      <td class="pcpp-part-list-item"><a href="https://pcpartpicker.com/product/LgmxFT/asrock-x370-killer-sliac-atx-am4-motherboard-x370-killer-sliac">ASRock - X370 KILLER SLI/ac ATX AM4 Motherboard</a></td>
+    </tr>
+    <tr>
+      <td class="pcpp-part-list-type">Memory</td>
+      <td class="pcpp-part-list-item"><a href="https://pcpartpicker.com/product/McH48d/gskill-trident-z-16gb-2-x-8gb-ddr3-3200-memory-f4-3200c14d-16gtzkw">G.Skill - Trident Z 16GB (2 x 8GB) DDR4-3200 Memory</a></td>
+    </tr>
+    <tr>
+      <td class="pcpp-part-list-type">Storage</td>
+      <td class="pcpp-part-list-item"><a href="https://pcpartpicker.com/product/bh38TW/crucial-mx300-11tb-25-solid-state-drive-ct1050mx300ssd1">Crucial - MX300 1.1TB 2.5" Solid State Drive</a></td>
+    </tr>
+    <tr>
+      <td class="pcpp-part-list-type">Case</td>
+      <td class="pcpp-part-list-item"><a href="https://pcpartpicker.com/product/Y6Crxr/fractal-design-meshify-c-atx-mid-tower-case-fd-ca-mesh-c-bko-tg">Fractal Design - Meshify C ATX Mid Tower Case</a></td>
+    </tr>
+    <tr>
+      <td class="pcpp-part-list-type">Power Supply</td>
+      <td class="pcpp-part-list-item"><a href="https://pcpartpicker.com/product/WrNypg/seasonic-focus-plus-gold-650w-80-gold-certified-fully-modular-atx-power-supply-ssr-650fx">SeaSonic - FOCUS Plus Gold 650W 80+ Gold Certified Fully-Modular ATX Power Supply</a></td>
+    </tr>
+    <tr>
+      <td class="pcpp-part-list-type">Case Fan</td>
+      <td class="pcpp-part-list-item"><a href="https://pcpartpicker.com/product/YLtCmG/corsair-case-fan-co9050017rled">Corsair - Air Series AF140 Red 66.4 CFM  140mm Fan</a></td>
+    </tr>
+    <tr>
+      <td class="pcpp-part-list-type">Case Fan</td>
+      <td class="pcpp-part-list-item"><a href="https://pcpartpicker.com/product/44yFf7/corsair-case-fan-co9050017pled">Corsair - Air Series AF140 Purple 66.4 CFM  140mm Fan</a></td>
+    </tr>
+    <tr>
+      <td class="pcpp-part-list-type">Other</td>
+      <td class="pcpp-part-list-item"><a href="https://pcpartpicker.com/product/bkDzK8/asus-geforce-gtx-1080-8gb-rog-strix-graphics-card-strix-gtx1080-a8g-gaming">ASUS GeForce GTX 1080 8GB ROG STRIX Graphics Card (STRIX-GTX1080-A8G-GAMING)</a></td>
+    </tr>
+    <tr>
+      <td class="pcpp-part-list-type">Other</td>
+      <td class="pcpp-part-list-item"><a href="https://pcpartpicker.com/product/xcmxFT/asus-vz239h-frameless-23-5ms-gtg-ips-widescreen-lcdled-monitors">ASUS VZ239H Frameless 23” 5ms (GTG) IPS Widescreen LCD/LED Monitors,</a></td>
+    </tr>
+    <tr>
+      <td class="pcpp-part-list-type">Other</td>
+      <td class="pcpp-part-list-item"><a href="https://pcpartpicker.com/product/6vx9TW/wd-easystore-8tb-external-usb-30-hard-drive-black">WD - easystore® 8TB External USB 3.0 Hard Drive - Black</a></td>
+    </tr>
+    <tr>
+      <td class="pcpp-part-list-type">Other</td>
+      <td class="pcpp-part-list-item"><a href="https://pcpartpicker.com/product/j8VBD3/devastator-ii-led-gaming-keyboard-and-mouse-combo-bundle-with-red-led-edition-by-cooler-master">Devastator II  LED Gaming Keyboard and Mouse Combo Bundle with Red LED Edition by Cooler Master</a></td>
+    </tr>
+
+  </tbody>
+</table>
+
+<p><a href="https://pcpartpicker.com/list/7kWxXH" target="_blank">Final PCPartPicker part list</a></p>
+
+<h2 id="heading-justification-for-choosing-these-parts--other-possible-build-paths">Justification for choosing these parts &amp; other possible build paths:</h2>
+
+<ol>
+  <li><strong>Case</strong> - As the thing that will hold all of the CPU parts, this was the first thing I researched and ordered when I started building. I initially wanted to get Full Tower Case but after comparing the size with Mid Tower Case- for a personal home build Mid Tower has more than enough space for all the components and Mid Tower gives you a more granular airflow control with your fans compared to full tower.
+I chose Fractal's Meshify C mainly because:
+    <div class="highlighter-rouge"><pre class="highlight"><code>- Front has mesh panel, important for systems built with intention of overclocking which requires good airflow.
+- Well reviewed, Easy to build as a first time builder (Scandinavian design)
+- Has tempered glass which I valued as I was already getting a RGB supported motherboard &amp; GPU.
+</code></pre>
+    </div>
+    <p>Other cases I strongly considered:</p>
+    <div class="highlighter-rouge"><pre class="highlight"><code>- Phanteks Enthoo Pro M: Good airflow. Very similar to mesify C, contains 1x ssd bracket on back while meshify has 2x
+- Phantek P400s: Similar features as above minus good airflow part but with the option of beautiful snow white color which would go beautifully with rgb led schemes.
+- Corsair 540 Case: Unique case (might not be suitable for first time builders) with awesome airflow. My choice if I ever build again.
+</code></pre>
+    </div>
+  </li>
+  <li><strong>CPU</strong> -  I went with Ryzen 1700 and it's fair to say that I am the most happy with this choice on the build besides my 1TB SSD purchase.<br />
+Why?
+    <div class="highlighter-rouge"><pre class="highlight"><code>- My 1700 is overclocked to 3.7Ghz from default 3.0Ghz by providing mere 0.2v more power from 1.18V to 1.2V. This is 0.1ghz more than what default 1800x provides. 
+- While the CPU binning process might mean you might somewhat be reliant on sillicon lottery, you still get best CPU value &amp; future proof your machine with an 8 core processor.
+(For gaming, look into how directx API will now slowly start utilizing multi cores instead being reliant on per-core performance) 
+As far as longevity of an overclocked processor goes, my 1700 CPU temps are always ~35c because of my Noctua NH-D15 cooler.
+- Easily goes head to head with Ryzen 1700x, 1800x &amp; Intel's 7700, 8700 processors.
+</code></pre>
+    </div>
+    <p>Other processors I strongly considered:</p>
+    <div class="highlighter-rouge"><pre class="highlight"><code>- Intel 8700k/Intel 7700k: Only putting these in as since they are Ryzen's strong Intel counterpart.
+Never really under my consideration after realizing I would get 2 extra cores &amp; wayy more out of 1700 especially for my use case of big data processing. 
+Important to note: Coffee Lake easily has far superior per core performance compared to stock 1700 besides the 8700k also being overclockable.
+- Ryzen 1800x: These were just higher binned 1700s in my mind. It's worth looking into how CPU binning works if you are building a pc.
+This provides more insights into how sometimes non premiums can actually end up providing more value if you are willing to take the risk. 
+</code></pre>
+    </div>
+  </li>
+  <li><strong>Cooler</strong> - The NH-D15 was reviewed to be the best air cooler in the market. Looking back, I should have chosen the NH-D15s instead of NH-D15 because my CPU's temperatures are so low that I didn't end up needing the extra fan provided by regular NH-D15. Main reason for choosing NH-D15:
+    <div class="highlighter-rouge"><pre class="highlight"><code>- One of the best air cooler on market, provides on par cooling performance with liquid cooling.
+- Goes head to head with it's competitors in terms of Db noise produced vs cooling performance.
+- Easy installation compared to coolers like Be Quiet &amp; comes with AM4 compatible goodies needed on a X370 motherboard.
+</code></pre>
+    </div>
+    <p>Similar Options:</p>
+    <div class="highlighter-rouge"><pre class="highlight"><code>Thermalright True Spirit 140: Don't want to spend as much as NH-D15 while getting almost the same performance? Get this.
+be quiet! DARK ROCK 3 SilentWings: If you value silence from air cooler while still overclocking your processor. 
+Liquid cooling: Lots of cool options I would like to look into if i ever build again. Didn't look into too much as a first time builder.
+</code></pre>
+    </div>
+    <p>Comprehensive comparison of air coolers: <a href="https://docs.google.com/spreadsheets/d/1xszfg-GNkOKoKZBIpo42cWLtPWg2hmbCcRD0wiCwTiA/edit#gid=0">Google Doc by FrostyTech</a></p>
+  </li>
+  <li><strong>Motherboard</strong> - AsRock's X370 Killer SLI/ac, primarily because in addition to having good reviews I liked that it had integrated wifi &amp; audio card, letting me spend the savings towards better clocked RAM. Some other reasons:
+    <div class="highlighter-rouge"><pre class="highlight"><code>- Tested to run 3k+ Mhz RAM which is important for Ryzen processor.
+- Overclock friendly BIOS. Minor inconvenience: Load line calibration settings was missing with default BIOS. So I had to spend ~30min flashing the latest BIOS image.
+Well worth considering the improvement in overclocking that provided.
+- Great value per $ spent.
+- 2 M.2 slots, 6 sata ports, 5 fan input pins, and as a bonus contains RGB LEDs on the board!
+</code></pre>
+    </div>
+    <p>Other Options:</p>
+    <div class="highlighter-rouge"><pre class="highlight"><code>- Asus Prime X370 Pro: Similar to X370, minus the wifi card plus better audio card, 8 sata ports. Also comes with various interesting ASUS-only features worth looking into.
+- GIGABYTE GA-AX370-Gaming: Similar to Asus Prime X370 plus even better audio card.
+- ASUS ROG STRIX X370-F: Premium X370 mobo if you are going all out with the spending, comes with stuff like Aura Sync, lots of output ports, compatiblity with 3d accessories etc.
+</code></pre>
+    </div>
+  </li>
+  <li><strong>RAM</strong> - I went with G.Skill - Trident Z DDR4-3200 (2 x 8GB), primarily because it was tested to be a Samsung B-Die RAM. After finding RAM had major chance of bottlenecking in Ryzen systems I had to switch my original RAM choice. To check if the RAM is B-Die refer to this <a href="https://www.reddit.com/r/Amd/comments/62vp2g/clearing_up_any_samsung_bdie_confusion_eg_on/">reddit thread</a> - general rule of thumb 32k+ Mhz RAMs will perform well on Ryzen systems. My reason for choosing this were pretty straightforward:
+    <div class="highlighter-rouge"><pre class="highlight"><code>- Higher clock speed, lower CAS latency.
+- Is a B Die RAM.
+- Name branch, good value- can be supplemented with 2x8gb more if needed in the future.
+</code></pre>
+    </div>
+    <p>RAM has multitude of options but I only considered RAMs with at least 3k Mhz clock speed. It's worth referencing the reddit thread shared above when looking for RAM options while building a Ryzen system.</p>
+  </li>
+  <li><strong>GPU</strong> - Settling down on this part needed comparison with the then newly released GPU from AMD - Vega 64. I decided to go with ASUS ROG GeForce GTX 1080 STRIX. Definitely doesn't conform with the spirit of getting best value (but does provide almost cutting edge performance). Some reasons for choosing this GPU over Vega 64:
+    <div class="highlighter-rouge"><pre class="highlight"><code>- The 1080 had aftermarket cooler versions available while vega was plagued with heat &amp; sound problems as only reference versions are available.
+- Specifically ASUS strix version because, it has three fans (I intend on using my GPU a lot for processing) so I didn't want any heating issues.
+- Strix actually fit my case unlike MSI GeForce GTX 1080 DirectX 12 GTX 1080 DUKE which seemed really heavy &amp; wide. 
+Since I already had an ugly Noctua NHD15 on my motherboard I wanted to avoid any possible sagging issues with heavy GPU.
+</code></pre>
+    </div>
+    <p>Similar Options:</p>
+    <div class="highlighter-rouge"><pre class="highlight"><code>- Vega 64: A strong contender. With appropriate drivers release it very might well go head to head with 1080ti eventually. 
+It definitely has beef in the hardware even though it might be lacking in real world benchmarks currently.
+Vega 64 actually has more TFLOPS making it even more appropriate for machine learning, with its only issue being heat &amp; sound until aftermarket cooler versions are available.
+- GTX 1080 ti: Better GTX 1080 if you would like even more horse power on your GPU. 
+</code></pre>
+    </div>
+  </li>
+  <li><strong>Storage</strong> - SSD are such an improvement on day to day performance over HDDs! As a first time SSD user I would definitely not switch back to traditional HDDs (in fact, I was motivated to supplement the HDD on my acer 33BM laptop with a M.2 NVME SSD as boot device with noticable difference- boot times slashed by ~80%!, after building my pc). While most favor 128/256GB SDD + 1TB HDD combo, I decided to go with Crucial's 1TB SSD + 8TB External HD. Reasonings for storage choices:
+    <div class="highlighter-rouge"><pre class="highlight"><code>- Having 1TB SSD would mean I wouldn't have to worry about managing/switching files between HDD &amp; SSD.
+- I decided to go with 8TB external HD instead because, I want to have a good chunk of storage readily available to me for archiving big data.
+It's highly likely ill be building a NAS after couple of years so having a 8tb storage handy would be a good start. 
+- The external 8TB HDD would serve as a good offsite backup for my SSD contents.
+- Once I invest on good SSD I can possibly reuse it on future upgrades if I want to. 
+I can always slap on an additional internal HDD for extra storage in the future without much hassle since my boot system is already set up on SSD.
+</code></pre>
+    </div>
+    <p>Looking back I would probably spend a little more on even premium SSD like Samsungs 256GB EVO M.2 as my booting device hooked directly to my motherboard and 1TB SSD connected to SATA as regular storage. This might not see too much of a performance boost but would be in the spirit of minimizing bottlenecks. Similar Options:</p>
+    <div class="highlighter-rouge"><pre class="highlight"><code>- M.2 SSDs w/o NVMe - These can be hooked directly to motherboard, pretty similar in performance with regular SSD.
+- M.2 SSDs w NVMe - Definitely an improvement over SATA based SSDs especially for data transfer. 
+Using this as boot device would mean your boot times would now rely on how fast your motherboard boots into this device slot, which is pretty cool.
+- 7200 RPM HDDs - Traditional HDDs worth using to supplement your build if you decide to go with small capacity SSD.
+</code></pre>
+    </div>
+  </li>
+  <li><strong>Others</strong> - Some other parts I bought during this build were, 2x 140mm intake fans(more effecient vs 3x 120mm), a 24" 60Mhz monitor(which will be my secondary monitor if I ever decide to upgrade to a 144hz monitor), an executive chair and LED "mem-chanical" keyboard/mouse to stick with RGB theme.</li>
+</ol>
+
+<h2 id="heading-conclusion">Conclusion:</h2>
+<p>As it stands, currently this build's bottleneck is the monitor i.e my PC boots faster into login screen than my monitor can turn on which is quite nice! ~1 week into it no complaints so far: awesome speed, minimal noise from CPU, low temps and nice to look at.</p>
+
+<p>It is running a whole ethereum node, Ubuntu Base, couple of other linux VM's, various programming background services like MySQL server, Elasticsearch, Nginx etc without any hiccups!</p>
+
+<p>Looking back, here are some lessons learned for any possible readers intending to start building soon:</p>
+<ul>
+  <li>Flesh out the things you would like from your build before you start. There are some cases where Intel build is suitable.</li>
+  <li>PCPartPicker.com is handy for keeping track of your build progress, you can use one of the build from /r/pcmasterrace <a href="https://www.reddit.com/r/pcmasterrace/wiki/builds">wiki</a> as your baseline and modify the parts according to your needs as you go.</li>
+  <li>Pay close attention to parts compatibility on your build. Research every parts before you purchase. Your build doesn't necessarily have to be tied to specific SKU/items but items in that category from name brands.</li>
+  <li>/r/buildapc is a great resource for build questions &amp; reviews.</li>
+  <li>By timing the build around Cyber Monday/Black friday/Any holiday deals, after mail in rebates it's possible to build a pc around 60-70% (or even less) of regular price which gives the builder choice of using better parts &amp; time to research as the build progresses.</li>
+</ul>
+
+                    </div>
+                </div>
+            </div>
+            <footer class="unit-foot">
+                <div class="unit-inner unit-foot-inner">
+                    <div class="post-buttons">
+                        <a class="internal gotop" href="#page" title="Back to Top">Back to Top</a>
+                        
+                            <div class="addthis_toolbox addthis_default_style addthis_32x32_style">
+    <small class="label">Share Post:</small>
+    <a class="btn-share-post addthis_button_email"></a>
+    <a class="btn-share-post addthis_button_facebook"></a>
+    <a class="btn-share-post addthis_button_google_plusone_share"></a>
+    <a class="btn-share-post addthis_button_reddit"></a>
+    <a class="btn-share-post addthis_button_twitter"></a>
+</div>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5cb6920401f6b643"></script>
+                        
+                    </div>
+                    <nav class="pagination">
+                        
+                            <a class="internal" rel="prev" href="/blog/2017/11/28/Reddit-Analytics-Site/" title=" 'Reddit-analytics: Daily NLP via API on posts from various subreddits to produce data visualization'"> ← Reddit-analytics: Daily NLP via API on posts from various subreddits to produce data visualization</a>
+                        
+                        
+                            <a class="internal" rel="next" href="/blog/2018/06/10/Bitcoin-Trading-Bot/" title="Next Post 'Trading BTC/USD with NodeJS & Elasticsearch'">Trading BTC/USD with NodeJS & Elasticsearch → </a>
+                        
+                    </nav>
+                </div>
+            </footer>
+            <div class="misc-content">
+                
+                    <script>
+    $(document).ready(function () {
+        var disqusPublicKey = "WhWnWmb6x9EszkGU2FMrLjtcEtfy6FW7dh76bLYRcY7lShddKCdAvwCyN5D30one";
+        var disqusShortname = "blog-ankitgyawali-com";
+        var threadUrl = 'link:' + $('.comments .show-hidden').attr('data-disqus-url');
+
+        $.ajax({
+            type: 'GET',
+            url: '//disqus.com/api/3.0/threads/set.jsonp',
+            data: {
+                api_key: disqusPublicKey,
+                forum: disqusShortname,
+                thread: threadUrl
+            },
+            cache: false,
+            dataType: 'jsonp',
+            success: function (result) {
+                if (result.response.length === 1) {
+                    btnText = 'Show Comments (' + result.response[0].posts + ')';
+                    $('.comments .show-hidden').html(btnText);
+                }
+            }
+        });
+
+        $('.comments .show-hidden').on('click', function () {
+            $.ajaxSetup({cache: true});
+            $.getScript('//' + disqusShortname + '.disqus.com/embed.js');
+            $.ajaxSetup({cache: false});
+            $(this).remove();
+        });
+
+        if (/\#comments/.test(location.hash)) {
+            $('.comments .show-hidden').trigger('click');
+        }
+    });
+</script>
+
+                    <div class="comments">
+                        <button class="center-block show-hidden" title="Show Comments" data-disqus-url="http://0.0.0.0:4000/blog/2017/11/29/Yet-another-Ryzen1700-GTX1080-Build/">Show Comments</button>
+                        <div id="disqus_thread"></div>
+                    </div>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="the-footer">
+    <div class="unit-foot">
+        <div class="unit-inner unit-foot-inner">
+            <div class="misc vcard">
+                <div class="about">
+                    <h4><a href="/">About</a></h4>
+                    
+                        <p>Ankit Gyawali's Blog.</p>
+                    
+                    <p><small>Powered by <a href="https://jekyllrb.com/" target="_blank">Jekyll</a> using <a href="https://github.com/yizeng/jekyll-theme-simple-texture" target="_blank">Simple Texture</a> theme.</small></p>
+                </div>
+                <div class="social-links">
+                    
+                        <a class="ico-gmail" href="mailto:mail@ankitgyawai.com" rel="me" target="_blank" title="email"></a>
+                    
+                    <a class="ico-rss" href="/feed.xml" rel="me" target="_blank" title="feed"></a>
+                    
+                        
+                            <a class="ico-facebook" href="https://facebook.com/ankitgyawali" rel="me" target="_blank" title="facebook"></a>
+                        
+                    
+                        
+                            <a class="ico-github" href="https://github.com/ankitgyawali" rel="me" target="_blank" title="github"></a>
+                        
+                    
+                        
+                    
+                        
+                            <a class="ico-linkedin" href="https://linkedin.com/in/ankitgyawali" rel="me" target="_blank" title="linkedin"></a>
+                        
+                    
+                        
+                    
+                        
+                            <a class="ico-twitter" href="https://twitter.com/agyaw792" rel="me" target="_blank" title="twitter"></a>
+                        
+                    
+                        
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <a href="#" class="internal back-to-top">Back to Top</a>
+</footer>
+
+    </div>
+
+    <script>
+$(document).ready(function () {
+    var offset = 50,
+        duration = 500,
+        width = 960;
+    $(window).scroll(function () {
+        if ($(window).width() > width) {
+            if ($(this).scrollTop() > offset) {
+                $('footer').css('top', '20px');
+                $('footer .back-to-top').fadeIn(duration);
+            } else {
+                $('footer').css('top', 'auto');
+                $('footer .back-to-top').fadeOut(duration);
+            }
+        }
+    });
+    $(window).resize(function () {
+        if ($(window).width() < width) {
+            $('footer').css('top', 'auto');
+            $('footer .back-to-top').fadeOut(duration);
+        }
+        if ($(window).width() >= width && $(this).scrollTop() > offset) {
+            $('footer').css('top', '20px');
+            $('footer .back-to-top').fadeIn(duration);
+        }
+    });
+
+    $('footer .back-to-top, .gotop').on('click', function (event) {
+        event.preventDefault();
+        $('html, body').animate({
+            scrollTop: 0
+        }, duration);
+        return false;
+    });
+
+    $('.show-hidden').on('click', function () {
+        $(this).parent().next().toggleClass("hidden");
+        $(this).toggleClass("hidden");
+    });
+});
+</script>
+
+<!-- Google Analytics Event tracking -->
+
+
+<!-- Show menu overlay + Jekyll Simple Search option -->
+<script src="/assets/javascripts/jekyll-search.jquery.js"></script>
+<script>
+$(document).ready(function () {
+    $('.search-field').simpleJekyllSearch({
+      jsonFile: '/search.json',
+      template: '<li><a href="{url}">{title} <span class="entry-date"><time datetime="{date}">{shortdate}</time></span></a></li>',
+      searchResults: '.search-wrapper .results',
+      searchResultsTitle: '<h4>Search results</h4>',
+      noResults: '<p>Oh no!<br/><small>Nothing found</small></p>'
+    });
+});
+
+(function ($, window, undefined) {
+    var closeOverlay = function () {
+        $('.nav-wrapper, .search-wrapper').removeAttr('style');
+        $(".nav-form, .search-form").removeClass('active');
+        $("body").removeClass('nav-overlay search-overlay');
+    };
+
+    $('.nav-global .btn-search').on('click', function () {
+        $('.search-wrapper').css({display: "block"});
+        $(".search-form").addClass('active');
+        $(".search-form").find('input').focus();
+        $("body").addClass('search-overlay');
+    });
+
+    $('.nav-global .btn-menu').on('click', function () {
+        $('.nav-wrapper').css({display: "block"});
+        $(".nav-form").addClass('active');
+        $(".nav-form .search-field").prop('disabled', true);
+        $("body").addClass('nav-overlay');
+    });
+
+    $('.nav-wrapper .btn-close, .search-wrapper .btn-close').on('click', function () {
+        closeOverlay();
+    });
+
+    $(document).on('keyup', function (e) {
+        if (e.keyCode === 27) {
+            closeOverlay();
+        }
+    });
+})(jQuery, window);
+</script>
+
+<script src='//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.js'></script>
+<script src='//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-buttons.min.js'></script>
+<script src="/assets/javascripts/unveil/jquery.unveil.min.js"></script>
+
+<script>
+    window.jQuery.fancybox || document.write('<script src="/assets/javascripts/fancybox/jquery.fancybox.pack.js?v=2.1.4"><\/script>')
+    window.jQuery.fancybox.helpers.buttons || document.write('<script src="/assets/javascripts/fancybox/helpers/jquery.fancybox-buttons.js?v=1.0.5"><\/script>')
+</script>
+
+<script>
+    $("head").append('<link rel="stylesheet" href="/assets/javascripts/fancybox/jquery.fancybox.css?v=2.1.4" type="text/css" />');
+    $("head").append('<link rel="stylesheet" href="/assets/javascripts/fancybox/helpers/jquery.fancybox-buttons.css?v=1.0.5" type="text/css" />');
+    $(".post-image").fancybox({
+        prevEffect: 'none',
+        nextEffect: 'none',
+        closeBtn: true,
+        helpers: {
+            title: {
+                type: 'float'
+            }
+        }
+    });
+    $(document).ready(function () {
+        $(".post-image > img").unveil(450);
+    });
+</script>
+
+</body>
+
+</html>
